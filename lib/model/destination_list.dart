@@ -106,7 +106,7 @@ var tourismPlaceList = [
       imageAsset:
       'assets/images/Pantai Pandawa.jpg',
       openOn: 'Open Everyday',
-      openAt: '08.00 - 18.00',
+      openAt: '08.00 - 19.00',
       fee: 'FREE',
       description:
       'Pandawa Beach is one of the tourist areas in the South Kuta area, Badung Regency, Bali. This beach is located behind the hills and is often referred to as the Secret Beach. Around this beach there are two very large cliffs which on one side are carved five Pandawa and Kunti statues.'),
