@@ -69,7 +69,7 @@ class PaketWisata extends StatelessWidget {
               ),
               ListTile(
                 title: Text(place.name),
-                subtitle: Text('Tap for details'),
+                subtitle: Text(place.location),
               )
             ],
           ),
