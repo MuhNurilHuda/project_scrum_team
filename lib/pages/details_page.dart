@@ -15,106 +15,107 @@ class DetailsPage extends StatelessWidget {
         backgroundColor: Colors.deepPurpleAccent,
       ),
       body: SafeArea(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget> [
-              FullScreenWidget(
-                child: InteractiveViewer(
-                    child: Image.asset(place.imageAsset)
-          )
-
-              ),
-              Container( //Title Container
-                margin: const EdgeInsets.only(top: 16.0),
-                child: Text(
-                    place.name,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 25.0,
-                      fontWeight: FontWeight.bold,
-                      fontFamily: 'Orator',
-                    )
-                ),
-              ),
-              Container( //Icon Container
-                margin: const EdgeInsets.symmetric(vertical: 16.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    Column(
-                      children: <Widget>[
-                        Icon(Icons.calendar_today),
-                        Text(place.openOn),
-                      ],
-                    ),
-                    Column(
-                      children: <Widget>[
-                        Icon(Icons.access_time),
-                        Text(place.openAt),
-                      ],
-                    ),
-                    Column(
-                      children: <Widget>[
-                        Icon(Icons.attach_money),
-                        Text(place.fee),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-              Container( //Description Container
-                padding: const EdgeInsets.all(16.0),
-                child: Text(
-                  place.description,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            FullScreenWidget(
+                child: InteractiveViewer(child: Image.asset(place.imageAsset, fit: BoxFit.fitWidth))),
+            Container(
+              //Title Container
+              margin: const EdgeInsets.only(top: 16.0),
+              child: Text(place.name,
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    fontSize: 15.0,
-                    // fontWeight: FontWeight.bold,
+                    fontSize: 25.0,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: 'Orator',
+                  )),
+            ),
+            Container(
+              //Icon Container
+              margin: const EdgeInsets.symmetric(vertical: 16.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  Column(
+                    children: <Widget>[
+                      Icon(Icons.calendar_today),
+                      Text(place.openOn),
+                    ],
                   ),
+                  Column(
+                    children: <Widget>[
+                      Icon(Icons.access_time),
+                      Text(place.openAt),
+                    ],
+                  ),
+                  Column(
+                    children: <Widget>[
+                      Icon(Icons.attach_money),
+                      Text(place.fee),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              //Description Container
+              padding: const EdgeInsets.all(16.0),
+              child: Text(
+                place.description,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 15.0,
+                  // fontWeight: FontWeight.bold,
                 ),
               ),
-              Container( //Image Gallery Container
-                height: 150,
-                child: ListView(
-                  scrollDirection: Axis.horizontal,
-                  children: <Widget>[
-                    Padding(
+            ),
+            Container(
+              //Image Gallery Container
+              height: 150,
+              child: ListView(
+                scrollDirection: Axis.horizontal,
+                children: <Widget>[
+                  Padding(
                       padding: const EdgeInsets.all(7.0),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(15.0),
-                        child: InteractiveViewer(
-                          child: Image.asset(place.gallery1, width: 300, height: 200, fit: BoxFit.cover),
-                        )
-                      ),
-                    ),
-                    Padding(
+                      child: FullScreenWidget(
+                        child: ClipRRect(
+                            borderRadius: BorderRadius.circular(15.0),
+                            child: InteractiveViewer(
+                              child: Image.asset(place.gallery1, width: 300, height: 200, fit: BoxFit.fitWidth),
+                            )),
+                      )),
+                  Padding(
                       padding: const EdgeInsets.all(7.0),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(15.0),
-                        child: Image.asset(place.gallery2, width: 300, height: 200, fit: BoxFit.cover),
-                      ),
-                    ),
-                    Padding(
+                      child: FullScreenWidget(
+                        child: ClipRRect(
+                            borderRadius: BorderRadius.circular(15.0),
+                            child: InteractiveViewer(
+                              child: Image.asset(place.gallery2, width: 300, height: 200, fit: BoxFit.fitWidth),
+                            )),
+                      )),
+                  Padding(
                       padding: const EdgeInsets.all(7.0),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(15.0),
-                        child: Image.asset(place.gallery3, width: 300, height: 200, fit: BoxFit.cover),
-                      ),
-                    ),
-                    // Padding(
-                    //   padding: const EdgeInsets.all(7.0),
-                    //   child: ClipRRect(
-                    //     borderRadius: BorderRadius.circular(15.0),
-                    //     child: Image.asset('assets/images/surabaya-submarine-monument.jpeg'),
-                    //   ),
-                    // ),
-                  ],
-                ),
+                      child: FullScreenWidget(
+                        child: ClipRRect(
+                            borderRadius: BorderRadius.circular(15.0),
+                            child: InteractiveViewer(
+                              child: Image.asset(place.gallery3, width: 300, height: 200, fit: BoxFit.fitWidth),
+                            )),
+                      )),
+                  // Padding(
+                  //   padding: const EdgeInsets.all(7.0),
+                  //   child: ClipRRect(
+                  //     borderRadius: BorderRadius.circular(15.0),
+                  //     child: Image.asset('assets/images/surabaya-submarine-monument.jpeg'),
+                  //   ),
+                  // ),
+                ],
               ),
-            ],
-          ),
+            ),
+          ],
         ),
-
+      ),
     );
   }
 }
@@ -127,11 +128,14 @@ class FullScreenImage extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.push(context, MaterialPageRoute(
-          builder: (_) => FullScreenImagePage(
-            image: image,
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (_) => FullScreenImagePage(
+              image: image,
+            ),
           ),
-        ),);
+        );
       },
       child: Hero(
         tag: image,
@@ -164,5 +168,3 @@ class FullScreenImagePage extends StatelessWidget {
     );
   }
 }
-
-
