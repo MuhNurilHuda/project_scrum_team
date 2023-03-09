@@ -19,7 +19,7 @@ class DetailsPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             FullScreenWidget(
-                child: InteractiveViewer(child: Image.asset(place.imageAsset, fit: BoxFit.fitWidth))),
+                child: InteractiveViewer(child: Image.asset(place.imageAsset, width: 400, height: 200, fit: BoxFit.fitWidth))),
             Container(
               //Title Container
               margin: const EdgeInsets.only(top: 16.0),
@@ -82,7 +82,7 @@ class DetailsPage extends StatelessWidget {
                         child: ClipRRect(
                             borderRadius: BorderRadius.circular(15.0),
                             child: InteractiveViewer(
-                              child: Image.asset(place.gallery1, width: 300, height: 200, fit: BoxFit.fitWidth),
+                              child: Image.asset(place.gallery1, width: 300, height: 250, fit: BoxFit.fitWidth),
                             )),
                       )),
                   Padding(
@@ -91,7 +91,7 @@ class DetailsPage extends StatelessWidget {
                         child: ClipRRect(
                             borderRadius: BorderRadius.circular(15.0),
                             child: InteractiveViewer(
-                              child: Image.asset(place.gallery2, width: 300, height: 200, fit: BoxFit.fitWidth),
+                              child: Image.asset(place.gallery2, width: 300, height: 250, fit: BoxFit.fitWidth),
                             )),
                       )),
                   Padding(
@@ -100,7 +100,7 @@ class DetailsPage extends StatelessWidget {
                         child: ClipRRect(
                             borderRadius: BorderRadius.circular(15.0),
                             child: InteractiveViewer(
-                              child: Image.asset(place.gallery3, width: 300, height: 200, fit: BoxFit.fitWidth),
+                              child: Image.asset(place.gallery3, width: 300, height: 250, fit: BoxFit.fitWidth),
                             )),
                       )),
                   // Padding(
