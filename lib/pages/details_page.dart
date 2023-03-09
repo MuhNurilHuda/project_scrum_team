@@ -73,22 +73,17 @@ class DetailsPage extends StatelessWidget {
                   ),
                 ),
               ),
-              Container(
+              Container( //Image Gallery Container
                 height: 150,
                 child: ListView(
                   scrollDirection: Axis.horizontal,
                   children: <Widget>[
-                    // GestureDetector(
-                    //   onTap: () {
-                    //
-                    //   },
-                    // )
                     Padding(
                       padding: const EdgeInsets.all(7.0),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(15.0),
                         child: InteractiveViewer(
-                          child: Image.network('https://media-cdn.tripadvisor.com/media/photo-m/1280/16/a9/33/43/liburan-di-farmhouse.jpg'),
+                          child: Image.asset(place.gallery1, width: 300, height: 200, fit: BoxFit.cover),
                         )
                       ),
                     ),
@@ -96,23 +91,23 @@ class DetailsPage extends StatelessWidget {
                       padding: const EdgeInsets.all(7.0),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(15.0),
-                        child: Image.asset('assets/images/monumen kapal selam700x300.jpg'),
+                        child: Image.asset(place.gallery2, width: 300, height: 200, fit: BoxFit.cover),
                       ),
                     ),
                     Padding(
                       padding: const EdgeInsets.all(7.0),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(15.0),
-                        child: Image.asset('assets/images/Surabaya_Submarine-Monument_shutterstock_1333444967.jpg'),
+                        child: Image.asset(place.gallery3, width: 300, height: 200, fit: BoxFit.cover),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(7.0),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(15.0),
-                        child: Image.asset('assets/images/surabaya-submarine-monument.jpeg'),
-                      ),
-                    ),
+                    // Padding(
+                    //   padding: const EdgeInsets.all(7.0),
+                    //   child: ClipRRect(
+                    //     borderRadius: BorderRadius.circular(15.0),
+                    //     child: Image.asset('assets/images/surabaya-submarine-monument.jpeg'),
+                    //   ),
+                    // ),
                   ],
                 ),
               ),

@@ -51,6 +51,8 @@ class PaketWisata extends StatelessWidget {
             children: <Widget>[
               Image.asset(
                 place.imageAsset,
+                width: 600,
+                height: 200 ,
                 fit: BoxFit.cover,
               ),
               ListTile(
