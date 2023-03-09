@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:full_screen_image/full_screen_image.dart';
 import 'package:iterasi1/model/destination_list.dart';
-import 'package:full_screen_image/full_screen_image.dart';
 
 class DetailsPage extends StatelessWidget {
   const DetailsPage({Key? key, required this.place}) : super(key: key);
