@@ -4,16 +4,16 @@ class DBHelper {
   static Database? _db;
   
   static const String QUERY_TBL_ACTIVITY = """
-    CREATE TABLE aktivitas (
+    CREATE TABLE activity (
       id INTEGER PRIMARY KEY,
       activity_name TEXT,
       activity_time TEXT, 
-      id_hari INTEGER,
+      id_day INTEGER,
     ),
   """;
 
   static const String QUERY_TBL_DAY = """
-    CREATE TABLE hari (
+    CREATE TABLE day (
       id INTEGER PRIMARY KEY,
       onDate TEXT,
     ),
