@@ -78,53 +78,7 @@ flutter:
         - asset: assets/fonts/good times rg.otf
 
   assets:
-    - assets/images/monumen kapal selam700x300.jpg
-    - assets/images/Surabaya_Submarine-Monument_shutterstock_1333444967.jpg
-    - assets/images/surabaya-submarine-monument.jpeg
-    - assets/images/Mount_Bromo_at_sunrise,_showing_its_volcanoes_and_Mount_Semeru_(background).jpg
-    - assets/images/Borobudur.jpg
-    - assets/images/Prambanan.jpeg
-    - assets/images/Museum Angkut.jpg
-    - assets/images/Pantai Kuta.jpg
-    - assets/images/Pantai Pandawa.jpg
-
-    - assets/images/Submarine1.jpg
-    - assets/images/Submarine2.jpg
-    - assets/images/Submarine3.jpg
-
-    - assets/images/Kelenteng.jpg
-    - assets/images/Kelenteng1.jpg
-    - assets/images/Kelenteng2.jpg
-    - assets/images/Kelenteng3.jpg
-
-    - assets/images/House of Sampoerna.jpg
-    - assets/images/House of Sampoerna1.jpg
-    - assets/images/House of Sampoerna2.jpg
-    - assets/images/House of Sampoerna3.jpg
-
-    - assets/images/Bromo1.jpg
-    - assets/images/Bromo2.jpg
-    - assets/images/Bromo3.jpg
-
-    - assets/images/Borobudur1.jpg
-    - assets/images/Borobudur2.jpeg
-    - assets/images/Borobudur3.jpg
-
-    - assets/images/Prambanan1.jpg
-    - assets/images/Prambanan2.jpg
-    - assets/images/Prambanan3.jpg
-
-    - assets/images/Museum Angkut1.jpg
-    - assets/images/Museum Angkut2.jpg
-    - assets/images/Museum Angkut3.jpg
-
-    - assets/images/Kuta1.jpeg
-    - assets/images/Kuta2.jpg
-    - assets/images/Kuta3.jpg
-
-    - assets/images/Pandawa1.jpg
-    - assets/images/Pandawa2.jpg
-    - assets/images/Pandawa3.jpeg
+    - assets/images/
 
   # To add assets to your application, add an assets section, like this:
   # assets:
