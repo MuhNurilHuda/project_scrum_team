@@ -81,7 +81,7 @@ class DetailsPage extends StatelessWidget {
                         child: ClipRRect(
                             borderRadius: BorderRadius.circular(15.0),
                             child: InteractiveViewer(
-                              child: Image.asset(place.gallery1, width: 300, height: 250, fit: BoxFit.fitWidth),
+                              child: Image.asset(place.gallery[0], width: 300, height: 250, fit: BoxFit.fitWidth),
                             )),
                       )),
                   Padding(
@@ -90,7 +90,7 @@ class DetailsPage extends StatelessWidget {
                         child: ClipRRect(
                             borderRadius: BorderRadius.circular(15.0),
                             child: InteractiveViewer(
-                              child: Image.asset(place.gallery2, width: 300, height: 250, fit: BoxFit.fitWidth),
+                              child: Image.asset(place.gallery[1], width: 300, height: 250, fit: BoxFit.fitWidth),
                             )),
                       )),
                   Padding(
@@ -99,16 +99,9 @@ class DetailsPage extends StatelessWidget {
                         child: ClipRRect(
                             borderRadius: BorderRadius.circular(15.0),
                             child: InteractiveViewer(
-                              child: Image.asset(place.gallery3, width: 300, height: 250, fit: BoxFit.fitWidth),
+                              child: Image.asset(place.gallery[2], width: 300, height: 250, fit: BoxFit.fitWidth),
                             )),
                       )),
-                  // Padding(
-                  //   padding: const EdgeInsets.all(7.0),
-                  //   child: ClipRRect(
-                  //     borderRadius: BorderRadius.circular(15.0),
-                  //     child: Image.asset('assets/images/surabaya-submarine-monument.jpeg'),
-                  //   ),
-                  // ),
                 ],
               ),
             ),

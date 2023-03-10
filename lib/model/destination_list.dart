@@ -6,9 +6,7 @@ class TourismPlace {
   String openAt;
   String fee;
   String description;
-  String gallery1;
-  String gallery2;
-  String gallery3;
+  List<String> gallery;
 
   TourismPlace({
     required this.name,
@@ -18,9 +16,7 @@ class TourismPlace {
     required this.openAt,
     required this.fee,
     required this.description,
-    required this.gallery1,
-    required this.gallery2,
-    required this.gallery3,
+    required this.gallery,
   });
 }
 
@@ -34,9 +30,11 @@ var tourismPlaceList = [
     fee: 'Rp 10.000,-',
     description:
     'The Submarine Monument, or abbreviated as Monkasel, is a submarine museum located in Embong Kaliasin, Genteng, Surabaya. Located in the city center, namely on Jalan Pemuda, right next to Plaza Surabaya, and there is an access gate to access the mall from inside the monument.',
-    gallery1: 'assets/images/Submarine1.jpg',
-    gallery2: 'assets/images/Submarine2.jpg',
-    gallery3: 'assets/images/Submarine3.jpg',
+    gallery:  [
+      'assets/images/Submarine1.jpg',
+      'assets/images/Submarine2.jpg',
+      'assets/images/Submarine3.jpg'
+    ],
   ),
   TourismPlace(
     name: 'Kelenteng Sanggar Agung',
@@ -48,9 +46,11 @@ var tourismPlaceList = [
     fee: 'Rp 7.000,-',
     description:
     'Sanggar Agung Temple or Hong San Tang Temple is a temple in the city of Surabaya. The address is at Jalan Sukolilo Number 100, Pantai Ria Kenjeran, Surabaya. This temple, apart from being a place of worship for adherents of the Tridharma, is also a tourist destination for tourists.',
-    gallery1: 'assets/images/Kelenteng1.jpg',
-    gallery2: 'assets/images/Kelenteng2.jpg',
-    gallery3: 'assets/images/Kelenteng3.jpg',
+    gallery: [
+      'asset/images/Kelenteng1.jpg',
+      'asset/images/Kelenteng2.jpg',
+      'asset/images/Kelenteng3.jpg',
+    ],
   ),
   TourismPlace(
       name: 'House of Sampoerna',
@@ -61,9 +61,11 @@ var tourismPlaceList = [
       fee: 'FREE',
       description:
       'House of Sampoerna is a tobacco museum and Sampoerna headquarters located in Surabaya. The architectural style of the main building which is influenced by the Dutch colonial style was built in 1862 and is now a historical site',
-      gallery1: 'assets/images/House of Sampoerna1.jpg',
-      gallery2: 'assets/images/House of Sampoerna2.jpg',
-      gallery3: 'assets/images/House of Sampoerna3.jpg'
+      gallery: [
+        'assets/images/House of Sampoerna1.jpg',
+        'assets/images/House of Sampoerna2.jpg',
+        'assets/images/House of Sampoerna3.jpg',
+      ],
   ),
   TourismPlace(
     name: 'Gunung Bromo',
@@ -75,9 +77,11 @@ var tourismPlaceList = [
     fee: 'Rp 30.000,-',
     description:
     'Mount Bromo or in the Tengger language spelled "Brama", also called the Tengger Caldera, is an active volcano in East Java, Indonesia.',
-    gallery1: 'assets/images/Bromo1.jpg',
-    gallery2: 'assets/images/Bromo2.jpg',
-    gallery3: 'assets/images/Bromo3.jpg',
+    gallery: [
+      'assets/images/Bromo1.jpg',
+      'assets/images/Bromo2.jpg',
+      'assets/images/Bromo3.jpg',
+    ],
   ),
   TourismPlace(
     name: 'Candi Borobudur',
@@ -89,9 +93,11 @@ var tourismPlaceList = [
     fee: 'Rp 48.000,-',
     description:
     'Borobudur Temple is a Buddhist temple located in Borobudur, Magelang, Central Java, Indonesia. This temple is located approximately 100 km southwest of Semarang, 86 km west of Surakarta, and 40 km northwest of Yogyakarta.',
-    gallery1: 'assets/images/Borobudur1.jpg',
-    gallery2: 'assets/images/Borobudur2.jpeg',
-    gallery3: 'assets/images/Borobudur3.jpg',
+    gallery: [
+      'assets/images/Borobudur1.jpg',
+      'assets/images/Borobudur2.jpeg',
+      'assets/images/Borobudur3.jpg',
+    ],
   ),
   TourismPlace(
     name: 'Candi Prambanan',
@@ -103,9 +109,11 @@ var tourismPlaceList = [
     fee: 'Rp 48.000,-',
     description:
     'Prambanan Temple is the largest Hindu temple building in Indonesia which was built in the 9th century AD.',
-    gallery1: 'assets/images/Prambanan1.jpg',
-    gallery2: 'assets/images/Prambanan2.jpg',
-    gallery3: 'assets/images/Prambanan3.jpg',
+    gallery: [
+      'assets/images/Prambanan1.jpg',
+      'assets/images/Prambanan2.jpg',
+      'assets/images/Prambanan3.jpg',
+    ],
   ),
   TourismPlace(
     name: 'Museum Angkut',
@@ -117,9 +125,11 @@ var tourismPlaceList = [
     fee: 'Rp 100.000,-',
     description:
     'Museum Angkut is a modern transportation and tourist attraction museum located in Batu City, East Java, about 20 km from Malang City. This museum is located in an area of 3.8 hectares on the slopes of Mount Panderman and has more than 300 collections of types of traditional to modern transportation.',
-    gallery1: 'assets/images/Museum Angkut1.jpg',
-    gallery2: 'assets/images/Museum Angkut2.jpg',
-    gallery3: 'assets/images/Museum Angkut3.jpg',
+    gallery: [
+      'assets/images/Museum Angkut1.jpg',
+      'assets/images/Museum Angkut2.jpg',
+      'assets/images/Museum Angkut3.jpg',
+    ],
   ),
   TourismPlace(
     name: 'Pantai Kuta',
@@ -131,9 +141,11 @@ var tourismPlaceList = [
     fee: 'FREE',
     description:
     'Kuta Beach is a tourist spot located in the Kuta district south of Denpasar City, Bali, Indonesia. This area is a tourist destination for foreign tourists and has become a mainstay tourist attraction on the island of Bali since the early 1970s.',
-    gallery1: 'assets/images/Kuta1.jpeg',
-    gallery2: 'assets/images/Kuta2.jpg',
-    gallery3: 'assets/images/Kuta3.jpg',
+    gallery: [
+      'assets/images/Kuta1.jpeg',
+      'assets/images/Kuta2.jpg',
+      'assets/images/Kuta3.jpg',
+    ],
   ),
   TourismPlace(
     name: 'Pantai Pandawa',
@@ -145,8 +157,10 @@ var tourismPlaceList = [
     fee: 'FREE',
     description:
     'Pandawa Beach is one of the tourist areas in the South Kuta area, Badung Regency, Bali. This beach is located behind the hills and is often referred to as the Secret Beach. Around this beach there are two very large cliffs which on one side are carved five Pandawa and Kunti statues.',
-    gallery1: 'assets/images/Pandawa1.jpg',
-    gallery2: 'assets/images/Pandawa2.jpg',
-    gallery3: 'assets/images/Pandawa3.jpeg',
+    gallery: [
+      'assets/images/Pandawa1.jpg',
+      'assets/images/Pandawa2.jpg',
+      'assets/images/Pandawa3.jpeg',
+    ],
   ),
 ];
