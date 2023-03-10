@@ -30,7 +30,7 @@ var tourismPlaceList = [
     fee: 'Rp 10.000,-',
     description:
     'The Submarine Monument, or abbreviated as Monkasel, is a submarine museum located in Embong Kaliasin, Genteng, Surabaya. Located in the city center, namely on Jalan Pemuda, right next to Plaza Surabaya, and there is an access gate to access the mall from inside the monument.',
-    gallery:  [
+    gallery: [
       'assets/images/Submarine1.jpg',
       'assets/images/Submarine2.jpg',
       'assets/images/Submarine3.jpg'
@@ -47,9 +47,9 @@ var tourismPlaceList = [
     description:
     'Sanggar Agung Temple or Hong San Tang Temple is a temple in the city of Surabaya. The address is at Jalan Sukolilo Number 100, Pantai Ria Kenjeran, Surabaya. This temple, apart from being a place of worship for adherents of the Tridharma, is also a tourist destination for tourists.',
     gallery: [
-      'asset/images/Kelenteng1.jpg',
-      'asset/images/Kelenteng2.jpg',
-      'asset/images/Kelenteng3.jpg',
+      'assets/images/Kelenteng1.jpg',
+      'assets/images/Kelenteng2.jpg',
+      'assets/images/Kelenteng3.jpg',
     ],
   ),
   TourismPlace(
