@@ -30,6 +30,24 @@ class _MakeItineraryState extends State<MakeItinerary> {
     decoration: InputDecoration(labelText: 'Nama Aktivitas'),
   );
 
+  Widget txtActivityTimeInput()=>TextFormField(
+    readOnly: true,
+    controller: txtActivityTime,
+    decoration: InputDecoration(labelText: 'Waktu'),
+    onTap: () async {
+      final time = await showTimePicker(
+        context: context,
+        initialTime: TimeOfDay.now(),
+      );
+
+      if(time != null) {
+        setState(() {
+          txtActivityTime.text = time.format(context);
+        });
+      }
+    },
+  );
+
   Widget txtIDDayInput()=>TextFormField(
     controller: txtIDDay,
     readOnly: true,
@@ -53,6 +71,16 @@ class _MakeItineraryState extends State<MakeItinerary> {
     },
   );
 
+  Widget saveAction() => TextButton(
+    onPressed: () {
+
+    },
+    child: Text(
+      'Save',
+      style: TextStyle(color: Colors.white),
+    ),
+  );
+
   DateTime initOnDate() {
     try {
       return DateFormat('yyyy-mm-dd').parse(txtOnDate.value.text);
@@ -62,8 +90,25 @@ class _MakeItineraryState extends State<MakeItinerary> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Make Itinerary'),
+        actions: [
+          saveAction(),
+        ],
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(18.0),
+        child: Column(
+          children: [
+            txtInputID(),
+            txtActivityNameInput(),
+            txtActivityTimeInput(),
+            txtIDDayInput(),
+            txtOnDateInput(),
+          ],
+        ),
+      ),
     );
   }
 }
