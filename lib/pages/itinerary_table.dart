@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:iterasi1/database/database.dart';
 import 'package:iterasi1/model/activity_list.dart';
 import 'package:iterasi1/utilities/utils.dart';
 import 'package:iterasi1/widget/scrollable_widget.dart';
 import 'package:iterasi1/widget/text_dialog.dart';
 import 'package:iterasi1/database/activities.dart';
+import 'package:iterasi1/database/database.dart';
 
 class ItineraryTable extends StatefulWidget {
   @override
@@ -12,12 +14,14 @@ class ItineraryTable extends StatefulWidget {
 
 class _ItineraryTableState extends State<ItineraryTable> {
   late List<Activity> activities;
+  late DatabaseHelper databaseHelper;
 
   @override
   void initState() {
     super.initState();
 
     this.activities = List.of(allActivities);
+    this.databaseHelper = databaseHelper;
   }
 
   @override
@@ -25,11 +29,14 @@ class _ItineraryTableState extends State<ItineraryTable> {
     appBar: AppBar(
       title: Text('Activity Plan'),
       backgroundColor: Colors.deepPurpleAccent,
+      actions: [
+        saveActivities(),
+      ],
     ),
     body: ScrollableWidget(child: buildDataTable()),
   );
   Widget buildDataTable(){
-    final columns = ['activity_name', 'activity_time', 'id'];
+    final columns = ['Waktu Aktivitas', 'Nama Aktivitas', 'id'];
 
     return DataTable(
       columns: getColumns(columns),
@@ -95,9 +102,15 @@ class _ItineraryTableState extends State<ItineraryTable> {
     );
 
     setState(() => activities = activities.map((activity) {
-      final isEditActivity = activity == editActivity;
+      
 
       return isEditActivity ? activity.copy(activity_time: activity_time) : activity;
     }).toList());
   }
+
+  Widget saveActivities() => TextButton(
+    onPressed: () {
+
+    },
+  )
 }

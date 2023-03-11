@@ -8,7 +8,6 @@ class DBHelper {
       id INTEGER PRIMARY KEY,
       activity_name TEXT,
       activity_time TEXT, 
-      id_day INTEGER,
     ),
   """;
 
@@ -27,7 +26,7 @@ class DBHelper {
   Future<Database> connectDB() async {
     return await openDatabase('mydatabase.db', version: 1, onCreate: (db, version) {
       db.execute(QUERY_TBL_ACTIVITY);
-      db.execute(QUERY_TBL_DAY);
+      // db.execute(QUERY_TBL_DAY);
     });
   }
 }

@@ -20,6 +20,14 @@ class Activity {
         activity_time: activity_time ?? this.activity_time,
       );
 
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'activity_name': activity_name,
+      'activity_time': activity_time,
+    };
+  }
+
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
