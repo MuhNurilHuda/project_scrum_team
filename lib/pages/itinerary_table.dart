@@ -84,7 +84,7 @@ class _ItineraryTableState extends State<ItineraryTable> {
   Future editActivityName(Activity editActivity) async {
     final activity_name = await showTextDialog(
       context,
-      title: 'Change Activity',
+      title: 'Nama Aktivitas',
       value: editActivity.activity_name,
     );
 
@@ -98,18 +98,12 @@ class _ItineraryTableState extends State<ItineraryTable> {
   Future editActivityTime(Activity editActivity) async {
     final activity_time = await showTextDialog(
       context,
-      title: 'Change Activity Time',
+      title: 'Waktu Aktivitas',
       value: editActivity.activity_time,
     );
 
-    // final activity_time = await showTimePicker(
-    //   context: context,
-    //   initialTime: TimeOfDay.now(),
-    //
-    // );
-
     setState(() => activities = activities.map((activity) {
-      
+      final isEditActivity = activity == editActivity;
 
       return isEditActivity ? activity.copy(activity_time: activity_time) : activity;
     }).toList());
@@ -122,7 +116,7 @@ class _ItineraryTableState extends State<ItineraryTable> {
   //     initializeDatabaseHelper();
   //   }
   // }
-
+  //
   // void _saveActivities() async {
   //   for (var activity in activities) {
   //     if(activity.id == null){
