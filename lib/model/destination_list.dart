@@ -22,18 +22,18 @@ class TourismPlace {
 
 var tourismPlaceList = [
   TourismPlace(
-    name: 'Surabaya Submarine Monument',
-    location: 'Jl. Pemuda',
-    imageAsset: 'assets/images/monumen kapal selam700x300.jpg',
+    name: 'Surabaya Zoo',
+    location: 'Surabaya',
+    imageAsset: 'assets/images/Surabaya Zoo.jpg',
     openOn: 'Open everyday',
     openAt: '08.00 - 16.00',
     fee: 'Rp 10.000,-',
     description:
-    'The Submarine Monument, or abbreviated as Monkasel, is a submarine museum located in Embong Kaliasin, Genteng, Surabaya. Located in the city center, namely on Jalan Pemuda, right next to Plaza Surabaya, and there is an access gate to access the mall from inside the monument.',
+    'Kebun Binatang Surabaya adalah salah satu kebun binatang yang populer di Indonesia dan terletak di Surabaya. KBS merupakan kebun binatang yang pernah terlengkap se-Asia Tenggara, di dalamnya terdapat lebih dari 230 spesies satwa yang berbeda yang terdiri lebih dari 2179 ekor satwa.',
     gallery: [
-      'assets/images/Submarine1.jpg',
-      'assets/images/Submarine2.jpg',
-      'assets/images/Submarine3.jpg'
+      'assets/images/Surabaya Zoo (1).jpg',
+      'assets/images/Surabaya Zoo (2).jpg',
+      'assets/images/Surabaya Zoo (3).jpg'
     ],
   ),
   TourismPlace(
