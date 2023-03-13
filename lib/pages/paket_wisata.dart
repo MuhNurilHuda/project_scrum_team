@@ -12,11 +12,12 @@ class PaketWisata extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.blue[50],
         appBar: AppBar(
           title: const Text(
             'Daftar Wisata',
           ),
-          backgroundColor: Colors.deepPurpleAccent,
+          backgroundColor: Colors.lightBlue[900],
         ),
         body: ListView.builder(
           itemBuilder: (context, index) {

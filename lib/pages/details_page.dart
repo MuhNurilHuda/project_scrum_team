@@ -11,9 +11,10 @@ class DetailsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.blue[50],
       appBar: AppBar(
         title: Text(place.name),
-        backgroundColor: Colors.deepPurpleAccent,
+        backgroundColor: Colors.lightBlue[900],
       ),
       body: Stack(children: [
         SafeArea(
@@ -135,7 +136,7 @@ class DetailsPage extends StatelessWidget {
                     ),
                     style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.all<Color>(
-                          Colors.deepPurpleAccent),
+                          Colors.lightBlue),
                       shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                         RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10.0),

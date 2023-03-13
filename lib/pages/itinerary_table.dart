@@ -29,7 +29,7 @@ class _ItineraryTableState extends State<ItineraryTable> {
   Widget build(BuildContext context) => Scaffold(
     appBar: AppBar(
       title: Text('Activity Plan'),
-      backgroundColor: Colors.deepPurpleAccent,
+      backgroundColor: Colors.lightBlue[900],
       actions: [
         // saveActivities(),
       ],
@@ -37,7 +37,7 @@ class _ItineraryTableState extends State<ItineraryTable> {
     body: ScrollableWidget(child: buildDataTable()),
   );
   Widget buildDataTable(){
-    final columns = ['id', 'Waktu Aktivitas', 'Nama Aktivitas'];
+    final columns = ['No.', 'Waktu Aktivitas', 'Nama Aktivitas'];
 
     return DataTable(
       columns: getColumns(columns),
