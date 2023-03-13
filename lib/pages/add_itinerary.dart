@@ -5,9 +5,9 @@ import 'package:iterasi1/model/day.dart';
 import 'itinerary_table.dart';
 
 class AddItinerary extends StatefulWidget {
-  const AddItinerary({Key? key, required this.data}) : super(key: key);
-
   final Map? data;
+
+  AddItinerary({this.data});
 
   @override
   State<AddItinerary> createState() => _AddItineraryState(this.data);

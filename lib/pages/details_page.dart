@@ -7,10 +7,8 @@ import 'package:iterasi1/pages/itinerary_table.dart';
 import 'package:iterasi1/model/day.dart';
 
 class DetailsPage extends StatelessWidget {
-  const DetailsPage({Key? key, required this.place, required this.data}) : super(key: key);
+  const DetailsPage({Key? key, required this.place}) : super(key: key);
   final TourismPlace place;
-
-  final Map? data;
 
 
   @override
@@ -134,7 +132,7 @@ class DetailsPage extends StatelessWidget {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => AddItinerary(data: data)));
+                              builder: (context) => AddItinerary()));
                     },
                     child: Text(
                       'Make Itinerary',

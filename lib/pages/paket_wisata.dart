@@ -7,9 +7,7 @@ import 'package:iterasi1/pages/details_page.dart';
 // }
 
 class PaketWisata extends StatelessWidget {
-  const PaketWisata({Key? key, required this.data}) : super(key: key);
-
-  final Map? data;
+  const PaketWisata({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +25,7 @@ class PaketWisata extends StatelessWidget {
             return InkWell(
               onTap: () {
                 Navigator.push(context , MaterialPageRoute(builder: (context){
-                  return DetailsPage(place: place, data: data,);
+                  return DetailsPage(place: place);
                 }));
               },
               child: listItem(place),
