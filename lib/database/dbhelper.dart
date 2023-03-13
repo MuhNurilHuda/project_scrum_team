@@ -6,8 +6,8 @@ class DBHelper {
   static const String QUERY_TBL_ACTIVITY = """
     CREATE TABLE activity (
       id INTEGER PRIMARY KEY,
-      activity_name TEXT,
-      activity_time TEXT, 
+      activity_time TEXT,
+      activity_name TEXT, 
     ),
   """;
 

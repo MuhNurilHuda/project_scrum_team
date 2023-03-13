@@ -5,7 +5,7 @@ import 'package:iterasi1/pages/itinerary_table.dart';
 void main() {
   runApp(const MaterialApp(
     title: '',
-    home: PaketWisata(),
+    home: PaketWisata(data: data),
   ));
 }
 

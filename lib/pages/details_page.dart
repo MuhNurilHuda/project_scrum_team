@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:full_screen_image/full_screen_image.dart';
 import 'package:iterasi1/model/destination_list.dart';
+import 'package:iterasi1/pages/add_itinerary.dart';
 import 'package:iterasi1/pages/schedule/make_itinerary.dart';
 import 'package:iterasi1/pages/itinerary_table.dart';
+import 'package:iterasi1/model/day.dart';
 
 class DetailsPage extends StatelessWidget {
-  const DetailsPage({Key? key, required this.place}) : super(key: key);
+  const DetailsPage({Key? key, required this.place, required this.data}) : super(key: key);
   final TourismPlace place;
+
+  final Map? data;
+
 
   @override
   Widget build(BuildContext context) {
@@ -129,7 +134,7 @@ class DetailsPage extends StatelessWidget {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => ItineraryTable()));
+                              builder: (context) => AddItinerary(data: data)));
                     },
                     child: Text(
                       'Make Itinerary',

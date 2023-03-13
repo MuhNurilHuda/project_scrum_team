@@ -5,8 +5,13 @@ import 'package:iterasi1/utilities/utils.dart';
 import 'package:iterasi1/widget/scrollable_widget.dart';
 import 'package:iterasi1/widget/text_dialog.dart';
 import 'package:iterasi1/database/activities.dart';
+import 'package:iterasi1/model/day.dart';
 
 class ItineraryTable extends StatefulWidget {
+  const ItineraryTable({Key? key, required this.add_day}) : super(key: key);
+  final Day add_day;
+
+
   @override
   _ItineraryTableState createState() => _ItineraryTableState();
 }
