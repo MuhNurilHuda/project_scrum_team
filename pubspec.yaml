@@ -40,6 +40,9 @@ dependencies:
   pull_to_refresh: ^2.0.0
   intl: ^0.18.0
 
+  pdf: ^3.9.0
+  printing: ^5.10.1
+
 
 dev_dependencies:
   flutter_test:

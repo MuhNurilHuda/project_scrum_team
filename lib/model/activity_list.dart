@@ -40,3 +40,5 @@ class Activity {
   @override
   int get hashCode => id.hashCode ^ activity_name.hashCode ^ activity_time.hashCode;
 }
+
+
