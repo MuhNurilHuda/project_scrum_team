@@ -12,9 +12,9 @@ class Day {
 
 var dayList = [
   Day(
-    date: '',
+    date: 'Monday, 13 March 2023',
     activities: [
       Activity(id: 1, activity_name: '', activity_time: ''),
     ]
-  )
+  ),
 ];
