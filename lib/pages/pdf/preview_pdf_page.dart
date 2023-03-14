@@ -13,12 +13,12 @@ class PdfPreviewPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) =>
       Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.lightBlue[900],
-        title: const Text('PDF Preview'),
-      ),
-      body: PdfPreview(
-        build: (context) => makePdf(days),
-      ),
+        appBar: AppBar(
+          backgroundColor: Colors.lightBlue[900],
+          title: const Text('PDF Preview'),
+        ),
+        body: PdfPreview(
+          build: (context) => makePdf(days),
+        ),
     );
 }

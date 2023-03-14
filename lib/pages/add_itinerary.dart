@@ -1,30 +1,30 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:iterasi1/model/day.dart';
+import 'package:iterasi1/pages/itinerary_table.dart';
+import 'package:iterasi1/pages/pdf/preview_pdf_page.dart';
 
-import 'itinerary_table.dart';
 
 class AddItinerary extends StatefulWidget {
-  final Map? data;
-
-  AddItinerary({this.data});
-
   @override
-  State<AddItinerary> createState() => _AddItineraryState(this.data);
+  State<AddItinerary> createState() => _AddItineraryState();
 }
 
 class _AddItineraryState extends State<AddItinerary> {
-  final Map? data;
-  late TextEditingController txtDay, txtActivities;
-
-  _AddItineraryState(this.data) {
-    txtDay = TextEditingController(text: this.data?['day'] ?? '');
-  }
+  final List<Day> days = [];
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
+        floatingActionButton: FloatingActionButton(
+          onPressed: (){
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (builder) => PdfPreviewPage(days : days),
+              ),
+            );
+          },
+        ),
         appBar: AppBar(
           title: Text(
             'Make Itinerary',
@@ -33,70 +33,87 @@ class _AddItineraryState extends State<AddItinerary> {
         ),
         body: ListView.builder(
           itemBuilder: (context, index) {
-            final Day add_day = dayList[index];
-            // return InkWell(
-            //   onTap: () {
-            //     Navigator.push(context, MaterialPageRoute(builder: (context){
-            //       return ItineraryTable(add_day: add_day);
-            //     }));
-            //   },
-            //   child: listItem(add_day),
-            // );
+            return index == days.length ? addNewDayButton() : listItem(days[index]);
           },
-          itemCount: dayList.length,
+          itemCount: days.length + 1,
         )
       ),
     );
   }
 
-  DateTime initDay() {
-    try {
-      return DateFormat("yyyy-mm-dd").parse(txtDay.value.text);
-    } catch(e){}
-    return DateTime.now();
-  }
-
-  Widget listItem(Day add_day){
+  Widget listItem(Day day){
     return Card(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          Expanded(
-            flex: 1,
-            child: TextFormField(
-              readOnly: true,
-              decoration: InputDecoration(labelText: 'Insert Date'),
-              controller: txtDay,
-              onTap: () async {
-                final day_date = await showDatePicker(
-                  context: context,
-                  initialDate: initDay(),
-                  firstDate: DateTime(2022),
-                  lastDate: DateTime(2030),
-                );
-
-                if(day_date != null) {
-                  txtDay.text = DateFormat("yyyy-mm-dd").format(day_date);
-                }
-              },
+          Text(day.date),
+          InkWell(
+            onTap: (){
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                    builder: (buider){
+                      return ItineraryTable(add_day: day);
+                    }
+                )
+              );
+            },
+            child : Card(
+              child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children : [
+                    Card(
+                      child: const Icon(Icons.add),
+                    ),
+                    Text("Tambah Aktivitas")
+                  ]
+              ),
             )
           ),
-          Expanded(
-            flex: 1,
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(12.0),
-              child: Card(
-                margin: EdgeInsets.all(7.0),
-                child: InkWell(
-                  child: Column(
 
-                  ),
-                ),
-              ),
-            ),
-          )
         ],
       )
     );
+  }
+  
+  Widget addNewDayButton() =>
+      InkWell(
+        onTap: () async {
+          final choosenDate = await showDatePicker(
+              context: context,
+              initialDate: DateTime.now(),
+              firstDate: DateTime(2023),
+              lastDate: DateTime(2100)
+          );
+
+          if (choosenDate != null)
+            setState(() {
+              days.add(Day(date: formatDate(choosenDate)));
+            });
+
+        },
+        child: Card(
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Card(
+                child: Icon(Icons.add),
+              ),
+              const Text("Tambah Hari")
+            ],
+          ),
+        ),
+      );
+
+  String formatDate(DateTime date){
+    return "${date.day}/${date.month}/${date.year}";
+  }
+
+  String getMonthString(int intMonth){
+    switch(intMonth){
+      case 1:
+        return "Januari";
+      default :
+        return "Desember";
+    }
   }
 }

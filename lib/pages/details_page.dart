@@ -2,9 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:full_screen_image/full_screen_image.dart';
 import 'package:iterasi1/model/destination_list.dart';
 import 'package:iterasi1/pages/add_itinerary.dart';
-import 'package:iterasi1/pages/schedule/make_itinerary.dart';
-import 'package:iterasi1/pages/itinerary_table.dart';
-import 'package:iterasi1/model/day.dart';
 
 class DetailsPage extends StatelessWidget {
   const DetailsPage({Key? key, required this.place}) : super(key: key);
@@ -33,7 +30,7 @@ class DetailsPage extends StatelessWidget {
                 margin: const EdgeInsets.only(top: 16.0),
                 child: Text(place.name,
                     textAlign: TextAlign.center,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 25.0,
                       fontWeight: FontWeight.bold,
                       fontFamily: 'Orator',
@@ -47,19 +44,19 @@ class DetailsPage extends StatelessWidget {
                   children: <Widget>[
                     Column(
                       children: <Widget>[
-                        Icon(Icons.calendar_today),
+                        const Icon(Icons.calendar_today),
                         Text(place.openOn),
                       ],
                     ),
                     Column(
                       children: <Widget>[
-                        Icon(Icons.access_time),
+                        const Icon(Icons.access_time),
                         Text(place.openAt),
                       ],
                     ),
                     Column(
                       children: <Widget>[
-                        Icon(Icons.attach_money),
+                        const Icon(Icons.attach_money),
                         Text(place.fee),
                       ],
                     ),
@@ -72,7 +69,7 @@ class DetailsPage extends StatelessWidget {
                 child: Text(
                   place.description,
                   textAlign: TextAlign.center,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 15.0,
                     // fontWeight: FontWeight.bold,
                   ),
@@ -132,9 +129,11 @@ class DetailsPage extends StatelessWidget {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => AddItinerary()));
+                              builder: (context){return AddItinerary();}
+                          )
+                      );
                     },
-                    child: Text(
+                    child: const Text(
                       'Make Itinerary',
                     ),
                     style: ButtonStyle(
@@ -146,7 +145,7 @@ class DetailsPage extends StatelessWidget {
                         ),
                       ),
                       padding: MaterialStateProperty.all<EdgeInsets>(
-                        EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                        const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
                       ),
                     ),
                   ),
