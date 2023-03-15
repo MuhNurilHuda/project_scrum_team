@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:iterasi1/model/day.dart';
 import 'package:iterasi1/pages/itinerary_table.dart';
 import 'package:iterasi1/pages/pdf/preview_pdf_page.dart';
+import 'package:iterasi1/pages/paket_wisata.dart';
 
 class AddItinerary extends StatefulWidget {
   @override
@@ -9,6 +10,7 @@ class AddItinerary extends StatefulWidget {
 }
 
 class _AddItineraryState extends State<AddItinerary> {
+  int _currentIndex = 1;
   final List<Day> days = [];
 
   @override
@@ -44,7 +46,26 @@ class _AddItineraryState extends State<AddItinerary> {
                   : listItem(days[index]);
             },
             itemCount: days.length + 1,
-          )),
+          ),
+        bottomNavigationBar: BottomNavigationBar(
+          currentIndex: _currentIndex,
+          onTap: (index) {
+            setState(() {
+              _currentIndex = index;
+            });
+          },
+          items: const [
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home),
+              label: 'Home',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.list),
+              label: 'Itinerary',
+            ),
+          ],
+        ),
+      ),
     );
   }
 
