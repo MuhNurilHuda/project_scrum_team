@@ -28,7 +28,7 @@ class _AddItineraryState extends State<AddItinerary> {
             },
           ),
           appBar: AppBar(
-            title: Text(
+            title: const Text(
               'Make Itinerary',
             ),
             leading: IconButton(
@@ -56,7 +56,7 @@ class _AddItineraryState extends State<AddItinerary> {
                 return PaketWisata();
               }));
             }),
-            items: [
+            items: const [
               BottomNavigationBarItem(
                 icon: Icon(Icons.home),
                 label: 'Home',
@@ -94,7 +94,7 @@ class _AddItineraryState extends State<AddItinerary> {
                       // color: Color(0x1C3131),
                       color: Colors.grey,
                       elevation: 0,
-                      child: Row(mainAxisSize: MainAxisSize.min, children: [
+                      child: Row(mainAxisSize: MainAxisSize.min, children: const [
                         Card(
                           child: const Icon(Icons.add),
                         ),
@@ -133,11 +133,11 @@ class _AddItineraryState extends State<AddItinerary> {
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Card(
+                children: const [
+                  Card(
                     child: Icon(Icons.add),
                   ),
-                  const Text(
+                  Text(
                       "Tambah Hari",
                   ),
                 ],
