@@ -31,7 +31,23 @@ class _BottomNavbarState extends State<BottomNavbar> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
+      body: _page?[_indexPage],
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _indexPage,
+        onTap: (i) => setState(() {
+          _indexPage = i;
+        }),
+        items: [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Menu 1',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.add),
+            label: 'Menu 2',
+          )
+        ],
+      ),
     );
   }
 }

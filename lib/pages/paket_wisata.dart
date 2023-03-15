@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:iterasi1/model/destination_list.dart';
+import 'package:iterasi1/pages/add_itinerary.dart';
 import 'package:iterasi1/pages/details_page.dart';
 import 'package:iterasi1/navigation/bottom_navbar.dart';
 
@@ -44,11 +45,12 @@ class _PaketWisataState extends State<PaketWisata> {
       bottomNavigationBar: InkWell(
         child: BottomNavigationBar(
           currentIndex: _currentIndex,
-          onTap: (index) {
-            setState(() {
-              _currentIndex = index;
-            });
-          },
+          onTap: (index) => setState(() {
+            _currentIndex = index;
+            Navigator.push(context, MaterialPageRoute(builder: (context){
+              return AddItinerary();
+            }));
+          }),
           items: [
             BottomNavigationBarItem(
               icon: Icon(Icons.home),

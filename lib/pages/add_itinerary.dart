@@ -47,23 +47,26 @@ class _AddItineraryState extends State<AddItinerary> {
             },
             itemCount: days.length + 1,
           ),
-        bottomNavigationBar: BottomNavigationBar(
-          currentIndex: _currentIndex,
-          onTap: (index) {
-            setState(() {
+        bottomNavigationBar: InkWell(
+          child: BottomNavigationBar(
+            currentIndex: _currentIndex,
+            onTap: (index) => setState(() {
               _currentIndex = index;
-            });
-          },
-          items: const [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              label: 'Home',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.list),
-              label: 'Itinerary',
-            ),
-          ],
+              Navigator.push(context, MaterialPageRoute(builder: (context){
+                return PaketWisata();
+              }));
+            }),
+            items: [
+              BottomNavigationBarItem(
+                icon: Icon(Icons.home),
+                label: 'Home',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.list),
+                label: 'Itinerary',
+              ),
+            ],
+          ),
         ),
       ),
     );
