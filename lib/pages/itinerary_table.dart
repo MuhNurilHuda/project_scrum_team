@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:iterasi1/database/database.dart';
 import 'package:iterasi1/model/activity_list.dart';
 import 'package:iterasi1/utilities/utils.dart';
 import 'package:iterasi1/widget/scrollable_widget.dart';
@@ -8,15 +7,19 @@ import 'package:iterasi1/database/activities.dart';
 import 'package:iterasi1/model/day.dart';
 
 class ItineraryTable extends StatefulWidget {
-  const ItineraryTable({Key? key, required this.add_day}) : super(key: key);
+  const ItineraryTable({Key? key, required this.add_day , required this.updateNewActivities}) : super(key: key);
   final Day add_day;
+  final Function(List<Activity> newActivities) updateNewActivities;
 
 
   @override
-  _ItineraryTableState createState() => _ItineraryTableState();
+  _ItineraryTableState createState() => _ItineraryTableState(updateNewActivities: updateNewActivities);
 }
 
 class _ItineraryTableState extends State<ItineraryTable> {
+  final Function(List<Activity> newActivities) updateNewActivities;
+  _ItineraryTableState({required this.updateNewActivities});
+
   late List<Activity> activities;
   // late DatabaseHelper databaseHelper;
 
@@ -31,6 +34,14 @@ class _ItineraryTableState extends State<ItineraryTable> {
   }
 
   @override
+  void dispose() {
+    updateNewActivities(activities);
+    debugPrint("Ini adalah debug");
+    super.dispose();
+  }
+
+
+  @override
   Widget build(BuildContext context) => Scaffold(
     appBar: AppBar(
       title: Text('Activity Plan'),
@@ -43,7 +54,7 @@ class _ItineraryTableState extends State<ItineraryTable> {
   );
   Widget buildDataTable(){
     final columns = ['No.', 'Waktu Aktivitas', 'Nama Aktivitas'];
-
+    print("Back To old Screen");
     return DataTable(
       columns: getColumns(columns),
       rows: getRows(activities),

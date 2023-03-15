@@ -4,6 +4,8 @@ import 'package:iterasi1/pages/itinerary_table.dart';
 import 'package:iterasi1/pages/pdf/preview_pdf_page.dart';
 import 'package:iterasi1/pages/paket_wisata.dart';
 
+import '../model/activity_list.dart';
+
 class AddItinerary extends StatefulWidget {
   @override
   State<AddItinerary> createState() => _AddItineraryState();
@@ -44,7 +46,7 @@ class _AddItineraryState extends State<AddItinerary> {
             itemBuilder: (context, index) {
               return index == days.length
                   ? addNewDayButton()
-                  : listItem(days[index]);
+                  : listItem(index);
             },
             itemCount: days.length + 1,
           ),
@@ -73,7 +75,7 @@ class _AddItineraryState extends State<AddItinerary> {
     );
   }
 
-  Widget listItem(Day day) {
+  Widget listItem(int index) {
     return SizedBox(
       height: 80,
       child: Container(
@@ -83,12 +85,20 @@ class _AddItineraryState extends State<AddItinerary> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                Text(day.date),
+                Text(days[index].date),
                 InkWell(
                     onTap: () {
                       Navigator.of(context)
                           .push(MaterialPageRoute(builder: (buider) {
-                        return ItineraryTable(add_day: day);
+                        return ItineraryTable(
+                            add_day: days[index],
+                            updateNewActivities: (newActivities){
+                              setState(() {
+                                days[index].activities = newActivities;
+                              });
+
+                            },
+                        );
                       }));
                     },
                     child: Card(
@@ -159,5 +169,11 @@ class _AddItineraryState extends State<AddItinerary> {
       default:
         return "Desember";
     }
+  }
+
+  void updateActivitiesDay(int index , List<Activity> newActivities){
+    setState(() {
+      days[index].activities = newActivities;
+    });
   }
 }
