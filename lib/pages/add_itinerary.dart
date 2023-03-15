@@ -19,6 +19,7 @@ class _AddItineraryState extends State<AddItinerary> {
       home: Scaffold(
           backgroundColor: Colors.blue[50],
           floatingActionButton: FloatingActionButton(
+            child: Icon(Icons.print),
             onPressed: () {
               Navigator.of(context).push(
                 MaterialPageRoute(
