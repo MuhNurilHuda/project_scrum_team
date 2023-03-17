@@ -1,5 +1,5 @@
 class Activity {
-  final int id;
+  final String id;
   final String activity_name;
   final String activity_time;
 
@@ -10,7 +10,7 @@ class Activity {
   });
 
   Activity copy({
-    int? id,
+    String? id,
     String? activity_name,
     String? activity_time,
   }) =>

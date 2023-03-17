@@ -3,8 +3,8 @@ import 'package:iterasi1/model/activity_list.dart';
 import 'package:iterasi1/utilities/utils.dart';
 import 'package:iterasi1/widget/scrollable_widget.dart';
 import 'package:iterasi1/widget/text_dialog.dart';
-import 'package:iterasi1/database/activities.dart';
 import 'package:iterasi1/model/day.dart';
+import 'package:uuid/uuid.dart';
 
 class ItineraryTable extends StatefulWidget {
   const ItineraryTable({Key? key, required this.add_day , required this.updateNewActivities}) : super(key: key);
@@ -13,30 +13,23 @@ class ItineraryTable extends StatefulWidget {
 
 
   @override
-  _ItineraryTableState createState() => _ItineraryTableState(updateNewActivities: updateNewActivities);
+  _ItineraryTableState createState() => _ItineraryTableState(
+      updateNewActivities: updateNewActivities,
+      activities: add_day.activities
+  );
 }
 
 class _ItineraryTableState extends State<ItineraryTable> {
   final Function(List<Activity> newActivities) updateNewActivities;
-  _ItineraryTableState({required this.updateNewActivities});
+  _ItineraryTableState({required this.updateNewActivities , required this.activities});
 
-  late List<Activity> activities;
+  final uuid = Uuid();
+  List<Activity> activities;
   // late DatabaseHelper databaseHelper;
-
-  get isEditActivity => null;
-
-  @override
-  void initState() {
-    super.initState();
-
-    this.activities = List.of(allActivities);
-    // this.databaseHelper = databaseHelper;
-  }
 
   @override
   void dispose() {
     updateNewActivities(activities);
-    debugPrint("Ini adalah debug");
     super.dispose();
   }
 
@@ -55,9 +48,44 @@ class _ItineraryTableState extends State<ItineraryTable> {
   Widget buildDataTable(){
     final columns = ['No.', 'Waktu Aktivitas', 'Nama Aktivitas'];
     print("Back To old Screen");
-    return DataTable(
-      columns: getColumns(columns),
-      rows: getRows(activities),
+    return Column(
+      children: [
+        DataTable(
+          columns: getColumns(columns),
+          rows: getRows(activities),
+        ),
+        InkWell(
+          onTap: (){
+            setState(() {
+              activities.add(Activity(
+                  id: uuid.v1(),
+                  activity_name: "",
+                  activity_time: ""
+              ));
+            });
+          },
+          child: SizedBox(
+            height: 50,
+            child: Container(
+              padding: EdgeInsets.fromLTRB(75, 5, 75, 5),
+              child: Card(
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const [
+                    Card(
+                      child: Icon(Icons.add),
+                    ),
+                    Text(
+                      "Tambah Hari",
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+        ]
     );
   }
 
