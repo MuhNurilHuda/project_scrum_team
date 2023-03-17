@@ -42,27 +42,27 @@ class _PaketWisataState extends State<PaketWisata> {
         },
         itemCount: tourismPlaceList.length,
       ),
-      bottomNavigationBar: InkWell(
-        child: BottomNavigationBar(
-          currentIndex: _currentIndex,
-          onTap: (index) => setState(() {
-            _currentIndex = index;
-            Navigator.push(context, MaterialPageRoute(builder: (context){
-              return AddItinerary();
-            }));
-          }),
-          items: [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              label: 'Home',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.list),
-              label: 'Itinerary',
-            ),
-          ],
-        ),
-      ),
+      // bottomNavigationBar: InkWell(
+      //   child: BottomNavigationBar(
+      //     currentIndex: _currentIndex,
+      //     onTap: (index) => setState(() {
+      //       _currentIndex = index;
+      //       Navigator.push(context, MaterialPageRoute(builder: (context){
+      //         return AddItinerary();
+      //       }));
+      //     }),
+      //     items: [
+      //       BottomNavigationBarItem(
+      //         icon: Icon(Icons.home),
+      //         label: 'Home',
+      //       ),
+      //       BottomNavigationBarItem(
+      //         icon: Icon(Icons.list),
+      //         label: 'Itinerary',
+      //       ),
+      //     ],
+      //   ),
+      // ),
     );
   }
 

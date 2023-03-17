@@ -1,4 +1,3 @@
-
 import 'dart:typed_data';
 
 import 'package:iterasi1/model/day.dart';

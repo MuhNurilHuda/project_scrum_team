@@ -4,12 +4,12 @@ import 'package:iterasi1/pages/itinerary_table.dart';
 import 'package:iterasi1/pages/pdf/preview_pdf_page.dart';
 import 'package:iterasi1/pages/paket_wisata.dart';
 
-class AddItinerary extends StatefulWidget {
+class MakeNewItinerary extends StatefulWidget {
   @override
-  State<AddItinerary> createState() => _AddItineraryState();
+  State<MakeNewItinerary> createState() => _MakeNewItineraryState();
 }
 
-class _AddItineraryState extends State<AddItinerary> {
+class _MakeNewItineraryState extends State<MakeNewItinerary> {
   final List<Day> days = [];
 
   @override
@@ -55,12 +55,12 @@ class _AddItineraryState extends State<AddItinerary> {
           title: const Text(
             'Make Itinerary',
           ),
-          leading: IconButton(
-            icon: Icon(Icons.arrow_back),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          ),
+          // leading: IconButton(
+          //   icon: Icon(Icons.arrow_back),
+          //   onPressed: () {
+          //     Navigator.pop(context);
+          //   },
+          // ),
           backgroundColor: Colors.lightBlue[900],
         ),
         body: ListView.builder(
@@ -98,7 +98,7 @@ class _AddItineraryState extends State<AddItinerary> {
                       color: Colors.grey,
                       elevation: 0,
                       child:
-                          Row(mainAxisSize: MainAxisSize.min, children: const [
+                      Row(mainAxisSize: MainAxisSize.min, children: const [
                         Card(
                           child: const Icon(Icons.add),
                         ),
@@ -115,40 +115,40 @@ class _AddItineraryState extends State<AddItinerary> {
   }
 
   Widget addNewDayButton() => InkWell(
-        onTap: () async {
-          final choosenDate = await showDatePicker(
-              context: context,
-              initialDate: DateTime.now(),
-              firstDate: DateTime(2023),
-              lastDate: DateTime(2100));
+    onTap: () async {
+      final choosenDate = await showDatePicker(
+          context: context,
+          initialDate: DateTime.now(),
+          firstDate: DateTime(2023),
+          lastDate: DateTime(2100));
 
-          if (choosenDate != null) {
-            setState(() {
-              days.add(Day(date: formatDate(choosenDate)));
-            });
-          }
-        },
-        child: SizedBox(
-          height: 50,
-          child: Container(
-            padding: EdgeInsets.fromLTRB(75, 5, 75, 5),
-            child: Card(
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
-                  Card(
-                    child: Icon(Icons.add),
-                  ),
-                  Text(
-                    "Tambah Hari",
-                  ),
-                ],
+      if (choosenDate != null) {
+        setState(() {
+          days.add(Day(date: formatDate(choosenDate)));
+        });
+      }
+    },
+    child: SizedBox(
+      height: 50,
+      child: Container(
+        padding: EdgeInsets.fromLTRB(75, 5, 75, 5),
+        child: Card(
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: const [
+              Card(
+                child: Icon(Icons.add),
               ),
-            ),
+              Text(
+                "Tambah Hari",
+              ),
+            ],
           ),
         ),
-      );
+      ),
+    ),
+  );
 
   String formatDate(DateTime date) {
     return "${date.day}/${date.month}/${date.year}";

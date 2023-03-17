@@ -37,37 +37,6 @@ var tourismPlaceList = [
     ],
   ),
   TourismPlace(
-    name: 'Kelenteng Sanggar Agung',
-    location: 'Kenjeran',
-    imageAsset:
-    'assets/images/Kelenteng.jpg',
-    openOn: 'Open Everyday',
-    openAt: '08.00 - 20.00',
-    fee: 'Rp 7.000,-',
-    description:
-    'Sanggar Agung Temple or Hong San Tang Temple is a temple in the city of Surabaya. The address is at Jalan Sukolilo Number 100, Pantai Ria Kenjeran, Surabaya. This temple, apart from being a place of worship for adherents of the Tridharma, is also a tourist destination for tourists.',
-    gallery: [
-      'assets/images/Kelenteng1.jpg',
-      'assets/images/Kelenteng2.jpg',
-      'assets/images/Kelenteng3.jpg',
-    ],
-  ),
-  TourismPlace(
-      name: 'House of Sampoerna',
-      location: 'Krembangan Utara',
-      imageAsset: 'assets/images/House of Sampoerna.jpg',
-      openOn: 'Open Everyday',
-      openAt: '09.00 - 7.00',
-      fee: 'FREE',
-      description:
-      'House of Sampoerna is a tobacco museum and Sampoerna headquarters located in Surabaya. The architectural style of the main building which is influenced by the Dutch colonial style was built in 1862 and is now a historical site',
-      gallery: [
-        'assets/images/House of Sampoerna1.jpg',
-        'assets/images/House of Sampoerna2.jpg',
-        'assets/images/House of Sampoerna3.jpg',
-      ],
-  ),
-  TourismPlace(
     name: 'Gunung Bromo',
     location: 'Probolinggo',
     imageAsset:
