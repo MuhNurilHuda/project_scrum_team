@@ -12,7 +12,7 @@ class AddItinerary extends StatefulWidget {
 }
 
 class _AddItineraryState extends State<AddItinerary> {
-  int _currentIndex = 1;
+  // int _currentIndex = 1;
   final List<Day> days = [];
 
   @override
@@ -50,27 +50,6 @@ class _AddItineraryState extends State<AddItinerary> {
             },
             itemCount: days.length + 1,
           ),
-        bottomNavigationBar: InkWell(
-          child: BottomNavigationBar(
-            currentIndex: _currentIndex,
-            onTap: (index) => setState(() {
-              _currentIndex = index;
-              Navigator.push(context, MaterialPageRoute(builder: (context){
-                return PaketWisata();
-              }));
-            }),
-            items: const [
-              BottomNavigationBarItem(
-                icon: Icon(Icons.home),
-                label: 'Home',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.list),
-                label: 'Itinerary',
-              ),
-            ],
-          ),
-        ),
       ),
     );
   }
@@ -89,14 +68,13 @@ class _AddItineraryState extends State<AddItinerary> {
                 InkWell(
                     onTap: () {
                       Navigator.of(context)
-                          .push(MaterialPageRoute(builder: (buider) {
+                          .push(MaterialPageRoute(builder: (builder) {
                         return ItineraryTable(
                             add_day: days[index],
                             updateNewActivities: (newActivities){
                               setState(() {
                                 days[index].activities = newActivities;
                               });
-
                             },
                         );
                       }));

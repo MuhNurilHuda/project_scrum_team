@@ -46,7 +46,7 @@ class _ItineraryTableState extends State<ItineraryTable> {
     body: ScrollableWidget(child: buildDataTable()),
   );
   Widget buildDataTable(){
-    final columns = ['No.', 'Waktu Aktivitas', 'Nama Aktivitas'];
+    final columns = ['Waktu Aktivitas', 'Nama Aktivitas'];
     print("Back To old Screen");
     return Column(
       children: [
@@ -101,21 +101,21 @@ class _ItineraryTableState extends State<ItineraryTable> {
   }
 
   List<DataRow> getRows(List<Activity> activities) => activities.map((Activity activity) {
-    final cells = [activity.id, activity.activity_time, activity.activity_name];
+    final cells = [activity.activity_time, activity.activity_name];
     
     return DataRow(
       cells: Utils.modelBuilder(cells, (index, cell) {
-        final showEditIcon = index == 1 || index == 2;
+        final showEditIcon = index == 0 || index == 1;
 
         return DataCell(
           Text('$cell'),
           showEditIcon: showEditIcon,
           onTap: () {
             switch (index) {
-              case 1:
+              case 0:
                 editActivityTime(activity);
                 break;
-              case 2:
+              case 1:
                 editActivityName(activity);
                 break;
             }

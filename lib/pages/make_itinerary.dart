@@ -4,12 +4,15 @@ import 'package:iterasi1/pages/itinerary_table.dart';
 import 'package:iterasi1/pages/pdf/preview_pdf_page.dart';
 import 'package:iterasi1/pages/paket_wisata.dart';
 
+import '../model/activity_list.dart';
+
 class MakeNewItinerary extends StatefulWidget {
   @override
   State<MakeNewItinerary> createState() => _MakeNewItineraryState();
 }
 
 class _MakeNewItineraryState extends State<MakeNewItinerary> {
+  int _currentIndex = 1;
   final List<Day> days = [];
 
   @override
@@ -17,57 +20,33 @@ class _MakeNewItineraryState extends State<MakeNewItinerary> {
     return MaterialApp(
       home: Scaffold(
         backgroundColor: Colors.blue[50],
-        floatingActionButton: Stack(
-          children: <Widget>[
-            Positioned(
-              right: 16.0,
-              bottom: 90.0,
-              child: FloatingActionButton(
-                child: Icon(Icons.save),
-                onPressed: () {},
+        floatingActionButton: FloatingActionButton(
+          child: Icon(Icons.print),
+          onPressed: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (builder) => PdfPreviewPage(days: days),
               ),
-            ),
-            Positioned(
-              right: 16.0,
-              bottom: 16.0,
-              child: FloatingActionButton(
-                child: Icon(Icons.print),
-                onPressed: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                    builder: (builder) => PdfPreviewPage(days: days),
-                  ));
-                },
-              ),
-            ),
-          ],
+            );
+          },
         ),
-        // floatingActionButton: FloatingActionButton(
-        //   child: Icon(Icons.print),
-        //   onPressed: () {
-        //     Navigator.of(context).push(
-        //       MaterialPageRoute(
-        //         builder: (builder) => PdfPreviewPage(days: days),
-        //       ),
-        //     );
-        //   },
-        // ),
         appBar: AppBar(
           title: const Text(
             'Make Itinerary',
           ),
-          // leading: IconButton(
-          //   icon: Icon(Icons.arrow_back),
-          //   onPressed: () {
-          //     Navigator.pop(context);
-          //   },
-          // ),
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
           backgroundColor: Colors.lightBlue[900],
         ),
         body: ListView.builder(
           itemBuilder: (context, index) {
             return index == days.length
                 ? addNewDayButton()
-                : listItem(days[index]);
+                : listItem(index);
           },
           itemCount: days.length + 1,
         ),
@@ -75,7 +54,7 @@ class _MakeNewItineraryState extends State<MakeNewItinerary> {
     );
   }
 
-  Widget listItem(Day day) {
+  Widget listItem(int index) {
     return SizedBox(
       height: 80,
       child: Container(
@@ -85,20 +64,26 @@ class _MakeNewItineraryState extends State<MakeNewItinerary> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                Text(day.date),
+                Text(days[index].date),
                 InkWell(
                     onTap: () {
                       Navigator.of(context)
                           .push(MaterialPageRoute(builder: (builder) {
-                        return ItineraryTable(add_day: day);
+                        return ItineraryTable(
+                          add_day: days[index],
+                          updateNewActivities: (newActivities){
+                            setState(() {
+                              days[index].activities = newActivities;
+                            });
+                          },
+                        );
                       }));
                     },
                     child: Card(
                       // color: Color(0x1C3131),
                       color: Colors.grey,
                       elevation: 0,
-                      child:
-                      Row(mainAxisSize: MainAxisSize.min, children: const [
+                      child: Row(mainAxisSize: MainAxisSize.min, children: const [
                         Card(
                           child: const Icon(Icons.add),
                         ),
@@ -120,7 +105,8 @@ class _MakeNewItineraryState extends State<MakeNewItinerary> {
           context: context,
           initialDate: DateTime.now(),
           firstDate: DateTime(2023),
-          lastDate: DateTime(2100));
+          lastDate: DateTime(2100)
+      );
 
       if (choosenDate != null) {
         setState(() {
@@ -161,5 +147,11 @@ class _MakeNewItineraryState extends State<MakeNewItinerary> {
       default:
         return "Desember";
     }
+  }
+
+  void updateActivitiesDay(int index , List<Activity> newActivities){
+    setState(() {
+      days[index].activities = newActivities;
+    });
   }
 }
