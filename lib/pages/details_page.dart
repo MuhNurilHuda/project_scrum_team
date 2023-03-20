@@ -15,6 +15,7 @@ class DetailsPage extends StatelessWidget {
       appBar: AppBar(
         title: Text(place.name),
         backgroundColor: Colors.lightBlue[900],
+        elevation: 0,
       ),
       body: Stack(children: [
         SafeArea(

@@ -81,6 +81,10 @@ flutter:
       fonts:
         - asset: assets/fonts/good times rg.otf
 
+    - family: Haviland
+      fonts:
+        - asset: assets/fonts/MrDeHaviland-Regular.ttf
+
   assets:
     - assets/images/
 

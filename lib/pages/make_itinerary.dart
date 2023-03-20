@@ -34,12 +34,12 @@ class _MakeNewItineraryState extends State<MakeNewItinerary> {
           title: const Text(
             'Make Itinerary',
           ),
-          leading: IconButton(
-            icon: Icon(Icons.arrow_back),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          ),
+          // leading: IconButton(
+          //   icon: Icon(Icons.arrow_back),
+          //   onPressed: () {
+          //     Navigator.pop(context);
+          //   },
+          // ),
           backgroundColor: Colors.lightBlue[900],
         ),
         body: ListView.builder(

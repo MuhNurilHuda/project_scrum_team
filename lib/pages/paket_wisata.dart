@@ -23,8 +23,13 @@ class _PaketWisataState extends State<PaketWisata> {
       appBar: AppBar(
         title: const Text(
           'Daftar Wisata',
+          style: TextStyle(
+            fontFamily: 'Haviland',
+            fontSize: 30,
+          ),
         ),
-        backgroundColor: Colors.lightBlue[900],
+        backgroundColor: _bgColor,
+        elevation: 0,
       ),
       body: ListView.builder(
         itemBuilder: (context, index) {
