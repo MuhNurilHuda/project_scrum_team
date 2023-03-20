@@ -19,7 +19,7 @@ class _AddItineraryState extends State<AddItinerary> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-          backgroundColor: Colors.blue[50],
+          backgroundColor: Color(0xFF1C3131),
           floatingActionButton: FloatingActionButton(
             child: Icon(Icons.print),
             onPressed: () {

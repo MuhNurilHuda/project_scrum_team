@@ -4,10 +4,6 @@ import 'package:iterasi1/pages/add_itinerary.dart';
 import 'package:iterasi1/pages/details_page.dart';
 import 'package:iterasi1/navigation/bottom_navbar.dart';
 
-// void main() {
-//   runApp(const MyApp());
-// }
-
 class PaketWisata extends StatefulWidget {
   const PaketWisata({Key? key}) : super(key: key);
 
@@ -17,11 +13,13 @@ class PaketWisata extends StatefulWidget {
 
 class _PaketWisataState extends State<PaketWisata> {
   int _currentIndex = 0;
+  Color _bgColor = const Color(0xFF1C3131);
+  Color _cardColor = const Color(0xFFD5A364);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blue[50],
+      backgroundColor: _bgColor,
       appBar: AppBar(
         title: const Text(
           'Daftar Wisata',
@@ -42,38 +40,18 @@ class _PaketWisataState extends State<PaketWisata> {
         },
         itemCount: tourismPlaceList.length,
       ),
-      // bottomNavigationBar: InkWell(
-      //   child: BottomNavigationBar(
-      //     currentIndex: _currentIndex,
-      //     onTap: (index) => setState(() {
-      //       _currentIndex = index;
-      //       Navigator.push(context, MaterialPageRoute(builder: (context){
-      //         return AddItinerary();
-      //       }));
-      //     }),
-      //     items: [
-      //       BottomNavigationBarItem(
-      //         icon: Icon(Icons.home),
-      //         label: 'Home',
-      //       ),
-      //       BottomNavigationBarItem(
-      //         icon: Icon(Icons.list),
-      //         label: 'Itinerary',
-      //       ),
-      //     ],
-      //   ),
-      // ),
     );
   }
 
   Widget listItem(TourismPlace place) {
     return Card(
+      color: _cardColor,
       margin: EdgeInsets.all(15.0),
       elevation: 4,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),
       ),
-      color: Colors.white,
+      // color: Colors.white,
       child: ClipRRect(
         borderRadius: BorderRadius.circular(20.0),
         child: InkWell(

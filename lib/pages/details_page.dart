@@ -11,7 +11,7 @@ class DetailsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blue[50],
+      backgroundColor: Color(0xFF1C3131),
       appBar: AppBar(
         title: Text(place.name),
         backgroundColor: Colors.lightBlue[900],
@@ -34,7 +34,9 @@ class DetailsPage extends StatelessWidget {
                       fontSize: 25.0,
                       fontWeight: FontWeight.bold,
                       fontFamily: 'Orator',
-                    )),
+                      color: Colors.white,
+                    )
+                ),
               ),
               Container(
                 //Icon Container
@@ -44,20 +46,44 @@ class DetailsPage extends StatelessWidget {
                   children: <Widget>[
                     Column(
                       children: <Widget>[
-                        const Icon(Icons.calendar_today),
-                        Text(place.openOn),
+                        const Icon(
+                            Icons.calendar_today,
+                          color: Colors.white,
+                        ),
+                        Text(
+                            place.openOn,
+                          style: const TextStyle(
+                            color: Colors.white,
+                          ),
+                        ),
                       ],
                     ),
                     Column(
                       children: <Widget>[
-                        const Icon(Icons.access_time),
-                        Text(place.openAt),
+                        const Icon(
+                            Icons.access_time,
+                          color: Colors.white,
+                        ),
+                        Text(
+                            place.openAt,
+                          style: const TextStyle(
+                            color: Colors.white,
+                          ),
+                        ),
                       ],
                     ),
                     Column(
                       children: <Widget>[
-                        const Icon(Icons.attach_money),
-                        Text(place.fee),
+                        const Icon(
+                            Icons.attach_money,
+                          color: Colors.white,
+                        ),
+                        Text(
+                            place.fee,
+                          style: const TextStyle(
+                            color: Colors.white,
+                          )
+                        ),
                       ],
                     ),
                   ],
@@ -71,6 +97,7 @@ class DetailsPage extends StatelessWidget {
                   textAlign: TextAlign.center,
                   style: const TextStyle(
                     fontSize: 15.0,
+                    color: Colors.white,
                     // fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -139,7 +166,7 @@ class DetailsPage extends StatelessWidget {
                       ),
                       style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all<Color>(
-                            Colors.lightBlue),
+                            Color(0xFFD5A364)),
                         shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                           RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10.0),

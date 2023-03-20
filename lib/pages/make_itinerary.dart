@@ -12,14 +12,14 @@ class MakeNewItinerary extends StatefulWidget {
 }
 
 class _MakeNewItineraryState extends State<MakeNewItinerary> {
-  int _currentIndex = 1;
+  // int _currentIndex = 1;
   final List<Day> days = [];
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        backgroundColor: Colors.blue[50],
+        backgroundColor: Color(0xFF1C3131),
         floatingActionButton: FloatingActionButton(
           child: Icon(Icons.print),
           onPressed: () {

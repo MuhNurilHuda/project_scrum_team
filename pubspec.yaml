@@ -42,6 +42,7 @@ dependencies:
   uuid : ^3.0.7
   pdf: ^3.9.0
   printing: ^5.10.1
+  dynamic_color: ^1.6.2
 
 
 dev_dependencies:
