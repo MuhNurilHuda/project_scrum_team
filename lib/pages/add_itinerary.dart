@@ -32,7 +32,7 @@ class _AddItineraryState extends State<AddItinerary> {
           ),
           appBar: AppBar(
             title: const Text(
-              'Make Itinerary',
+              'Add Itinerary',
             ),
             leading: IconButton(
               icon: Icon(Icons.arrow_back),
@@ -40,7 +40,8 @@ class _AddItineraryState extends State<AddItinerary> {
                 Navigator.pop(context);
               },
             ),
-            backgroundColor: Colors.lightBlue[900],
+            backgroundColor: Color(0xFF1C3131),
+            elevation: 0,
           ),
           body: ListView.builder(
             itemBuilder: (context, index) {
