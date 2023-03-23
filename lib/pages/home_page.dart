@@ -118,8 +118,8 @@ class _HomePageState extends State<HomePage> {
               children: <Widget>[
                 Image.asset(
                   place.imageAsset,
-                  width: 200,
-                  height: 100,
+                  width: double.infinity,
+                  height: 82,
                   fit: BoxFit.cover,
                 ),
                 ListTile(
