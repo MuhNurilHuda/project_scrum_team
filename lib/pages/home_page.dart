@@ -27,63 +27,6 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: const Color(0xFF1C3131),
         elevation: 0,
       ),
-      // body: ListView.builder(
-      //   itemCount: tourismPlaceList.length,
-      //   itemBuilder: (BuildContext context, index){
-      //     final TourismPlace place = tourismPlaceList[index];
-      //     return InkWell(
-      //       onTap: () {
-      //         Navigator.push(context, MaterialPageRoute(builder: (context) {
-      //           return DetailsPage(place: place);
-      //         }));
-      //       },
-      //       child: Column(
-      //         children: [
-      //           // Vertical List Item
-      //           GridView.builder(
-      //               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-      //                 crossAxisCount: 2,
-      //                 childAspectRatio: 1,
-      //               ),
-      //               physics: const BouncingScrollPhysics(),
-      //               itemCount: tourismPlaceList.length,
-      //               scrollDirection: Axis.vertical,
-      //               itemBuilder: (context, index) {
-      //                 final TourismPlace place = tourismPlaceList[index];
-      //                 return InkWell(
-      //                   onTap: () {
-      //                     Navigator.push(context, MaterialPageRoute(builder: (context){
-      //                       return DetailsPage(place: place);
-      //                     }));
-      //                   },
-      //                   // child: listItemVertical(place),
-      //                   child: InkWell(
-      //                     onTap: () {
-      //                       Navigator.push(context, MaterialPageRoute(builder: (context) {
-      //                         return DetailsPage(place: place);
-      //                       }));
-      //                     },
-      //                     child: Row(
-      //                       children: <Widget>[
-      //                         Container(
-      //                           width: 200,
-      //                           height: 100,
-      //                           child: Image.asset(
-      //                             place.imageAsset,
-      //
-      //                           ),
-      //                         )
-      //                       ],
-      //                     ),
-      //                   ),
-      //                 );
-      //               }
-      //           ),
-      //         ],
-      //       ),
-      //     );
-      //   },
-      // ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
