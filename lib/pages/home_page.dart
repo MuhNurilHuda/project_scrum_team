@@ -156,40 +156,6 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
-      // body: Column(
-      //   children: [
-      //     Container(
-      //       height: 200, // set the height of the horizontal ListView
-      //       child: ListView.builder(
-      //         scrollDirection: Axis.horizontal,
-      //         itemCount: 10,
-      //         itemBuilder: (BuildContext context, int index) {
-      //           return Card(
-      //             child: Container(
-      //               width: 150,
-      //               child: Text('Horizontal Card $index'),
-      //             ),
-      //           );
-      //         },
-      //       ),
-      //     ),
-      //     Expanded(
-      //       child: GridView.builder(
-      //         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-      //           crossAxisCount: 2,
-      //         ),
-      //         itemCount: 20,
-      //         itemBuilder: (BuildContext context, int index) {
-      //           return Card(
-      //             child: Container(
-      //               child: Text('Vertical Card $index'),
-      //             ),
-      //           );
-      //         },
-      //       ),
-      //     ),
-      //   ],
-      // ),
     );
   }
 
