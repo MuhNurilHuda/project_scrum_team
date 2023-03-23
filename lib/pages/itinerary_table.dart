@@ -36,9 +36,11 @@ class _ItineraryTableState extends State<ItineraryTable> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
+    // backgroundColor: Color(0xFF1C3131),
     appBar: AppBar(
       title: Text('Activity Plan'),
-      backgroundColor: Colors.lightBlue[900],
+      backgroundColor: Color(0xFF1C3131),
+      elevation: 0,
       actions: [
         // saveActivities(),
       ],
@@ -77,7 +79,7 @@ class _ItineraryTableState extends State<ItineraryTable> {
                       child: Icon(Icons.add),
                     ),
                     Text(
-                      "Tambah Hari",
+                      "Tambah Aktivitas",
                     ),
                   ],
                 ),

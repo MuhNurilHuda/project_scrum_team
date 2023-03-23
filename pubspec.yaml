@@ -44,6 +44,7 @@ dependencies:
   pdf: ^3.9.0
   printing: ^5.10.1
   dynamic_color: ^1.6.2
+  curved_navigation_bar: ^1.0.3
 
 
 dev_dependencies:
