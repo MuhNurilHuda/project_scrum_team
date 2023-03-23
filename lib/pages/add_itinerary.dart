@@ -44,6 +44,7 @@ class _AddItineraryState extends State<AddItinerary> {
             elevation: 0,
           ),
           body: ListView.builder(
+            physics: const BouncingScrollPhysics(),
             itemBuilder: (context, index) {
               return index == days.length
                   ? addNewDayButton()

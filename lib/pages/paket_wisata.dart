@@ -22,7 +22,8 @@ class _PaketWisataState extends State<PaketWisata> {
       backgroundColor: _bgColor,
       appBar: AppBar(
         title: const Text(
-          'TripPlanner',
+          "TripPlanner",
+          textAlign: TextAlign.start,
           style: TextStyle(
             fontFamily: 'Haviland',
             fontSize: 30,
@@ -33,6 +34,7 @@ class _PaketWisataState extends State<PaketWisata> {
         elevation: 0,
       ),
       body: ListView.builder(
+        physics: const BouncingScrollPhysics(),
         itemBuilder: (context, index) {
           final TourismPlace place = tourismPlaceList[index];
           return InkWell(
@@ -73,7 +75,7 @@ class _PaketWisataState extends State<PaketWisata> {
               ),
               ListTile(
                 title: Text(
-                    place.name,
+                  place.name,
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
                 subtitle: Text(place.location),

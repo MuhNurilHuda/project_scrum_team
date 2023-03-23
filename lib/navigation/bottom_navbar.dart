@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:iterasi1/pages/home_page.dart';
 import 'package:iterasi1/pages/paket_wisata.dart';
 import 'package:iterasi1/pages/add_itinerary.dart';
 import 'package:iterasi1/pages/make_itinerary.dart';
 import 'package:iterasi1/pages/schedule/make_itinerary.dart';
 import 'package:iterasi1/pages/make_itinerary.dart';
+import 'package:iterasi1/pages/itinerary_list.dart';
 
 class BottomNavbar extends StatefulWidget {
   const BottomNavbar({Key? key}) : super(key: key);
@@ -14,13 +16,19 @@ class BottomNavbar extends StatefulWidget {
 
 class _BottomNavbarState extends State<BottomNavbar> {
   // List<Widget> ?_page;
-  int _indexPage = 0;
+  int _indexPage = 1;
 
   List<BottomNavigationBarItem> _bottomNavBarItems = [
     BottomNavigationBarItem(
-      icon: Icon(Icons.home),
-      label: 'Home',
+        icon: Icon(Icons.home),
+        label: 'Home'
     ),
+
+    BottomNavigationBarItem(
+      icon: Icon(Icons.library_books_sharp),
+      label: 'Paket Wisata',
+    ),
+
     BottomNavigationBarItem(
       icon: Icon(Icons.list),
       label: 'Itinerary',
@@ -28,8 +36,9 @@ class _BottomNavbarState extends State<BottomNavbar> {
   ];
 
   final List<Widget> _tabViews = [
+    const HomePage(),
     const PaketWisata(),
-    MakeNewItinerary(),
+    const ItineraryList(),
   ];
 
   @override

@@ -19,6 +19,7 @@ class DetailsPage extends StatelessWidget {
       body: Stack(children: [
         SafeArea(
           child: ListView(
+            physics: const BouncingScrollPhysics(),
             scrollDirection: Axis.vertical,
             children: <Widget>[
               Column(
