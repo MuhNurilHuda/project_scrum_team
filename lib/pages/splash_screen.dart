@@ -13,7 +13,7 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
 
     // Navigate after 2 seconds
-    Future.delayed(Duration(seconds: 2), () {
+    Future.delayed(const Duration(seconds: 2), () {
       Navigator.pushReplacementNamed(context, '/next');
     });
   }
@@ -24,7 +24,7 @@ class _SplashScreenState extends State<SplashScreen> {
       body: Container(
         width: double.infinity,
         height: double.infinity,
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topRight,
             end: Alignment.bottomRight,
@@ -43,7 +43,7 @@ class _SplashScreenState extends State<SplashScreen> {
               height: 300.0,
               width: 300.0,
             ),
-            Text(
+            const Text(
               "A Vacation from Surabaya\n Polytechnic No 1",
               textAlign: TextAlign.center,
               style: TextStyle(
@@ -52,7 +52,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 fontSize: 18.00,
               ),
             ),
-            CircularProgressIndicator(
+            const CircularProgressIndicator(
               color: Color(0xFFE1F5FE),
             ),
           ],

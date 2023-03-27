@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:iterasi1/model/destination_list.dart';
+import 'package:iterasi1/pages/add_itinerary.dart';
 import 'package:iterasi1/pages/details_page.dart';
 
 class ItineraryList extends StatefulWidget {
@@ -33,6 +34,14 @@ class _ItineraryListState extends State<ItineraryList> {
           );
         },
         itemCount: tourismPlaceList.length,
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add),
+        onPressed: () {
+          Navigator.push(context, MaterialPageRoute(builder: (context) {
+            return AddItinerary();
+          }));
+        },
       ),
     );
   }
@@ -102,8 +111,7 @@ class _ItineraryListState extends State<ItineraryList> {
                                 child: Icon(
                                   Icons.delete,
                                 ),
-                              )
-                          ),
+                              )),
                         ],
                       ),
                     )

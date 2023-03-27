@@ -16,7 +16,7 @@ class BottomNavbar extends StatefulWidget {
 
 class _BottomNavbarState extends State<BottomNavbar> {
   // List<Widget> ?_page;
-  int _indexPage = 1;
+  int _indexPage = 0;
 
   List<BottomNavigationBarItem> _bottomNavBarItems = [
     BottomNavigationBarItem(

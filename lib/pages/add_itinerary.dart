@@ -20,15 +20,27 @@ class _AddItineraryState extends State<AddItinerary> {
     return MaterialApp(
       home: Scaffold(
           backgroundColor: Color(0xFF1C3131),
-          floatingActionButton: FloatingActionButton(
-            child: Icon(Icons.print),
-            onPressed: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (builder) => PdfPreviewPage(days: days),
-                ),
-              );
-            },
+          floatingActionButton: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              FloatingActionButton(
+                child: Icon(Icons.save),
+                onPressed: () {
+
+                },
+              ),
+              SizedBox(height: 16,),
+              FloatingActionButton(
+                child: Icon(Icons.print),
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (builder) => PdfPreviewPage(days: days),
+                    ),
+                  );
+                },
+              ),
+            ],
           ),
           appBar: AppBar(
             title: const Text(
