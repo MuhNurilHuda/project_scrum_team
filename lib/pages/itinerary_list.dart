@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:iterasi1/model/destination_list.dart';
-import 'package:iterasi1/pages/details_page.dart';
+import 'package:iterasi1/database/database_service.dart';
+import 'package:iterasi1/pages/add_days.dart';
+import 'package:iterasi1/widget/text_dialog.dart';
 
 class ItineraryList extends StatefulWidget {
   const ItineraryList({Key? key}) : super(key: key);
@@ -12,32 +13,53 @@ class ItineraryList extends StatefulWidget {
 class _ItineraryListState extends State<ItineraryList> {
   @override
   Widget build(BuildContext context) {
+    final dbService = DatabaseService();
+
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: (){
+          getItineraryTitle();
+        },
+        child : Icon(Icons.add)
+      ),
       backgroundColor: const Color(0xFF1C3131),
       appBar: AppBar(
-        title: const Text("Itinerary List"),
+        title: const Text("Saved Itinerary"),
         backgroundColor: const Color(0xFF1C3131),
         elevation: 0,
       ),
-      body: ListView.builder(
-        physics: const BouncingScrollPhysics(),
-        itemBuilder: (context, index) {
-          final TourismPlace place = tourismPlaceList[index];
-          return InkWell(
-            onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return DetailsPage(place: place);
-              }));
-            },
-            child: listItem(place),
-          );
-        },
-        itemCount: tourismPlaceList.length,
+      body: FutureBuilder<List<Map<String , Object?>>>(
+        future: dbService.getItineraries(),
+        builder: (context , snapshot) {
+          final itineraries = snapshot.data;
+
+          if (itineraries != null){
+            return ListView.builder(
+              physics: const BouncingScrollPhysics(),
+              itemBuilder: (context, index) {
+                final item = itineraries[index];
+
+                return InkWell(
+                  onTap: () {
+                    getItineraryTitle();
+                  },
+                  child: listItem(item['title']!.toString()),
+                );
+              },
+              itemCount: itineraries.length,
+            );
+          }
+          else return Column();
+        }
       ),
     );
   }
 
-  Widget listItem(TourismPlace place) {
+  Widget testingItem(String title){
+    return Text(title);
+  }
+
+  Widget listItem(String itineraryTitle) {
     return Card(
       color: Color(0xFFD5A364),
       margin: EdgeInsets.all(15.0),
@@ -60,7 +82,7 @@ class _ItineraryListState extends State<ItineraryList> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
                         Text(
-                          'Itinerary to ${place.name}',
+                          'Judul : $itineraryTitle',
                           style: TextStyle(fontWeight: FontWeight.bold),
                         )
                       ],
@@ -115,5 +137,21 @@ class _ItineraryListState extends State<ItineraryList> {
         ),
       ),
     );
+  }
+
+  Future getItineraryTitle() async{
+    final itineraryTitle = await showTextDialog(
+        context,
+        title : "Ketik Judul Itinerary",
+        value : ""
+    );
+
+    if (itineraryTitle != null)
+      Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context){
+            return AddItinerary();
+          })
+      );
   }
 }

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:iterasi1/model/destination_list.dart';
+import 'package:iterasi1/model/destination.dart';
 import 'package:iterasi1/pages/details_page.dart';
 
 class HomePage extends StatefulWidget {

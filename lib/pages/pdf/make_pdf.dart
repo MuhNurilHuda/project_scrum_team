@@ -17,8 +17,8 @@ Future<Uint8List> makePdf(List<Day> days) async {
                                 children: day.activities.map((activity) =>
                                     Row(
                                         children: [
-                                          Text("\t${activity.activity_time} "),
-                                          Text("\t\t\t\t\t\t\t${activity.activity_name}"),
+                                          Text("\t${activity.activityTime} "),
+                                          Text("\t\t\t\t\t\t\t${activity.activityName}"),
                                         ]
                                     )
                                 ).toList()

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:iterasi1/model/activity_list.dart';
+import 'package:iterasi1/model/activity.dart';
 import 'package:iterasi1/utilities/utils.dart';
 import 'package:iterasi1/widget/scrollable_widget.dart';
 import 'package:iterasi1/widget/text_dialog.dart';
@@ -7,21 +7,32 @@ import 'package:iterasi1/model/day.dart';
 import 'package:uuid/uuid.dart';
 
 class ItineraryTable extends StatefulWidget {
-  const ItineraryTable({Key? key, required this.add_day , required this.updateNewActivities}) : super(key: key);
-  final Day add_day;
+  const ItineraryTable({
+    Key? key,
+    required this.addDay ,
+    required this.updateNewActivities
+  }) : super(key: key);
+  final Day addDay;
   final Function(List<Activity> newActivities) updateNewActivities;
 
 
   @override
   _ItineraryTableState createState() => _ItineraryTableState(
       updateNewActivities: updateNewActivities,
-      activities: add_day.activities
+      activities: addDay.activities,
+      idDay: addDay.id
   );
 }
 
 class _ItineraryTableState extends State<ItineraryTable> {
   final Function(List<Activity> newActivities) updateNewActivities;
-  _ItineraryTableState({required this.updateNewActivities , required this.activities});
+  final String idDay;
+
+  _ItineraryTableState({
+    required this.updateNewActivities ,
+    required this.activities,
+    required this.idDay
+  });
 
   final uuid = Uuid();
   List<Activity> activities;
@@ -59,11 +70,14 @@ class _ItineraryTableState extends State<ItineraryTable> {
         InkWell(
           onTap: (){
             setState(() {
-              activities.add(Activity(
-                  id: uuid.v1(),
-                  activity_name: "",
-                  activity_time: ""
-              ));
+              activities.add(
+                  Activity(
+                      idDay: idDay,
+                      id: uuid.v1(),
+                      activityName: "",
+                      activityTime: ""
+                  )
+              );
             });
           },
           child: SizedBox(
@@ -103,7 +117,7 @@ class _ItineraryTableState extends State<ItineraryTable> {
   }
 
   List<DataRow> getRows(List<Activity> activities) => activities.map((Activity activity) {
-    final cells = [activity.activity_time, activity.activity_name];
+    final cells = [activity.activityTime, activity.activityName];
     
     return DataRow(
       cells: Utils.modelBuilder(cells, (index, cell) {
@@ -131,53 +145,27 @@ class _ItineraryTableState extends State<ItineraryTable> {
     final activity_name = await showTextDialog(
       context,
       title: 'Nama Aktivitas',
-      value: editActivity.activity_name,
+      value: editActivity.activityName,
     );
 
     setState(() => activities = activities.map((activity) {
       final isEditActivity = activity == editActivity;
 
-      return isEditActivity ? activity.copy(activity_name: activity_name) : activity;
+      return isEditActivity ? activity.copy(activityName: activity_name) : activity;
     }).toList());
   }
 
   Future editActivityTime(Activity editActivity) async {
-    final activity_time = await showTextDialog(
+    final activityTime = await showTextDialog(
       context,
       title: 'Waktu Aktivitas',
-      value: editActivity.activity_time,
+      value: editActivity.activityTime,
     );
 
     setState(() => activities = activities.map((activity) {
       final isEditActivity = activity == editActivity;
 
-      return isEditActivity ? activity.copy(activity_time: activity_time) : activity;
+      return isEditActivity ? activity.copy(activityTime: activityTime) : activity;
     }).toList());
   }
-
-  // void initializeDatabaseHelper() {
-  //   databaseHelper = DatabaseHelper();
-  //
-  //   if(databaseHelper == null){
-  //     initializeDatabaseHelper();
-  //   }
-  // }
-  //
-  // void _saveActivities() async {
-  //   for (var activity in activities) {
-  //     if(activity.id == null){
-  //       await DatabaseHelper.insertActivity(activity);
-  //     }
-  //     else {
-  //       await DatabaseHelper.updateActivity(activity);
-  //     }
-  //   }
-  // }
-  //
-  // Widget saveActivities() => TextButton(
-  //   onPressed: _saveActivities,
-  //   child: Text(
-  //     'Save'
-  //   ),
-  // );
 }

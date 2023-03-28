@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:iterasi1/database/database_service.dart';
 import 'package:iterasi1/model/day.dart';
-import 'package:iterasi1/pages/itinerary_table.dart';
+import 'package:iterasi1/pages/add_activities.dart';
 import 'package:iterasi1/pages/pdf/preview_pdf_page.dart';
-import 'package:iterasi1/pages/paket_wisata.dart';
+import 'package:loader_overlay/loader_overlay.dart';
+import 'package:uuid/uuid.dart';
 
-import '../model/activity_list.dart';
+import '../model/activity.dart';
+import '../model/itinerary.dart';
 
 class AddItinerary extends StatefulWidget {
   @override
@@ -13,45 +16,85 @@ class AddItinerary extends StatefulWidget {
 
 class _AddItineraryState extends State<AddItinerary> {
   // int _currentIndex = 1;
+  final idItinerary = Uuid().v1();
   final List<Day> days = [];
+  var isAddingData = false;
 
   @override
   Widget build(BuildContext context) {
+
     return MaterialApp(
-      home: Scaffold(
-          backgroundColor: Color(0xFF1C3131),
-          floatingActionButton: FloatingActionButton(
-            child: Icon(Icons.print),
-            onPressed: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (builder) => PdfPreviewPage(days: days),
-                ),
-              );
-            },
-          ),
-          appBar: AppBar(
-            title: const Text(
-              'Add Itinerary',
-            ),
-            leading: IconButton(
-              icon: Icon(Icons.arrow_back),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            ),
+      home: LoaderOverlay(
+        child: Scaffold(
             backgroundColor: Color(0xFF1C3131),
-            elevation: 0,
-          ),
-          body: ListView.builder(
-            physics: const BouncingScrollPhysics(),
-            itemBuilder: (context, index) {
-              return index == days.length
-                  ? addNewDayButton()
-                  : listItem(index);
-            },
-            itemCount: days.length + 1,
-          ),
+            floatingActionButton: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                FloatingActionButton(
+                  onPressed: (){
+                    context.loaderOverlay.show();
+
+                    final dbService = DatabaseService();
+
+                    final List<void Function()> batchOperations = [];
+                    batchOperations.add(() {
+                      dbService.insertItinerary(
+                          Itinerary(id: idItinerary, title: "Contoh Judul")
+                      );
+                    });
+                    for (var day in days) {
+                      batchOperations.add(() {
+                        dbService.insertDay(day);
+                      });
+                      for (var activity in day.activities){
+                        batchOperations.add(() {
+                          dbService.insertActivity(activity);
+                        });
+                      }
+                    }
+
+                    dbService.executeNewBatch(batchOperations).whenComplete((){
+                      context.loaderOverlay.hide();
+                    });
+                    
+                  },
+                  child: Icon(Icons.save),
+                ),
+                FloatingActionButton(
+                  child: Icon(Icons.print),
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (builder) => PdfPreviewPage(days: days),
+                      ),
+                    );
+                  },
+                )
+              ]
+            ),
+            appBar: AppBar(
+              title: const Text(
+                'Add Itinerary',
+              ),
+              leading: IconButton(
+                icon: Icon(Icons.arrow_back),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+              backgroundColor: Color(0xFF1C3131),
+              elevation: 0,
+            ),
+            body: ListView.builder(
+              physics: const BouncingScrollPhysics(),
+              itemBuilder: (context, index) {
+                return index == days.length
+                    ? addNewDayButton()
+                    : listItem(index);
+              },
+              itemCount: days.length + 1,
+            ),
+        ),
       ),
     );
   }
@@ -72,7 +115,7 @@ class _AddItineraryState extends State<AddItinerary> {
                       Navigator.of(context)
                           .push(MaterialPageRoute(builder: (builder) {
                         return ItineraryTable(
-                            add_day: days[index],
+                            addDay: days[index],
                             updateNewActivities: (newActivities){
                               setState(() {
                                 days[index].activities = newActivities;
@@ -112,7 +155,13 @@ class _AddItineraryState extends State<AddItinerary> {
 
           if (choosenDate != null) {
             setState(() {
-              days.add(Day(date: formatDate(choosenDate)));
+              days.add(
+                  Day(
+                    idItinerary: idItinerary,
+                    id: const Uuid().v1(),
+                    date: formatDate(choosenDate)
+                  )
+              );
             });
           }
         },
