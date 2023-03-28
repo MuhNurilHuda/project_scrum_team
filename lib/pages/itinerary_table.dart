@@ -6,6 +6,8 @@ import 'package:iterasi1/widget/text_dialog.dart';
 import 'package:iterasi1/model/day.dart';
 import 'package:uuid/uuid.dart';
 
+import '../form.dart';
+
 class ItineraryTable extends StatefulWidget {
   const ItineraryTable({Key? key, required this.add_day , required this.updateNewActivities}) : super(key: key);
   final Day add_day;
@@ -32,8 +34,6 @@ class _ItineraryTableState extends State<ItineraryTable> {
     updateNewActivities(activities);
     super.dispose();
   }
-
-
   @override
   Widget build(BuildContext context) => Scaffold(
     // backgroundColor: Color(0xFF1C3131),
@@ -57,14 +57,16 @@ class _ItineraryTableState extends State<ItineraryTable> {
           rows: getRows(activities),
         ),
         InkWell(
-          onTap: (){
-            setState(() {
-              activities.add(Activity(
-                  id: uuid.v1(),
-                  activity_name: "",
-                  activity_time: ""
-              ));
-            });
+          onTap: () async{
+          Navigator.push(context, MaterialPageRoute(builder: (context){
+          return ActivityForm(
+            setParentState: (newActivity){
+              setState(() {
+                activities.add(newActivity);
+              });
+            },
+          );
+          }));
           },
           child: SizedBox(
             height: 50,
@@ -89,6 +91,10 @@ class _ItineraryTableState extends State<ItineraryTable> {
         ),
         ]
     );
+  }
+
+  String formatTime(TimeOfDay time) {
+    return "${time.hour}:${time.minute}";
   }
 
   List<DataColumn> getColumns(List<String> columns) {
