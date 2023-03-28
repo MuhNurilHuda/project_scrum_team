@@ -45,7 +45,14 @@ class _ItineraryTableState extends State<ItineraryTable> {
         // saveActivities(),
       ],
     ),
-    body: ScrollableWidget(child: buildDataTable()),
+    body: ListView(
+      children: [
+        buildDataTable()
+      ],
+    ),
+    // ScrollableWidget(
+    //       child: buildDataTable()
+    // ),
   );
   Widget buildDataTable(){
     final columns = ['Waktu Aktivitas', 'Nama Aktivitas'];
