@@ -19,19 +19,19 @@ class _AddItineraryState extends State<AddItinerary> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-          backgroundColor: Color(0xFF1C3131),
+          backgroundColor: const Color(0xFF1C3131),
           floatingActionButton: Column(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               FloatingActionButton(
-                child: Icon(Icons.save),
+                child: const Icon(Icons.save),
                 onPressed: () {
 
                 },
               ),
-              SizedBox(height: 16,),
+              const SizedBox(height: 16,),
               FloatingActionButton(
-                child: Icon(Icons.print),
+                child: const Icon(Icons.print),
                 onPressed: () {
                   Navigator.of(context).push(
                     MaterialPageRoute(
@@ -47,12 +47,12 @@ class _AddItineraryState extends State<AddItinerary> {
               'Add Itinerary',
             ),
             leading: IconButton(
-              icon: Icon(Icons.arrow_back),
+              icon: const Icon(Icons.arrow_back),
               onPressed: () {
                 Navigator.pop(context);
               },
             ),
-            backgroundColor: Color(0xFF1C3131),
+            backgroundColor: const Color(0xFF1C3131),
             elevation: 0,
           ),
           body: ListView.builder(

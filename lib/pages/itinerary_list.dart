@@ -82,7 +82,7 @@ class _ItineraryListState extends State<ItineraryList> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    Flexible(
+                    const Flexible(
                       flex: 5,
                       child: Card(
                         child: Padding(
