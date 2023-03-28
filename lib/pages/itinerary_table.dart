@@ -9,21 +9,21 @@ import 'package:uuid/uuid.dart';
 import '../form.dart';
 
 class ItineraryTable extends StatefulWidget {
-  const ItineraryTable({Key? key, required this.add_day , required this.updateNewActivities}) : super(key: key);
+  const ItineraryTable(
+      {Key? key, required this.add_day, required this.updateNewActivities})
+      : super(key: key);
   final Day add_day;
   final Function(List<Activity> newActivities) updateNewActivities;
 
-
   @override
   _ItineraryTableState createState() => _ItineraryTableState(
-      updateNewActivities: updateNewActivities,
-      activities: add_day.activities
-  );
+      updateNewActivities: updateNewActivities, activities: add_day.activities);
 }
 
 class _ItineraryTableState extends State<ItineraryTable> {
   final Function(List<Activity> newActivities) updateNewActivities;
-  _ItineraryTableState({required this.updateNewActivities , required this.activities});
+  _ItineraryTableState(
+      {required this.updateNewActivities, required this.activities});
 
   final uuid = Uuid();
   List<Activity> activities;
@@ -34,63 +34,62 @@ class _ItineraryTableState extends State<ItineraryTable> {
     updateNewActivities(activities);
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) => Scaffold(
-    // backgroundColor: Color(0xFF1C3131),
-    appBar: AppBar(
-      title: Text('Activity Plan'),
-      backgroundColor: Color(0xFF1C3131),
-      elevation: 0,
-      actions: [
-        // saveActivities(),
-      ],
-    ),
-    body: ScrollableWidget(child: buildDataTable()),
-  );
-  Widget buildDataTable(){
-    final columns = ['Waktu Aktivitas', 'Nama Aktivitas'];
-    print("Back To old Screen");
-    return Column(
-      children: [
-        DataTable(
-          columns: getColumns(columns),
-          rows: getRows(activities),
+        // backgroundColor: Color(0xFF1C3131),
+        appBar: AppBar(
+          title: Text('Activity Plan'),
+          backgroundColor: Color(0xFF1C3131),
+          elevation: 0,
+          actions: [
+            // saveActivities(),
+          ],
         ),
-        InkWell(
-          onTap: () async{
-          Navigator.push(context, MaterialPageRoute(builder: (context){
-          return ActivityForm(
-            setParentState: (newActivity){
-              setState(() {
-                activities.add(newActivity);
-              });
-            },
-          );
+        body: ScrollableWidget(child: buildDataTable()),
+      );
+  Widget buildDataTable() {
+    final columns = ['Waktu Aktivitas', 'Nama Aktivitas', 'Actions'];
+    print("Back To old Screen");
+    return Column(children: [
+      DataTable(
+        columns: getColumns(columns),
+        rows: getRows(activities),
+      ),
+      InkWell(
+        onTap: () async {
+          Navigator.push(context, MaterialPageRoute(builder: (context) {
+            return ActivityForm(
+              setParentState: (newActivity) {
+                setState(() {
+                  activities.add(newActivity);
+                });
+              },
+            );
           }));
-          },
-          child: SizedBox(
-            height: 50,
-            child: Container(
-              padding: EdgeInsets.fromLTRB(75, 5, 75, 5),
-              child: Card(
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
-                    Card(
-                      child: Icon(Icons.add),
-                    ),
-                    Text(
-                      "Tambah Aktivitas",
-                    ),
-                  ],
-                ),
+        },
+        child: SizedBox(
+          height: 50,
+          child: Container(
+            padding: EdgeInsets.fromLTRB(75, 5, 75, 5),
+            child: Card(
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: const [
+                  Card(
+                    child: Icon(Icons.add),
+                  ),
+                  Text(
+                    "Tambah Aktivitas",
+                  ),
+                ],
               ),
             ),
           ),
         ),
-        ]
-    );
+      ),
+    ]);
   }
 
   String formatTime(TimeOfDay time) {
@@ -108,30 +107,45 @@ class _ItineraryTableState extends State<ItineraryTable> {
     }).toList();
   }
 
-  List<DataRow> getRows(List<Activity> activities) => activities.map((Activity activity) {
-    final cells = [activity.activity_time, activity.activity_name];
-    
-    return DataRow(
-      cells: Utils.modelBuilder(cells, (index, cell) {
-        final showEditIcon = index == 0 || index == 1;
+  List<DataRow> getRows(List<Activity> activities) =>
+      activities.map((Activity activity) {
+        // final showEditIcon = index == 2;
+        final cells = [activity.activity_time, activity.activity_name];
+        // final cells = [
+        //   DataCell(
+        //     Text(
+        //       activity.activity_time.toString(),
+        //       textAlign: TextAlign.left,
+        //     ),
+        //   ),
+        //   DataCell(Text(
+        //     activity.activity_name.toString(),
+        //     textAlign: TextAlign.start,
+        //   )),
+        //   DataCell(showEditIcon: showE)
+        // ];
 
-        return DataCell(
-          Text('$cell'),
-          showEditIcon: showEditIcon,
-          onTap: () {
-            switch (index) {
-              case 0:
-                editActivityTime(activity);
-                break;
-              case 1:
-                editActivityName(activity);
-                break;
-            }
-          }
-        );
-      }),
-    );
-  }).toList();
+        return DataRow(
+            cells: Utils.modelBuilder(cells, (index, cell) {
+              final showEditIcon = index == 2;
+
+              return DataCell(
+                Text(
+                  '$cell',
+                  textAlign: TextAlign.left,
+                ),
+                showEditIcon: showEditIcon,
+                onTap: () {
+                  switch (index) {
+                    case 2:
+                      editActivityTime(activity);
+                      break;
+                  }
+                }
+              );
+            }),
+            );
+      }).toList();
 
   Future editActivityName(Activity editActivity) async {
     final activity_name = await showTextDialog(
@@ -141,10 +155,12 @@ class _ItineraryTableState extends State<ItineraryTable> {
     );
 
     setState(() => activities = activities.map((activity) {
-      final isEditActivity = activity == editActivity;
+          final isEditActivity = activity == editActivity;
 
-      return isEditActivity ? activity.copy(activity_name: activity_name) : activity;
-    }).toList());
+          return isEditActivity
+              ? activity.copy(activity_name: activity_name)
+              : activity;
+        }).toList());
   }
 
   Future editActivityTime(Activity editActivity) async {
@@ -155,35 +171,11 @@ class _ItineraryTableState extends State<ItineraryTable> {
     );
 
     setState(() => activities = activities.map((activity) {
-      final isEditActivity = activity == editActivity;
+          final isEditActivity = activity == editActivity;
 
-      return isEditActivity ? activity.copy(activity_time: activity_time) : activity;
-    }).toList());
+          return isEditActivity
+              ? activity.copy(activity_time: activity_time)
+              : activity;
+        }).toList());
   }
-
-  // void initializeDatabaseHelper() {
-  //   databaseHelper = DatabaseHelper();
-  //
-  //   if(databaseHelper == null){
-  //     initializeDatabaseHelper();
-  //   }
-  // }
-  //
-  // void _saveActivities() async {
-  //   for (var activity in activities) {
-  //     if(activity.id == null){
-  //       await DatabaseHelper.insertActivity(activity);
-  //     }
-  //     else {
-  //       await DatabaseHelper.updateActivity(activity);
-  //     }
-  //   }
-  // }
-  //
-  // Widget saveActivities() => TextButton(
-  //   onPressed: _saveActivities,
-  //   child: Text(
-  //     'Save'
-  //   ),
-  // );
 }
