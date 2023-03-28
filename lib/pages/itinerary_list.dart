@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:iterasi1/database/database_service.dart';
+import 'package:iterasi1/model/itinerary.dart';
 import 'package:iterasi1/pages/add_days.dart';
 import 'package:iterasi1/widget/text_dialog.dart';
+import 'package:uuid/uuid.dart';
 
 class ItineraryList extends StatefulWidget {
   const ItineraryList({Key? key}) : super(key: key);
@@ -28,8 +30,8 @@ class _ItineraryListState extends State<ItineraryList> {
         backgroundColor: const Color(0xFF1C3131),
         elevation: 0,
       ),
-      body: FutureBuilder<List<Map<String , Object?>>>(
-        future: dbService.getItineraries(),
+      body: FutureBuilder<List<Itinerary>>(
+        future: dbService.fetchItineraries(),
         builder: (context , snapshot) {
           final itineraries = snapshot.data;
 
@@ -43,7 +45,7 @@ class _ItineraryListState extends State<ItineraryList> {
                   onTap: () {
                     getItineraryTitle();
                   },
-                  child: listItem(item['title']!.toString()),
+                  child: listItem(item.title),
                 );
               },
               itemCount: itineraries.length,
@@ -150,7 +152,12 @@ class _ItineraryListState extends State<ItineraryList> {
       Navigator.push(
           context,
           MaterialPageRoute(builder: (context){
-            return AddItinerary();
+            return AddItinerary(
+              itinerary : Itinerary(
+                id : const Uuid().v1(),
+                title : itineraryTitle
+              )
+            );
           })
       );
   }

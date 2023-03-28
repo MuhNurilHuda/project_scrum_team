@@ -4,21 +4,31 @@ import 'package:iterasi1/model/day.dart';
 import 'package:iterasi1/pages/add_activities.dart';
 import 'package:iterasi1/pages/pdf/preview_pdf_page.dart';
 import 'package:loader_overlay/loader_overlay.dart';
-import 'package:uuid/uuid.dart';
 
-import '../model/activity.dart';
 import '../model/itinerary.dart';
 
 class AddItinerary extends StatefulWidget {
+  Itinerary itinerary;
+  AddItinerary({
+    required this.itinerary
+  });
+
   @override
-  State<AddItinerary> createState() => _AddItineraryState();
+  State<AddItinerary> createState() => _AddItineraryState(
+    itineraryTitle: itinerary.title,
+    itineraryId: itinerary.id
+  );
 }
 
 class _AddItineraryState extends State<AddItinerary> {
-  // int _currentIndex = 1;
-  final idItinerary = Uuid().v1();
   final List<Day> days = [];
-  var isAddingData = false;
+  final String itineraryTitle;
+  final String itineraryId;
+
+  _AddItineraryState({
+    required this.itineraryTitle,
+    required this.itineraryId
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -36,27 +46,16 @@ class _AddItineraryState extends State<AddItinerary> {
 
                     final dbService = DatabaseService();
 
-                    final List<void Function()> batchOperations = [];
-                    batchOperations.add(() {
-                      dbService.insertItinerary(
-                          Itinerary(id: idItinerary, title: "Contoh Judul")
-                      );
-                    });
-                    for (var day in days) {
-                      batchOperations.add(() {
-                        dbService.insertDay(day);
-                      });
-                      for (var activity in day.activities){
-                        batchOperations.add(() {
-                          dbService.insertActivity(activity);
-                        });
+                    dbService.insertItinerary(Itinerary(
+                        id: itineraryId,
+                        title: itineraryTitle,
+                        days: days
+                    )).whenComplete(
+                      (){
+                        context.loaderOverlay.hide();
+                        Navigator.pop(context);
                       }
-                    }
-
-                    dbService.executeNewBatch(batchOperations).whenComplete((){
-                      context.loaderOverlay.hide();
-                    });
-                    
+                    );
                   },
                   child: Icon(Icons.save),
                 ),
@@ -65,7 +64,9 @@ class _AddItineraryState extends State<AddItinerary> {
                   onPressed: () {
                     Navigator.of(context).push(
                       MaterialPageRoute(
-                        builder: (builder) => PdfPreviewPage(days: days),
+                        builder: (builder) => PdfPreviewPage(
+                            days: days
+                        ),
                       ),
                     );
                   },
@@ -73,8 +74,8 @@ class _AddItineraryState extends State<AddItinerary> {
               ]
             ),
             appBar: AppBar(
-              title: const Text(
-                'Add Itinerary',
+              title: Text(
+                itineraryTitle,
               ),
               leading: IconButton(
                 icon: Icon(Icons.arrow_back),
@@ -155,14 +156,9 @@ class _AddItineraryState extends State<AddItinerary> {
 
           if (choosenDate != null) {
             setState(() {
-              days.add(
-                  Day(
-                    idItinerary: idItinerary,
-                    id: const Uuid().v1(),
-                    date: formatDate(choosenDate)
-                  )
-              );
-            });
+                days.add(Day(date: formatDate(choosenDate)));
+              }
+            );
           }
         },
         child: SizedBox(
@@ -195,14 +191,10 @@ class _AddItineraryState extends State<AddItinerary> {
     switch (intMonth) {
       case 1:
         return "Januari";
+      case 2:
+        return "Februari";
       default:
         return "Desember";
     }
-  }
-
-  void updateActivitiesDay(int index , List<Activity> newActivities){
-    setState(() {
-      days[index].activities = newActivities;
-    });
   }
 }

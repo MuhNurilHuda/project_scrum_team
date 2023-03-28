@@ -1,22 +1,23 @@
 import 'package:iterasi1/model/activity.dart';
 
 class Day {
-  final String id;
-  final String idItinerary;
   final String date;
-  List<Activity> activities = [];
+  List<Activity> activities;
 
   Day({
     required this.date,
-    required this.idItinerary,
-    required this.id
+    this.activities = const []
   });
 
-  Map<String , dynamic> toMap(){
+  Map<String , dynamic> toJson(){
     return {
-      'id' : id,
-      'id_itinerary' : idItinerary,
-      'date' : date
+      'date' : date,
+      'activities' : activities.map((activity) => activity.toJson()).toList()
     };
   }
+
+  factory Day.fromJson(Map<String , dynamic> json) => Day(
+    date : json['date'],
+    activities: json['activities'].map((activity) => activity.fromJson()).toList()
+  );
 }

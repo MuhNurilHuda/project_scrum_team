@@ -19,19 +19,16 @@ class ItineraryTable extends StatefulWidget {
   @override
   _ItineraryTableState createState() => _ItineraryTableState(
       updateNewActivities: updateNewActivities,
-      activities: addDay.activities,
-      idDay: addDay.id
+      activities: addDay.activities
   );
 }
 
 class _ItineraryTableState extends State<ItineraryTable> {
   final Function(List<Activity> newActivities) updateNewActivities;
-  final String idDay;
 
   _ItineraryTableState({
     required this.updateNewActivities ,
-    required this.activities,
-    required this.idDay
+    required this.activities
   });
 
   final uuid = Uuid();
@@ -72,8 +69,6 @@ class _ItineraryTableState extends State<ItineraryTable> {
             setState(() {
               activities.add(
                   Activity(
-                      idDay: idDay,
-                      id: uuid.v1(),
                       activityName: "",
                       activityTime: ""
                   )
