@@ -3,19 +3,19 @@ import 'package:uuid/uuid.dart';
 
 import 'model/activity_list.dart';
 
-class ActivityForm extends StatefulWidget {
+class UpdateActivityForm extends StatefulWidget {
   final Function(Activity newActivity) setParentState;
-  ActivityForm({required this.setParentState});
+  UpdateActivityForm({required this.setParentState});
 
   @override
-  _ActivityFormState createState() => _ActivityFormState(
+  _UpdateActivityFormState createState() => _UpdateActivityFormState(
     setParentState: setParentState
   );
 }
 
-class _ActivityFormState extends State<ActivityForm> {
+class _UpdateActivityFormState extends State<UpdateActivityForm> {
   final Function(Activity newActivity) setParentState;
-  _ActivityFormState({required this.setParentState});
+  _UpdateActivityFormState({required this.setParentState});
 
   final uuid = Uuid();
   final _formKey = GlobalKey<FormState>();
@@ -44,7 +44,7 @@ class _ActivityFormState extends State<ActivityForm> {
       print('Activity: $activity, Time: ${time.format(context)}');
 
       // Clear the form
-      _activityController.clear();
+      // _activityController.clear();
       // setState(() {
       //   activities.add(Activity(
       //       id: uuid.v1(),
@@ -68,8 +68,6 @@ class _ActivityFormState extends State<ActivityForm> {
     return Scaffold(
       appBar: AppBar(
         title: Text('New Activity'),
-        backgroundColor: const Color(0xFF1C3131),
-        elevation: 0,
       ),
       body: Padding(
         padding: EdgeInsets.all(16.0),
@@ -123,9 +121,6 @@ class _ActivityFormState extends State<ActivityForm> {
                 child: ElevatedButton(
                   onPressed: _saveActivity,
                   child: Text('Save'),
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all<Color>(Color(0xFF39B400)),
-                  ),
                 ),
               ),
             ],

@@ -70,15 +70,24 @@ class _AddItineraryState extends State<AddItinerary> {
 
   Widget listItem(int index) {
     return SizedBox(
-      height: 80,
+      width: 200,
+      height: 100,
       child: Container(
-        padding: EdgeInsets.fromLTRB(40, 5, 40, 5),
+        padding: const EdgeInsets.fromLTRB(40, 5, 40, 5),
         child: Card(
             color: Colors.white,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                Text(days[index].date),
+                Container(
+                  margin: const EdgeInsets.fromLTRB(0, 5.0, 0, 3.0),
+                  child: Text(
+                    days[index].date,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  )
+                ),
                 InkWell(
                     onTap: () {
                       Navigator.of(context)
@@ -97,13 +106,16 @@ class _AddItineraryState extends State<AddItinerary> {
                       // color: Color(0x1C3131),
                       color: Colors.grey,
                       elevation: 0,
-                      child: Row(mainAxisSize: MainAxisSize.min, children: const [
-                        Card(
-                          child: const Icon(Icons.add),
+                      child: Row(mainAxisSize: MainAxisSize.min, children: [
+                        const Card(
+                          child: Icon(Icons.add),
                         ),
-                        Text(
-                          "Tambah Aktivitas",
-                          style: TextStyle(color: Colors.white),
+                        Container(
+                          margin: const EdgeInsets.fromLTRB(0, 0, 4.0, 0),
+                          child: const Text(
+                            "Tambah Aktivitas",
+                            style: TextStyle(color: Colors.white),
+                          ),
                         ),
                       ]),
                     )),
@@ -131,7 +143,7 @@ class _AddItineraryState extends State<AddItinerary> {
         child: SizedBox(
           height: 50,
           child: Container(
-            padding: EdgeInsets.fromLTRB(75, 5, 75, 5),
+            padding: const EdgeInsets.fromLTRB(75, 5, 75, 5),
             child: Card(
               child: Row(
                 mainAxisSize: MainAxisSize.min,

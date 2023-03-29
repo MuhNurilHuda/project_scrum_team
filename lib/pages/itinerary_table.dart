@@ -5,6 +5,7 @@ import 'package:iterasi1/widget/scrollable_widget.dart';
 import 'package:iterasi1/widget/text_dialog.dart';
 import 'package:iterasi1/model/day.dart';
 import 'package:uuid/uuid.dart';
+import 'package:iterasi1/form_update.dart';
 
 import '../form.dart';
 
@@ -46,10 +47,12 @@ class _ItineraryTableState extends State<ItineraryTable> {
             // saveActivities(),
           ],
         ),
-        body: ScrollableWidget(child: buildDataTable()),
+        body: ListView(scrollDirection: Axis.vertical, children: [
+          buildDataTable(),
+        ]),
       );
   Widget buildDataTable() {
-    final columns = ['Waktu Aktivitas', 'Nama Aktivitas', 'Actions'];
+    final columns = ['Waktu Aktivitas', 'Nama Aktivitas', ''];
     print("Back To old Screen");
     return Column(children: [
       DataTable(
@@ -110,7 +113,11 @@ class _ItineraryTableState extends State<ItineraryTable> {
   List<DataRow> getRows(List<Activity> activities) =>
       activities.map((Activity activity) {
         // final showEditIcon = index == 2;
-        final cells = [activity.activity_time, activity.activity_name];
+        final cells = [
+          activity.activity_time,
+          activity.activity_name,
+          const Icon(Icons.edit),
+        ];
         // final cells = [
         //   DataCell(
         //     Text(
@@ -126,24 +133,84 @@ class _ItineraryTableState extends State<ItineraryTable> {
         // ];
 
         return DataRow(
-            cells: Utils.modelBuilder(cells, (index, cell) {
-              final showEditIcon = index == 2;
 
-              return DataCell(
+          cells: [
+          DataCell(SizedBox(
+            width: double.infinity,
+            height: 50,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
                 Text(
-                  '$cell',
-                  textAlign: TextAlign.left,
+                  activity.activity_time,
                 ),
-                showEditIcon: showEditIcon,
-                onTap: () {
-                  switch (index) {
-                    case 2:
-                      editActivityTime(activity);
-                      break;
-                  }
-                }
-              );
-            }),
+              ],
+            ),
+          )),
+          DataCell(SizedBox(
+            width: 100,
+            height: 50,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    activity.activity_name,
+                  ),
+                ],
+              ),
+          )),
+          DataCell(Row(
+            children: [
+              InkWell(
+                  onTap: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) {
+                      return UpdateActivityForm(
+                        setParentState: (newActivity) {
+                          setState(() {
+                            activities.add(newActivity);
+                          });
+                        },
+                      );
+                    }));
+                  },
+                  child: const Icon(Icons.edit)),
+              // const SizedBox(width: 5),
+              // Text("Edit"),
+            ],
+          ))
+        ]
+            // cells: Utils.modelBuilder(cells, (index, cell) {
+            //   final showEditIcon = index == 2;
+
+            //   return DataCell(
+            //       Text(
+            //         '$cell',
+            //         textAlign: TextAlign.left,
+            //       ),
+            //       showEditIcon: showEditIcon,
+            //       onTap: () {
+            //     // Navigator.push(context, MaterialPageRoute(builder: (context) {
+            //     //   return ActivityForm(setParentState: (newState) {
+            //     //     setState(() {
+            //     //        = newState;
+            //     //     });
+            //     //   })
+            //     // }));
+            //     switch (index) {
+            //       case 0:
+            //         editActivityTime(activity);
+            //         break;
+            //       case 1:
+            //         editActivityName(activity);
+            //         break;
+            //     }
+            //   });
+            // }),
             );
       }).toList();
 
