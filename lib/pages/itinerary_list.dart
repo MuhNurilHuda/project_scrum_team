@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:iterasi1/database/database_service.dart';
 import 'package:iterasi1/model/itinerary.dart';
 import 'package:iterasi1/pages/add_days.dart';
+import 'package:iterasi1/pages/provider/itinerary_provider.dart';
 import 'package:iterasi1/widget/text_dialog.dart';
+import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 
 class ItineraryList extends StatefulWidget {
@@ -152,11 +154,13 @@ class _ItineraryListState extends State<ItineraryList> {
       Navigator.push(
           context,
           MaterialPageRoute(builder: (context){
-            return AddItinerary(
-              itinerary : Itinerary(
+            final newItinerary = Itinerary(
                 id : const Uuid().v1(),
                 title : itineraryTitle
-              )
+            );
+            return ChangeNotifierProvider(
+              create: (context) => ItineraryProvider(itinerary: newItinerary),
+              child: AddItinerary(),
             );
           })
       );

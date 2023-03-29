@@ -1,166 +1,161 @@
 import 'package:flutter/material.dart';
 import 'package:iterasi1/model/activity.dart';
-import 'package:iterasi1/utilities/utils.dart';
+import 'package:iterasi1/pages/provider/itinerary_provider.dart';
 import 'package:iterasi1/widget/scrollable_widget.dart';
 import 'package:iterasi1/widget/text_dialog.dart';
-import 'package:iterasi1/model/day.dart';
-import 'package:uuid/uuid.dart';
+import 'package:collection/collection.dart';
+import 'package:provider/provider.dart';
 
-class ItineraryTable extends StatefulWidget {
-  const ItineraryTable({
+class ItineraryTable extends StatelessWidget {
+  final int dayIndex;
+
+  ItineraryTable({
     Key? key,
-    required this.addDay ,
-    required this.updateNewActivities
+    required this.dayIndex
   }) : super(key: key);
-  final Day addDay;
-  final Function(List<Activity> newActivities) updateNewActivities;
 
 
-  @override
-  _ItineraryTableState createState() => _ItineraryTableState(
-      updateNewActivities: updateNewActivities,
-      activities: addDay.activities
-  );
-}
-
-class _ItineraryTableState extends State<ItineraryTable> {
-  final Function(List<Activity> newActivities) updateNewActivities;
-
-  _ItineraryTableState({
-    required this.updateNewActivities ,
-    required this.activities
-  });
-
-  final uuid = Uuid();
-  List<Activity> activities;
-  // late DatabaseHelper databaseHelper;
+  late ItineraryProvider provider;
 
   @override
-  void dispose() {
-    updateNewActivities(activities);
-    super.dispose();
+  Widget build(BuildContext context) {
+    provider = Provider.of(context , listen : true);
+
+    return Scaffold(
+      // backgroundColor: Color(0xFF1C3131),
+      appBar: AppBar(
+        title: Text('Activity Plan'),
+        backgroundColor: Color(0xFF1C3131),
+        elevation: 0,
+      ),
+      body: ScrollableWidget(
+          child: buildDataTable(context)
+      ),
+    );
   }
 
+    Widget buildDataTable(BuildContext context){
+      final columns = ['Waktu Aktivitas', 'Nama Aktivitas'];
 
-  @override
-  Widget build(BuildContext context) => Scaffold(
-    // backgroundColor: Color(0xFF1C3131),
-    appBar: AppBar(
-      title: Text('Activity Plan'),
-      backgroundColor: Color(0xFF1C3131),
-      elevation: 0,
-      actions: [
-        // saveActivities(),
-      ],
-    ),
-    body: ScrollableWidget(child: buildDataTable()),
-  );
-  Widget buildDataTable(){
-    final columns = ['Waktu Aktivitas', 'Nama Aktivitas'];
-    print("Back To old Screen");
-    return Column(
-      children: [
-        DataTable(
-          columns: getColumns(columns),
-          rows: getRows(activities),
-        ),
-        InkWell(
-          onTap: (){
-            setState(() {
-              activities.add(
-                  Activity(
-                      activityName: "",
-                      activityTime: ""
-                  )
-              );
-            });
-          },
-          child: SizedBox(
-            height: 50,
-            child: Container(
-              padding: EdgeInsets.fromLTRB(75, 5, 75, 5),
-              child: Card(
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
-                    Card(
-                      child: Icon(Icons.add),
+      return Column(
+          children: [
+            DataTable(
+              columns: getColumns(columns),
+              rows: getRows(
+                provider.itinerary.days[dayIndex].activities,
+                context
+              ),
+            ),
+            InkWell(
+              onTap: (){
+                provider.addNewActivity(
+                    Activity(activityName: "", activityTime: ""),
+                    dayIndex
+                );
+              },
+              child: SizedBox(
+                height: 50,
+                child: Container(
+                  padding: EdgeInsets.fromLTRB(75, 5, 75, 5),
+                  child: Card(
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: const [
+                        Card(
+                          child: Icon(Icons.add),
+                        ),
+                        Text(
+                          "Tambah Aktivitas",
+                        ),
+                      ],
                     ),
-                    Text(
-                      "Tambah Aktivitas",
-                    ),
-                  ],
+                  ),
                 ),
               ),
             ),
-          ),
-        ),
-        ]
-    );
-  }
-
-  List<DataColumn> getColumns(List<String> columns) {
-    return columns.map((String column) {
-      final id = column == columns[0];
-
-      return DataColumn(
-        label: Text(column),
-        numeric: id,
+          ]
       );
-    }).toList();
-  }
+    }
 
-  List<DataRow> getRows(List<Activity> activities) => activities.map((Activity activity) {
-    final cells = [activity.activityTime, activity.activityName];
-    
-    return DataRow(
-      cells: Utils.modelBuilder(cells, (index, cell) {
-        final showEditIcon = index == 0 || index == 1;
+    List<DataColumn> getColumns(List<String> columns) {
+      return columns.map((String column) {
+        final id = column == columns[0];
 
-        return DataCell(
-          Text('$cell'),
-          showEditIcon: showEditIcon,
-          onTap: () {
-            switch (index) {
-              case 0:
-                editActivityTime(activity);
-                break;
-              case 1:
-                editActivityName(activity);
-                break;
-            }
-          }
+        return DataColumn(
+          label: Text(column),
+          numeric: id,
         );
-      }),
-    );
-  }).toList();
+      }).toList();
+    }
 
-  Future editActivityName(Activity editActivity) async {
-    final activity_name = await showTextDialog(
-      context,
-      title: 'Nama Aktivitas',
-      value: editActivity.activityName,
-    );
+    List<DataRow> getRows(
+        List<Activity> activities,
+        BuildContext context
+    ) => activities.mapIndexed(
+        (int activityIndex , Activity activity) {
+          return DataRow(
+              cells: [
+                DataCell(
+                    Text(activity.activityTime),
+                    showEditIcon: true,
+                    onTap: () {
+                      editActivityTime(
+                          activity.activityTime,
+                          activityIndex,
+                          context
+                      );
+                    }
+                ),
+                DataCell(
+                    Text(activity.activityName),
+                    showEditIcon: true,
+                    onTap: () {
+                      editActivityName(
+                          activity.activityName,
+                          activityIndex,
+                          context
+                      );
+                    }
+                )
+              ]
+          );
+        }
+    ).toList();
 
-    setState(() => activities = activities.map((activity) {
-      final isEditActivity = activity == editActivity;
+    Future editActivityName(
+        String initialText,
+        int activityIndex,
+        BuildContext context
+    ) async {
+      final activityName = await showTextDialog(
+        context,
+        title: 'Nama Aktivitas',
+        value: initialText,
+      );
 
-      return isEditActivity ? activity.copy(activityName: activity_name) : activity;
-    }).toList());
-  }
+      provider.updateActivity(
+          dayIndex,
+          activityIndex,
+          activityName: activityName
+      );
+    }
 
-  Future editActivityTime(Activity editActivity) async {
-    final activityTime = await showTextDialog(
-      context,
-      title: 'Waktu Aktivitas',
-      value: editActivity.activityTime,
-    );
+    Future editActivityTime(
+        String initialText,
+        int activityIndex,
+        BuildContext context
+    ) async {
+      final activityTime = await showTextDialog(
+        context,
+        title: 'Waktu Aktivitas',
+        value: initialText,
+      );
 
-    setState(() => activities = activities.map((activity) {
-      final isEditActivity = activity == editActivity;
-
-      return isEditActivity ? activity.copy(activityTime: activityTime) : activity;
-    }).toList());
-  }
+      provider.updateActivity(
+          dayIndex,
+          activityIndex,
+          activityTime: activityTime
+      );
+    }
 }

@@ -25,9 +25,14 @@ class Itinerary{
     days: json['days'].map((day) => day.fromJson()).toList()
   );
 
-  Itinerary copy() => Itinerary(
-      id: id,
-      title: title ,
-      days: days
-  );
+  Itinerary copy({
+    String? id,
+    String? title,
+    List<Day>? days
+  }) =>
+      Itinerary(
+        id : id ?? this.id,
+        title : title ?? this.title,
+        days : days ?? this.days
+      );
 }

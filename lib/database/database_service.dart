@@ -1,7 +1,7 @@
 
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
-
+import 'dart:developer' as developer;
 import '../model/itinerary.dart';
 
 class DatabaseService{
@@ -24,18 +24,27 @@ class DatabaseService{
   }
 
   Future<void> insertItinerary(Itinerary data) async{
-    (await initializeDB()).insert(
-        _itinerariesTableName,
-        data.toJson(),
-        conflictAlgorithm: ConflictAlgorithm.replace
-    );
+    try {
+      (await initializeDB()).insert(
+          _itinerariesTableName,
+          data.toJson(),
+          conflictAlgorithm: ConflictAlgorithm.replace
+      );
+    } catch(e){
+      developer.log(e.toString() , name : "qqq");
+    }
   }
 
   Future<List<Itinerary>> fetchItineraries() async{
-    final db = await initializeDB();
+    try {
+      final db = await initializeDB();
 
-    return (await db.query(_itinerariesTableName)).map(
-      (json) => Itinerary.fromJson(json)
-    ).toList();
+      return (await db.query(_itinerariesTableName)).map(
+              (json) => Itinerary.fromJson(json)
+      ).toList();
+    } catch(e){
+      developer.log(e.toString() , name : "qqq");
+      rethrow;
+    }
   }
 }

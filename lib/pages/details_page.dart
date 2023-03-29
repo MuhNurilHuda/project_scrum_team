@@ -161,12 +161,12 @@ class DetailsPage extends StatelessWidget {
                                 Navigator.push(context,
                                     MaterialPageRoute(
                                         builder: (context) {
-                                          return AddItinerary(
-                                              itinerary : Itinerary(
-                                                  id : const Uuid().v1() ,
-                                                  title : "Contoh Title"
-                                              )
+                                          Itinerary(
+                                              id : const Uuid().v1() ,
+                                              title : "Contoh Title"
                                           );
+
+                                          return AddItinerary();
                                         }
                                     )
                                 );
