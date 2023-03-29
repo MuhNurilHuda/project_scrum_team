@@ -16,8 +16,13 @@ class Day {
     };
   }
 
-  factory Day.fromJson(Map<String , dynamic> json) => Day(
-    date : json['date'],
-    activities: json['activities'].map((activity) => activity.fromJson()).toList()
-  );
+  factory Day.fromJson(Map<String , dynamic> json){
+    return Day(
+        date: json['date'],
+        activities: json['activities']
+                .map((activity) => Activity.fromJson(activity))
+                .cast<Activity>()
+                .toList()
+    );
+  }
 }

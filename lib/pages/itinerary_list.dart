@@ -6,6 +6,7 @@ import 'package:iterasi1/pages/provider/itinerary_provider.dart';
 import 'package:iterasi1/widget/text_dialog.dart';
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
+import 'dart:developer' as developer;
 
 class ItineraryList extends StatefulWidget {
   const ItineraryList({Key? key}) : super(key: key);
@@ -38,6 +39,7 @@ class _ItineraryListState extends State<ItineraryList> {
           final itineraries = snapshot.data;
 
           if (itineraries != null){
+            developer.log("Itineraries : ${itineraries.length}" , name: "qqq");
             return ListView.builder(
               physics: const BouncingScrollPhysics(),
               itemBuilder: (context, index) {

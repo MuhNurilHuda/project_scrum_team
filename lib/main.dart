@@ -5,5 +5,6 @@ void main() {
   runApp(const MaterialApp(
     title: '',
     home: ItineraryList(),
+    debugShowCheckedModeBanner : false
   ));
 }

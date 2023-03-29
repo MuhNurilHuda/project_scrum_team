@@ -19,11 +19,15 @@ class Itinerary{
     };
   }
 
-  factory Itinerary.fromJson(Map<String , dynamic> json) => Itinerary(
-    id: json['id'],
-    title: json['title'],
-    days: json['days'].map((day) => day.fromJson()).toList()
-  );
+  factory Itinerary.fromJson(Map<String , dynamic> json){
+    return Itinerary(
+        id: json['id'],
+        title: json['title'],
+        days: json['days'].map((day) => Day.fromJson(day))
+            .toList()
+            .cast<Day>()
+    );
+  }
 
   Itinerary copy({
     String? id,
