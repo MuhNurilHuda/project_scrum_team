@@ -12,6 +12,10 @@ import '../model/itinerary.dart';
 class AddItinerary extends StatelessWidget{
   late ItineraryProvider itineraryProvider;
 
+  final Function() refreshPreviousPage;
+  AddItinerary({required this.refreshPreviousPage});
+
+
   @override
   Widget build(BuildContext context) {
     itineraryProvider = Provider.of(context , listen: true);
@@ -36,6 +40,7 @@ class AddItinerary extends StatelessWidget{
                     )).whenComplete(
                             (){
                           context.loaderOverlay.hide();
+                          refreshPreviousPage();
                           Navigator.pop(context);
                         }
                     );

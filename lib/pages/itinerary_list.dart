@@ -49,13 +49,15 @@ class _ItineraryListState extends State<ItineraryList> {
                   onTap: () {
                     getItineraryTitle();
                   },
-                  child: listItem(item.title),
+                  child: listItem(item),
                 );
               },
               itemCount: itineraries.length,
             );
           }
-          else return Column();
+          else return Center(
+            child: CircularProgressIndicator(),
+          );
         }
       ),
     );
@@ -65,7 +67,7 @@ class _ItineraryListState extends State<ItineraryList> {
     return Text(title);
   }
 
-  Widget listItem(String itineraryTitle) {
+  Widget listItem(Itinerary itinerary) {
     return Card(
       color: Color(0xFFD5A364),
       margin: EdgeInsets.all(15.0),
@@ -88,7 +90,7 @@ class _ItineraryListState extends State<ItineraryList> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
                         Text(
-                          'Judul : $itineraryTitle',
+                          'Judul : ${itinerary.title}',
                           style: TextStyle(fontWeight: FontWeight.bold),
                         )
                       ],
@@ -126,7 +128,13 @@ class _ItineraryListState extends State<ItineraryList> {
                           Flexible(
                               flex: 1,
                               child: InkWell(
-                                onTap: () {}, // Buat method Delete
+                                onTap: () {
+                                  final dbService = DatabaseService();
+                                  dbService.deleteItinerary(itinerary.id)
+                                    .whenComplete((){
+
+                                    });
+                                }, // Buat method Delete
                                 child: Icon(
                                   Icons.delete,
                                 ),
@@ -162,7 +170,11 @@ class _ItineraryListState extends State<ItineraryList> {
             );
             return ChangeNotifierProvider(
               create: (context) => ItineraryProvider(itinerary: newItinerary),
-              child: AddItinerary(),
+              child: AddItinerary(
+                refreshPreviousPage: (){
+                  setState(() {});
+                },
+              ),
             );
           })
       );

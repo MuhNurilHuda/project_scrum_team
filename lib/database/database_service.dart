@@ -86,4 +86,14 @@ class DatabaseService{
       rethrow;
     }
   }
+
+  Future<void> deleteItinerary(String id) async{
+    final db = await initializeDB();
+
+    await db.delete(
+        _itinerariesTableName ,
+        where: "id = ?",
+        whereArgs: [id]
+    );
+  }
 }
