@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:iterasi1/model/activity.dart';
 import 'package:iterasi1/pages/provider/itinerary_provider.dart';
-import 'package:iterasi1/widget/scrollable_widget.dart';
-import 'package:iterasi1/widget/text_dialog.dart';
-import 'package:collection/collection.dart';
 import 'package:provider/provider.dart';
+import 'activity_form.dart';
 
 class ItineraryTable extends StatelessWidget {
   final int dayIndex;
@@ -19,143 +17,107 @@ class ItineraryTable extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    provider = Provider.of(context , listen : true);
+    provider = Provider.of(context , listen: true);
 
     return Scaffold(
-      // backgroundColor: Color(0xFF1C3131),
       appBar: AppBar(
-        title: Text('Activity Plan'),
-        backgroundColor: Color(0xFF1C3131),
+        title: const Text('Activity Plan'),
+        backgroundColor: const Color(0xFF1C3131),
         elevation: 0,
+        actions: [
+          IconButton(
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) {
+                        return ActivityForm(dayIndex: dayIndex);
+                      }
+                  )
+              );
+            },
+            icon: const Icon(Icons.add),
+          ),
+        ],
       ),
-      body: ScrollableWidget(
-          child: buildDataTable(context)
-      ),
+      body: ListView(children: [buildDataTable()]),
     );
   }
 
-    Widget buildDataTable(BuildContext context){
-      final columns = ['Waktu Aktivitas', 'Nama Aktivitas'];
+  Widget buildDataTable() {
+    final columns = ['Waktu Aktivitas', 'Nama Aktivitas' , ""];
 
-      return Column(
-          children: [
-            DataTable(
-              columns: getColumns(columns),
-              rows: getRows(
-                provider.itinerary.days[dayIndex].activities,
-                context
-              ),
-            ),
-            InkWell(
-              onTap: (){
-                provider.addNewActivity(
-                    Activity(activityName: "", activityTime: ""),
-                    dayIndex
-                );
-              },
-              child: SizedBox(
-                height: 50,
-                child: Container(
-                  padding: EdgeInsets.fromLTRB(75, 5, 75, 5),
-                  child: Card(
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
-                        Card(
-                          child: Icon(Icons.add),
-                        ),
-                        Text(
-                          "Tambah Aktivitas",
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ]
+    return Column(
+        children: [
+          DataTable(
+            columns: getColumns(columns),
+            rows: getRows(provider.itinerary.days[dayIndex].activities),
+          ),
+        ]
+    );
+  }
+
+  String formatTime(TimeOfDay time) {
+    return "${time.hour}:${time.minute}";
+  }
+
+  List<DataColumn> getColumns(List<String> columns) {
+    return columns.map((String column) {
+      final id = column == columns[0];
+
+      return DataColumn(
+        label: Text(column),
+        numeric: id,
       );
-    }
+    }).toList();
+  }
 
-    List<DataColumn> getColumns(List<String> columns) {
-      return columns.map((String column) {
-        final id = column == columns[0];
+  List<DataRow> getRows(List<Activity> activities) =>
+      activities.map((Activity activity) {
+        final cells = [
+          activity.activityTime,
+          activity.activityName,
+          const Icon(Icons.edit),
+        ];
 
-        return DataColumn(
-          label: Text(column),
-          numeric: id,
+        return DataRow(
+            cells: [
+              DataCell(SizedBox(
+                width: double.infinity,
+                height: 50,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      activity.activityTime,
+                    ),
+                  ],
+                ),
+              )),
+              DataCell(SizedBox(
+                width: 100,
+                height: 50,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      activity.activityName,
+                    ),
+                  ],
+                ),
+              )),
+              DataCell(Row(
+                children: [
+                  InkWell(
+                      onTap: () {},
+                      child: const Icon(Icons.edit)),
+                ],
+              ))
+            ]
         );
       }).toList();
-    }
-
-    List<DataRow> getRows(
-        List<Activity> activities,
-        BuildContext context
-    ) => activities.mapIndexed(
-        (int activityIndex , Activity activity) {
-          return DataRow(
-              cells: [
-                DataCell(
-                    Text(activity.activityTime),
-                    showEditIcon: true,
-                    onTap: () {
-                      editActivityTime(
-                          activity.activityTime,
-                          activityIndex,
-                          context
-                      );
-                    }
-                ),
-                DataCell(
-                    Text(activity.activityName),
-                    showEditIcon: true,
-                    onTap: () {
-                      editActivityName(
-                          activity.activityName,
-                          activityIndex,
-                          context
-                      );
-                    }
-                )
-              ]
-          );
-        }
-    ).toList();
-
-    Future editActivityName(
-        String initialText,
-        int activityIndex,
-        BuildContext context
-    ) async {
-      final activityName = await showTextDialog(
-        context,
-        title: 'Nama Aktivitas',
-        value: initialText,
-      );
-
-      provider.updateActivity(
-          dayIndex,
-          activityIndex,
-          activityName: activityName
-      );
-    }
-
-    Future editActivityTime(
-        String initialText,
-        int activityIndex,
-        BuildContext context
-    ) async {
-      final activityTime = await showTextDialog(
-        context,
-        title: 'Waktu Aktivitas',
-        value: initialText,
-      );
-
-      provider.updateActivity(
-          dayIndex,
-          activityIndex,
-          activityTime: activityTime
-      );
-    }
 }

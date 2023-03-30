@@ -1,25 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:iterasi1/pages/provider/itinerary_provider.dart';
+import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 
-import 'model/activity.dart';
+import '../model/activity.dart';
 
 
 class ActivityForm extends StatefulWidget {
-  final Function(Activity newActivity) setParentState;
-  ActivityForm({required this.setParentState});
+  final int dayIndex;
+  ActivityForm({required this.dayIndex});
 
   @override
   _ActivityFormState createState() => _ActivityFormState(
-    setParentState: setParentState
+    dayIndex: dayIndex
   );
 }
 
 class _ActivityFormState extends State<ActivityForm> {
-  final Function(Activity newActivity) setParentState;
-  _ActivityFormState({required this.setParentState});
+  late ItineraryProvider provider;
 
-  final uuid = Uuid();
+  final int dayIndex;
+  _ActivityFormState({required this.dayIndex});
+
   final _formKey = GlobalKey<FormState>();
+  final uuid = Uuid();
+
   late TextEditingController _activityController;
   TimeOfDay _selectedTime = TimeOfDay.now();
 
@@ -46,17 +51,13 @@ class _ActivityFormState extends State<ActivityForm> {
 
       // Clear the form
       _activityController.clear();
-      // setState(() {
-      //   activities.add(Activity(
-      //       id: uuid.v1(),
-      //       activity_name: activity,
-      //       activity_time: time.format(context)
-      //   ));
-      // });
-      setParentState(Activity(
-          activityName: activity,
-          activityTime: time.format(context)
-        )
+
+      provider.addNewActivity(
+          Activity(
+              activityName: activity,
+              activityTime: time.format(context)
+          ),
+          dayIndex
       );
 
       Navigator.pop(context);
@@ -65,6 +66,8 @@ class _ActivityFormState extends State<ActivityForm> {
 
   @override
   Widget build(BuildContext context) {
+    provider = Provider.of(context , listen : true);
+
     return Scaffold(
       appBar: AppBar(
         title: Text('New Activity'),
