@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:animated_text_kit/animated_text_kit.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
 
   @override
-  _SplashScreenState createState() => _SplashScreenState();
+  State<SplashScreen> createState() => _SplashScreenState();
 }
 
 class _SplashScreenState extends State<SplashScreen> {
@@ -13,51 +14,58 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
 
     // Navigate after 2 seconds
-    Future.delayed(const Duration(seconds: 2), () {
+    Future.delayed(const Duration(seconds: 6), () {
       Navigator.pushReplacementNamed(context, '/next');
     });
   }
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        width: double.infinity,
-        height: double.infinity,
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topRight,
-            end: Alignment.bottomRight,
-            colors: [
-              Color(0xFF01579B),
-              Color(0xFF81D4FA),
-            ],
-          ),
-        ),
+      backgroundColor: const Color(0xFF1C3131),
+      body: Center(
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.asset(
-              'assets/images/logo_pens.png',
-              height: 300.0,
-              width: 300.0,
-            ),
-            const Text(
-              "A Vacation from Surabaya\n Polytechnic No 1",
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: Colors.black,
-                fontWeight: FontWeight.bold,
-                fontSize: 18.00,
+            SizedBox(
+              width: MediaQuery.of(context).size.width * 0.8, // responsive
+              child: Image.asset(
+                'assets/images/splashscreen_logo.png',
+                fit: BoxFit.contain,
+                width: 250,
+                height: 250,
               ),
             ),
-            const CircularProgressIndicator(
-              color: Color(0xFFE1F5FE),
+            Text(
+              'Trip Planner',
+              style: TextStyle(
+                fontSize: MediaQuery.of(context).size.width * 0.04, // responsive
+                fontFamily: 'Montserrat',
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
+            ),
+
+            AnimatedTextKit(
+              animatedTexts: [
+                TypewriterAnimatedText(
+                  'Your Personal Itinerary Assistant',
+                  textStyle: TextStyle(
+                    fontSize: MediaQuery.of(context).size.width * 0.3,
+                    fontFamily: 'Quicksand',
+                    fontWeight: FontWeight.w100,
+                    color: Colors.white,
+                  ),
+                  speed: Duration(milliseconds: 300),
+                ),
+              ],
+              totalRepeatCount: 1, // animasi akan diulang sekali saja
             ),
           ],
         ),
       ),
     );
   }
+
 }
