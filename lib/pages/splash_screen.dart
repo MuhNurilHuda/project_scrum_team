@@ -52,7 +52,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 TypewriterAnimatedText(
                   'Your Personal Itinerary Assistant',
                   textStyle: TextStyle(
-                    fontSize: MediaQuery.of(context).size.width * 0.3,
+                    fontSize: MediaQuery.of(context).size.width * 0.03,
                     fontFamily: 'Quicksand',
                     fontWeight: FontWeight.w100,
                     color: Colors.white,

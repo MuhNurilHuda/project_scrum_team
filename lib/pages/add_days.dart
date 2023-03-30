@@ -23,11 +23,12 @@ class AddItinerary extends StatelessWidget{
     return MaterialApp(
       home: LoaderOverlay(
         child: Scaffold(
-          backgroundColor: Color(0xFF1C3131),
+          backgroundColor: const Color(0xFF1C3131),
           floatingActionButton: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
                 FloatingActionButton(
+                  backgroundColor: const Color(0xFF39B400),
                   onPressed: (){
                     context.loaderOverlay.show();
 
@@ -47,7 +48,9 @@ class AddItinerary extends StatelessWidget{
                   },
                   child: Icon(Icons.save),
                 ),
+                const SizedBox(height: 16,),
                 FloatingActionButton(
+                  backgroundColor: const Color(0xFF39B400),
                   child: Icon(Icons.print),
                   onPressed: () {
                     Navigator.of(context).push(

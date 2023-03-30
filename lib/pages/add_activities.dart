@@ -7,17 +7,13 @@ import 'activity_form.dart';
 class ItineraryTable extends StatelessWidget {
   final int dayIndex;
 
-  ItineraryTable({
-    Key? key,
-    required this.dayIndex
-  }) : super(key: key);
-
+  ItineraryTable({Key? key, required this.dayIndex}) : super(key: key);
 
   late ItineraryProvider provider;
 
   @override
   Widget build(BuildContext context) {
-    provider = Provider.of(context , listen: true);
+    provider = Provider.of(context, listen: true);
 
     return Scaffold(
       appBar: AppBar(
@@ -27,34 +23,34 @@ class ItineraryTable extends StatelessWidget {
         actions: [
           IconButton(
             onPressed: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) {
-                        return ActivityForm(dayIndex: dayIndex);
-                      }
-                  )
-              );
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return ActivityForm(dayIndex: dayIndex);
+              }));
             },
             icon: const Icon(Icons.add),
           ),
         ],
       ),
-      body: ListView(children: [buildDataTable()]),
+      body: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        physics: const BouncingScrollPhysics(),
+        child: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
+          child: buildDataTable(),
+        ),
+      ),
     );
   }
 
   Widget buildDataTable() {
-    final columns = ['Waktu Aktivitas', 'Nama Aktivitas' , ""];
+    final columns = ['Waktu Aktivitas', 'Nama Aktivitas', ""];
 
-    return Column(
-        children: [
-          DataTable(
-            columns: getColumns(columns),
-            rows: getRows(provider.itinerary.days[dayIndex].activities),
-          ),
-        ]
-    );
+    return Column(children: [
+      DataTable(
+        columns: getColumns(columns),
+        rows: getRows(provider.itinerary.days[dayIndex].activities),
+      ),
+    ]);
   }
 
   String formatTime(TimeOfDay time) {
@@ -80,44 +76,61 @@ class ItineraryTable extends StatelessWidget {
           const Icon(Icons.edit),
         ];
 
-        return DataRow(
-            cells: [
-              DataCell(SizedBox(
-                width: double.infinity,
-                height: 50,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      activity.activityTime,
-                    ),
-                  ],
+        return DataRow(cells: [
+          DataCell(SizedBox(
+            width: double.infinity,
+            height: 50,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  activity.activityTime,
                 ),
-              )),
-              DataCell(SizedBox(
-                width: 100,
-                height: 50,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      activity.activityName,
-                    ),
-                  ],
+              ],
+            ),
+          )),
+          DataCell(SizedBox(
+            width: 100,
+            height: 50,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  activity.activityName,
                 ),
-              )),
-              DataCell(Row(
-                children: [
-                  InkWell(
-                      onTap: () {},
-                      child: const Icon(Icons.edit)),
-                ],
-              ))
-            ]
-        );
+              ],
+            ),
+          )),
+          DataCell(Row(
+            children: [
+              InkWell(
+                onTap: () {}, 
+                child: const Icon(Icons.edit),
+              ),
+              InkWell(
+                onTap: () {},
+                child: const Icon(
+                  Icons.delete,
+                  color: Colors.red,
+                ),
+              )
+            ],
+          )),
+          // DataCell(Row(
+          //   children: [
+          //     InkWell(
+          //       onTap: () {},
+          //       child: const Icon(
+          //         Icons.delete,
+          //         color: Colors.red,
+          //       ),
+          //     )
+          //   ],
+          // ))
+        ]);
       }).toList();
 }

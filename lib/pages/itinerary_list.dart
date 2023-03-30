@@ -24,6 +24,7 @@ class _ItineraryListState extends State<ItineraryList> {
 
     return Scaffold(
       floatingActionButton: FloatingActionButton(
+        backgroundColor: const Color(0xFF39B400),
         onPressed: (){
           getItineraryTitle(context);
         },
@@ -31,7 +32,14 @@ class _ItineraryListState extends State<ItineraryList> {
       ),
       backgroundColor: const Color(0xFF1C3131),
       appBar: AppBar(
-        title: const Text("Saved Itinerary"),
+        title: const Text(
+          "TripPlanner",
+          style: TextStyle(
+            fontFamily: 'Haviland',
+            fontSize: 30,
+            fontWeight: FontWeight.bold
+          ),
+        ),
         backgroundColor: const Color(0xFF1C3131),
         elevation: 0,
       ),
@@ -96,12 +104,12 @@ class _ItineraryListState extends State<ItineraryList> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    const Flexible(
+                    Flexible(
                       flex: 5,
                       child: Card(
                         child: Padding(
                           padding: EdgeInsets.all(5.0),
-                          child: Text('Started on: Monday, 12 June 2023'),
+                          child: Text('Started on: ${itinerary.days[0].date}'),
                         ),
                       ),
                     ),
