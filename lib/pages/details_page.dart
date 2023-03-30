@@ -110,6 +110,7 @@ class DetailsPage extends StatelessWidget {
                     //Image Gallery Container
                     height: 150,
                     child: ListView(
+                      physics: const BouncingScrollPhysics(),
                       scrollDirection: Axis.horizontal,
                       children: <Widget>[
                         Padding(

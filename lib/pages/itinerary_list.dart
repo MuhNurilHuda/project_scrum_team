@@ -1,12 +1,15 @@
+
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:iterasi1/database/database_service.dart';
-import 'package:iterasi1/model/itinerary.dart';
 import 'package:iterasi1/pages/add_days.dart';
 import 'package:iterasi1/pages/provider/itinerary_provider.dart';
-import 'package:iterasi1/widget/text_dialog.dart';
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
-import 'dart:developer' as developer;
+
+import '../database/database_service.dart';
+import '../model/itinerary.dart';
+import '../widget/text_dialog.dart';
 
 class ItineraryList extends StatefulWidget {
   const ItineraryList({Key? key}) : super(key: key);
@@ -23,7 +26,7 @@ class _ItineraryListState extends State<ItineraryList> {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: (){
-          getItineraryTitle();
+          getItineraryTitle(context);
         },
         child : Icon(Icons.add)
       ),
@@ -39,18 +42,13 @@ class _ItineraryListState extends State<ItineraryList> {
           final itineraries = snapshot.data;
 
           if (itineraries != null){
-            developer.log("Itineraries : ${itineraries.length}" , name: "qqq");
+            // developer.log("Itineraries : ${itineraries.length}" , name: "qqq");
             return ListView.builder(
               physics: const BouncingScrollPhysics(),
               itemBuilder: (context, index) {
                 final item = itineraries[index];
 
-                return InkWell(
-                  onTap: () {
-                    getItineraryTitle();
-                  },
-                  child: listItem(item),
-                );
+                return listItem(item);
               },
               itemCount: itineraries.length,
             );
@@ -61,10 +59,6 @@ class _ItineraryListState extends State<ItineraryList> {
         }
       ),
     );
-  }
-
-  Widget testingItem(String title){
-    return Text(title);
   }
 
   Widget listItem(Itinerary itinerary) {
@@ -90,7 +84,7 @@ class _ItineraryListState extends State<ItineraryList> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
                         Text(
-                          'Judul : ${itinerary.title}',
+                          'Itinerary to ${itinerary.title}',
                           style: TextStyle(fontWeight: FontWeight.bold),
                         )
                       ],
@@ -103,7 +97,7 @@ class _ItineraryListState extends State<ItineraryList> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    Flexible(
+                    const Flexible(
                       flex: 5,
                       child: Card(
                         child: Padding(
@@ -119,7 +113,9 @@ class _ItineraryListState extends State<ItineraryList> {
                           Flexible(
                             flex: 1,
                             child: InkWell(
-                              onTap: () {}, // Buat method Edit
+                              onTap: () {
+                                navigateToAddDays(itinerary, context);
+                              }, // Buat method Edit
                               child: Icon(
                                 Icons.edit,
                               ),
@@ -132,7 +128,7 @@ class _ItineraryListState extends State<ItineraryList> {
                                   final dbService = DatabaseService();
                                   dbService.deleteItinerary(itinerary.id)
                                     .whenComplete((){
-
+                                      setState(() {});
                                     });
                                 }, // Buat method Delete
                                 child: Icon(
@@ -153,7 +149,7 @@ class _ItineraryListState extends State<ItineraryList> {
     );
   }
 
-  Future getItineraryTitle() async{
+  Future<void> getItineraryTitle(BuildContext context) async{
     final itineraryTitle = await showTextDialog(
         context,
         title : "Ketik Judul Itinerary",
@@ -161,22 +157,25 @@ class _ItineraryListState extends State<ItineraryList> {
     );
 
     if (itineraryTitle != null)
-      Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context){
-            final newItinerary = Itinerary(
-                id : const Uuid().v1(),
-                title : itineraryTitle
-            );
-            return ChangeNotifierProvider(
-              create: (context) => ItineraryProvider(itinerary: newItinerary),
-              child: AddItinerary(
-                refreshPreviousPage: (){
-                  setState(() {});
-                },
-              ),
-            );
-          })
+      navigateToAddDays(
+          Itinerary(id: const Uuid().v1(), title: itineraryTitle),
+          context
       );
   }
+
+  void navigateToAddDays(Itinerary itinerary , BuildContext context){
+    Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context){
+          return ChangeNotifierProvider<ItineraryProvider>(
+            create: (context) => ItineraryProvider(itinerary: itinerary),
+            child: AddItinerary(
+              refreshPreviousPage: refreshState,
+            ),
+          );
+        })
+    );
+  }
+
+  void refreshState(){ setState(() {}); }
 }
