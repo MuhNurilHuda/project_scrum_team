@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:iterasi1/pages/home_page.dart';
 import 'package:iterasi1/pages/paket_wisata.dart';
-import 'package:iterasi1/pages/add_itinerary.dart';
-import 'package:iterasi1/pages/make_itinerary.dart';
-import 'package:iterasi1/pages/schedule/make_itinerary.dart';
-import 'package:iterasi1/pages/make_itinerary.dart';
 import 'package:iterasi1/pages/itinerary_list.dart';
 
 class BottomNavbar extends StatefulWidget {

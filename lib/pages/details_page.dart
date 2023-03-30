@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:full_screen_image/full_screen_image.dart';
-import 'package:iterasi1/model/destination_list.dart';
-import 'package:iterasi1/pages/add_itinerary.dart';
+import 'package:iterasi1/model/destination.dart';
+import 'package:iterasi1/pages/add_days.dart';
+import 'package:uuid/uuid.dart';
+
+import '../model/itinerary.dart';
 
 class DetailsPage extends StatelessWidget {
   const DetailsPage({Key? key, required this.place}) : super(key: key);
@@ -157,9 +160,19 @@ class DetailsPage extends StatelessWidget {
                             child: ElevatedButton(
                               onPressed: () {
                                 Navigator.push(context,
-                                    MaterialPageRoute(builder: (context) {
-                                      return AddItinerary();
-                                    }));
+                                    MaterialPageRoute(
+                                        builder: (context) {
+                                          Itinerary(
+                                              id : const Uuid().v1() ,
+                                              title : "Contoh Title"
+                                          );
+
+                                          return AddItinerary(
+                                            refreshPreviousPage: (){},
+                                          );
+                                        }
+                                    )
+                                );
                               },
                               child: const Text(
                                 'Make Itinerary',

@@ -1,7 +1,14 @@
+
+
 import 'package:flutter/material.dart';
-import 'package:iterasi1/model/destination_list.dart';
-import 'package:iterasi1/pages/add_itinerary.dart';
-import 'package:iterasi1/pages/details_page.dart';
+import 'package:iterasi1/pages/add_days.dart';
+import 'package:iterasi1/pages/provider/itinerary_provider.dart';
+import 'package:provider/provider.dart';
+import 'package:uuid/uuid.dart';
+
+import '../database/database_service.dart';
+import '../model/itinerary.dart';
+import '../widget/text_dialog.dart';
 
 class ItineraryList extends StatefulWidget {
   const ItineraryList({Key? key}) : super(key: key);
@@ -13,40 +20,47 @@ class ItineraryList extends StatefulWidget {
 class _ItineraryListState extends State<ItineraryList> {
   @override
   Widget build(BuildContext context) {
+    final dbService = DatabaseService();
+
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: (){
+          getItineraryTitle(context);
+        },
+        child : Icon(Icons.add)
+      ),
       backgroundColor: const Color(0xFF1C3131),
       appBar: AppBar(
-        title: const Text("Itinerary List"),
+        title: const Text("Saved Itinerary"),
         backgroundColor: const Color(0xFF1C3131),
         elevation: 0,
       ),
-      body: ListView.builder(
-        physics: const BouncingScrollPhysics(),
-        itemBuilder: (context, index) {
-          final TourismPlace place = tourismPlaceList[index];
-          return InkWell(
-            onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return DetailsPage(place: place);
-              }));
-            },
-            child: listItem(place),
+      body: FutureBuilder<List<Itinerary>>(
+        future: dbService.fetchItineraries(),
+        builder: (context , snapshot) {
+          final itineraries = snapshot.data;
+
+          if (itineraries != null){
+            // developer.log("Itineraries : ${itineraries.length}" , name: "qqq");
+            return ListView.builder(
+              physics: const BouncingScrollPhysics(),
+              itemBuilder: (context, index) {
+                final item = itineraries[index];
+
+                return listItem(item);
+              },
+              itemCount: itineraries.length,
+            );
+          }
+          else return Center(
+            child: CircularProgressIndicator(),
           );
-        },
-        itemCount: tourismPlaceList.length,
-      ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        onPressed: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) {
-            return AddItinerary();
-          }));
-        },
+        }
       ),
     );
   }
 
-  Widget listItem(TourismPlace place) {
+  Widget listItem(Itinerary itinerary) {
     return Card(
       color: Color(0xFFD5A364),
       margin: EdgeInsets.all(15.0),
@@ -69,7 +83,7 @@ class _ItineraryListState extends State<ItineraryList> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
                         Text(
-                          'Itinerary to ${place.name}',
+                          'Itinerary to ${itinerary.title}',
                           style: TextStyle(fontWeight: FontWeight.bold),
                         )
                       ],
@@ -99,7 +113,7 @@ class _ItineraryListState extends State<ItineraryList> {
                             flex: 1,
                             child: InkWell(
                               onTap: () {
-                                
+                                navigateToAddDays(itinerary, context);
                               }, // Buat method Edit
                               child: Icon(
                                 Icons.edit,
@@ -109,11 +123,18 @@ class _ItineraryListState extends State<ItineraryList> {
                           Flexible(
                               flex: 1,
                               child: InkWell(
-                                onTap: () {}, // Buat method Delete
+                                onTap: () {
+                                  final dbService = DatabaseService();
+                                  dbService.deleteItinerary(itinerary.id)
+                                    .whenComplete((){
+                                      setState(() {});
+                                    });
+                                }, // Buat method Delete
                                 child: Icon(
                                   Icons.delete,
                                 ),
-                              )),
+                              )
+                          ),
                         ],
                       ),
                     )
@@ -126,4 +147,34 @@ class _ItineraryListState extends State<ItineraryList> {
       ),
     );
   }
+
+  Future<void> getItineraryTitle(BuildContext context) async{
+    final itineraryTitle = await showTextDialog(
+        context,
+        title : "Ketik Judul Itinerary",
+        value : ""
+    );
+
+    if (itineraryTitle != null)
+      navigateToAddDays(
+          Itinerary(id: const Uuid().v1(), title: itineraryTitle),
+          context
+      );
+  }
+
+  void navigateToAddDays(Itinerary itinerary , BuildContext context){
+    Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context){
+          return ChangeNotifierProvider<ItineraryProvider>(
+            create: (context) => ItineraryProvider(itinerary: itinerary),
+            child: AddItinerary(
+              refreshPreviousPage: refreshState,
+            ),
+          );
+        })
+    );
+  }
+
+  void refreshState(){ setState(() {}); }
 }

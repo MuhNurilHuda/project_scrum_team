@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:iterasi1/model/destination_list.dart';
-import 'package:iterasi1/pages/add_itinerary.dart';
+import 'package:iterasi1/model/destination.dart';
 import 'package:iterasi1/pages/details_page.dart';
-import 'package:iterasi1/navigation/bottom_navbar.dart';
 
 class PaketWisata extends StatefulWidget {
   const PaketWisata({Key? key}) : super(key: key);

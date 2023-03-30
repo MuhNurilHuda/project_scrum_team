@@ -1,24 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:iterasi1/pages/provider/itinerary_provider.dart';
+import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 
-import 'model/activity_list.dart';
+import '../model/activity.dart';
 
-class UpdateActivityForm extends StatefulWidget {
-  final Function(Activity newActivity) setParentState;
-  UpdateActivityForm({required this.setParentState});
+
+class ActivityForm extends StatefulWidget {
+  final int dayIndex;
+  ActivityForm({required this.dayIndex});
 
   @override
-  _UpdateActivityFormState createState() => _UpdateActivityFormState(
-    setParentState: setParentState
+  _ActivityFormState createState() => _ActivityFormState(
+    dayIndex: dayIndex
   );
 }
 
-class _UpdateActivityFormState extends State<UpdateActivityForm> {
-  final Function(Activity newActivity) setParentState;
-  _UpdateActivityFormState({required this.setParentState});
+class _ActivityFormState extends State<ActivityForm> {
+  late ItineraryProvider provider;
 
-  final uuid = Uuid();
+  final int dayIndex;
+  _ActivityFormState({required this.dayIndex});
+
   final _formKey = GlobalKey<FormState>();
+  final uuid = Uuid();
+
   late TextEditingController _activityController;
   TimeOfDay _selectedTime = TimeOfDay.now();
 
@@ -44,19 +50,14 @@ class _UpdateActivityFormState extends State<UpdateActivityForm> {
       print('Activity: $activity, Time: ${time.format(context)}');
 
       // Clear the form
-      // _activityController.clear();
-      // setState(() {
-      //   activities.add(Activity(
-      //       id: uuid.v1(),
-      //       activity_name: activity,
-      //       activity_time: time.format(context)
-      //   ));
-      // });
-      setParentState(Activity(
-          id: uuid.v1(),
-          activity_name: activity,
-          activity_time: time.format(context)
-        )
+      _activityController.clear();
+
+      provider.addNewActivity(
+          Activity(
+              activityName: activity,
+              activityTime: time.format(context)
+          ),
+          dayIndex
       );
 
       Navigator.pop(context);
@@ -65,9 +66,13 @@ class _UpdateActivityFormState extends State<UpdateActivityForm> {
 
   @override
   Widget build(BuildContext context) {
+    provider = Provider.of(context , listen : true);
+
     return Scaffold(
       appBar: AppBar(
         title: Text('New Activity'),
+        backgroundColor: const Color(0xFF1C3131),
+        elevation: 0,
       ),
       body: Padding(
         padding: EdgeInsets.all(16.0),
@@ -121,6 +126,9 @@ class _UpdateActivityFormState extends State<UpdateActivityForm> {
                 child: ElevatedButton(
                   onPressed: _saveActivity,
                   child: Text('Save'),
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all<Color>(Color(0xFF39B400)),
+                  ),
                 ),
               ),
             ],
