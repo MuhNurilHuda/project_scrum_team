@@ -1,6 +1,5 @@
 
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:iterasi1/pages/add_days.dart';
 import 'package:iterasi1/pages/provider/itinerary_provider.dart';

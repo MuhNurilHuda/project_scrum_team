@@ -53,7 +53,7 @@ class AddItinerary extends StatelessWidget{
                     Navigator.of(context).push(
                       MaterialPageRoute(
                         builder: (builder) => PdfPreviewPage(
-                            days: itineraryProvider.itinerary.days
+                            itinerary : itineraryProvider.itinerary
                         ),
                       ),
                     );
