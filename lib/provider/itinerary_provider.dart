@@ -34,8 +34,8 @@ class ItineraryProvider extends ChangeNotifier{
       int dayIndex ,
       int activityIndex,
       {
-        String? activityName = null,
-        String? activityTime = null
+        String? activityName,
+        String? activityTime
       }
   ){
     final newActivity = itinerary.days[dayIndex].activities[activityIndex].copy(
@@ -51,21 +51,24 @@ class ItineraryProvider extends ChangeNotifier{
     notifyListeners();
   }
 
-  // void updateActivityName(Activity newActivity , int dayIndex , int activityIndex){
-  //   try{
-  //     itinerary.days[dayIndex].activities[activityIndex] = newActivity;
-  //   }catch (e){
-  //     developer.log("$e" , name : 'qqq');
-  //   }
-  //   notifyListeners();
-  // }
-  //
-  // void updateActivityTime(Activity newActivity , int dayIndex , int activityIndex){
-  //   try{
-  //     itinerary.days[dayIndex].activities[activityIndex] = newActivity;
-  //   }catch (e){
-  //     developer.log("$e" , name : 'qqq');
-  //   }
-  //   notifyListeners();
-  // }
+  void removeActivity(int dayIndex , int activityIndex){
+    final currentActivities = List<Activity>.from(
+        itinerary.days[dayIndex].activities
+    );
+
+    itinerary.days[dayIndex].activities = currentActivities
+        ..removeAt(activityIndex);
+
+    notifyListeners();
+  }
+
+  void editActivity({
+    required int dayIndex,
+    required int activityIndex,
+    required Activity newActivity
+  }){
+    itinerary.days[dayIndex].activities[activityIndex] = newActivity;
+
+    notifyListeners();
+  }
 }

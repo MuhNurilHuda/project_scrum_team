@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:iterasi1/database/database_service.dart';
 import 'package:iterasi1/model/day.dart';
-import 'package:iterasi1/pages/add_activities.dart';
+import 'package:iterasi1/pages/activity/add_activities.dart';
 import 'package:iterasi1/pages/pdf/preview_pdf_page.dart';
-import 'package:iterasi1/pages/provider/itinerary_provider.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:provider/provider.dart';
 
 import '../model/itinerary.dart';
+import '../provider/itinerary_provider.dart';
 
 class AddItinerary extends StatelessWidget{
   late ItineraryProvider itineraryProvider;

@@ -1,18 +1,27 @@
 import 'package:flutter/material.dart';
-import 'package:iterasi1/pages/provider/itinerary_provider.dart';
 import 'package:provider/provider.dart';
-import 'package:uuid/uuid.dart';
 
-import '../model/activity.dart';
+import '../../model/activity.dart';
+import '../../provider/itinerary_provider.dart';
+
 
 
 class ActivityForm extends StatefulWidget {
   final int dayIndex;
-  ActivityForm({required this.dayIndex});
+  final Activity? initialActivity;
+  final int? activityIndex;
+
+  ActivityForm({
+    required this.dayIndex,
+    this.initialActivity,
+    this.activityIndex
+  });
 
   @override
   _ActivityFormState createState() => _ActivityFormState(
-    dayIndex: dayIndex
+    dayIndex : dayIndex,
+    initialActivity: initialActivity,
+    activityIndex: activityIndex
   );
 }
 
@@ -20,10 +29,16 @@ class _ActivityFormState extends State<ActivityForm> {
   late ItineraryProvider provider;
 
   final int dayIndex;
-  _ActivityFormState({required this.dayIndex});
+  final Activity? initialActivity;
+  final int? activityIndex;
+
+  _ActivityFormState({
+    required this.dayIndex,
+    this.initialActivity,
+    this.activityIndex
+  });
 
   final _formKey = GlobalKey<FormState>();
-  final uuid = Uuid();
 
   late TextEditingController _activityController;
   TimeOfDay _selectedTime = TimeOfDay.now();
@@ -32,6 +47,15 @@ class _ActivityFormState extends State<ActivityForm> {
   void initState() {
     super.initState();
     _activityController = TextEditingController();
+    if (initialActivity != null) {
+      _activityController.text = initialActivity!.activityName;
+
+      final times = initialActivity!.activityTime.split(":");
+      final minute = int.parse(times[1]);
+      final hour = int.parse(times[0]);
+
+      _selectedTime = TimeOfDay(hour: hour, minute: minute);
+    }
   }
 
   @override
@@ -52,13 +76,24 @@ class _ActivityFormState extends State<ActivityForm> {
       // Clear the form
       _activityController.clear();
 
-      provider.addNewActivity(
-          Activity(
-              activityName: activity,
-              activityTime: time.format(context)
-          ),
-          dayIndex
+      final newActivity = Activity(
+          activityName: activity,
+          activityTime: time.format(context)
       );
+
+      if (initialActivity == null) {
+        provider.addNewActivity(
+            newActivity,
+            dayIndex
+        );
+      }
+      else{
+        provider.editActivity(
+            dayIndex: dayIndex,
+            activityIndex: activityIndex!,
+            newActivity: newActivity
+        );
+      }
 
       Navigator.pop(context);
     }
@@ -125,10 +160,10 @@ class _ActivityFormState extends State<ActivityForm> {
               Center(
                 child: ElevatedButton(
                   onPressed: _saveActivity,
-                  child: Text('Save'),
                   style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all<Color>(Color(0xFF39B400)),
                   ),
+                  child: Text('Save'),
                 ),
               ),
             ],

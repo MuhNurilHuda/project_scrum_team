@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:iterasi1/model/activity.dart';
-import 'package:iterasi1/pages/provider/itinerary_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:collection/collection.dart';
+import '../../provider/itinerary_provider.dart';
 import 'activity_form.dart';
 
 class ItineraryTable extends StatelessWidget {
@@ -36,19 +37,22 @@ class ItineraryTable extends StatelessWidget {
         physics: const BouncingScrollPhysics(),
         child: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
-          child: buildDataTable(),
+          child: buildDataTable(context),
         ),
       ),
     );
   }
 
-  Widget buildDataTable() {
+  Widget buildDataTable(BuildContext context) {
     final columns = ['Waktu Aktivitas', 'Nama Aktivitas', ""];
 
     return Column(children: [
       DataTable(
         columns: getColumns(columns),
-        rows: getRows(provider.itinerary.days[dayIndex].activities),
+        rows: getRows(
+            provider.itinerary.days[dayIndex].activities,
+            context
+        ),
       ),
     ]);
   }
@@ -68,14 +72,8 @@ class ItineraryTable extends StatelessWidget {
     }).toList();
   }
 
-  List<DataRow> getRows(List<Activity> activities) =>
-      activities.map((Activity activity) {
-        final cells = [
-          activity.activityTime,
-          activity.activityName,
-          const Icon(Icons.edit),
-        ];
-
+  List<DataRow> getRows(List<Activity> activities , BuildContext context) =>
+      activities.mapIndexed((int activityIndex , Activity activity) {
         return DataRow(cells: [
           DataCell(SizedBox(
             width: double.infinity,
@@ -108,11 +106,21 @@ class ItineraryTable extends StatelessWidget {
           DataCell(Row(
             children: [
               InkWell(
-                onTap: () {}, 
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return ActivityForm(
+                        dayIndex: dayIndex,
+                        initialActivity: activity,
+                        activityIndex: activityIndex,
+                    );
+                  }));
+                },
                 child: const Icon(Icons.edit),
               ),
               InkWell(
-                onTap: () {},
+                onTap: () {
+                  provider.removeActivity(dayIndex, activityIndex);
+                },
                 child: const Icon(
                   Icons.delete,
                   color: Colors.red,
@@ -120,17 +128,6 @@ class ItineraryTable extends StatelessWidget {
               )
             ],
           )),
-          // DataCell(Row(
-          //   children: [
-          //     InkWell(
-          //       onTap: () {},
-          //       child: const Icon(
-          //         Icons.delete,
-          //         color: Colors.red,
-          //       ),
-          //     )
-          //   ],
-          // ))
         ]);
       }).toList();
 }

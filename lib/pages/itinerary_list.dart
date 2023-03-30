@@ -2,12 +2,12 @@
 
 import 'package:flutter/material.dart';
 import 'package:iterasi1/pages/add_days.dart';
-import 'package:iterasi1/pages/provider/itinerary_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 
 import '../database/database_service.dart';
 import '../model/itinerary.dart';
+import '../provider/itinerary_provider.dart';
 import '../widget/text_dialog.dart';
 
 class ItineraryList extends StatefulWidget {
