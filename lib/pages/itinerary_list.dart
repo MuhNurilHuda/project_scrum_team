@@ -79,77 +79,76 @@ class _ItineraryListState extends State<ItineraryList> {
       child: ClipRRect(
         borderRadius: BorderRadius.circular(20.0),
         child: InkWell(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              Flexible(
-                flex: 1,
-                child: Container(
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(10, 5, 5, 5),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          'Itinerary to ${itinerary.title}',
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-              Flexible(
-                flex: 1,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Flexible(
-                      flex: 5,
-                      child: Card(
-                        child: Padding(
-                          padding: EdgeInsets.all(5.0),
-                          child: Text('Started on: ${itinerary.days[0].date}'),
-                        ),
+          child: SizedBox(
+            height: 50,
+            width: double.infinity,
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Flexible(
+                  flex: 4,
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(10, 5, 5, 5),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Text(                            
+                            'Itinerary to ${itinerary.title}',    
+                            // maxLines: 1,
+                            // overflow: TextOverflow.ellipsis,                        
+                            style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 15,
+                              color: Colors.white,
+                            ),
+                          )
+                        ],
                       ),
                     ),
-                    Flexible(
-                      flex: 1,
-                      child: Row(
-                        children: <Widget>[
-                          Flexible(
-                            flex: 1,
-                            child: InkWell(
-                              onTap: () {
-                                navigateToAddDays(itinerary, context);
-                              }, // Buat method Edit
-                              child: Icon(
-                                Icons.edit,
-                              ),
-                            ),
-                          ),
-                          Flexible(
+                ),
+                Flexible(
+                  flex: 1,
+                  child: Row(
+                    // mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[                  
+                      Flexible(
+                        flex: 1,
+                        child: Row(
+                          children: <Widget>[
+                            Flexible(
                               flex: 1,
                               child: InkWell(
                                 onTap: () {
-                                  final dbService = DatabaseService();
-                                  dbService.deleteItinerary(itinerary.id)
-                                    .whenComplete((){
-                                      setState(() {});
-                                    });
-                                }, // Buat method Delete
+                                  navigateToAddDays(itinerary, context);
+                                }, // Buat method Edit
                                 child: Icon(
-                                  Icons.delete,
+                                  Icons.edit,
                                 ),
-                              )
-                          ),
-                        ],
-                      ),
-                    )
-                  ],
-                ),
-              )
-            ],
+                              ),
+                            ),
+                            Flexible(
+                                flex: 1,
+                                child: InkWell(
+                                  onTap: () {
+                                    final dbService = DatabaseService();
+                                    dbService.deleteItinerary(itinerary.id)
+                                      .whenComplete((){
+                                        setState(() {});
+                                      });
+                                  }, // Buat method Delete
+                                  child: Icon(
+                                    Icons.delete,
+                                  ),
+                                )
+                            ),
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
+                )
+              ],
+            ),
           ),
         ),
       ),
