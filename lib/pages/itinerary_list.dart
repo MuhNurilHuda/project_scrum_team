@@ -70,8 +70,8 @@ class _ItineraryListState extends State<ItineraryList> {
 
   Widget listItem(Itinerary itinerary) {
     return Card(
-      color: Color(0xFFD5A364),
-      margin: EdgeInsets.all(15.0),
+      color: const Color(0xFFD5A364),
+      margin: const EdgeInsets.all(15.0),
       elevation: 4,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20.0),
