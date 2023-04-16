@@ -49,6 +49,8 @@ dependencies:
   loader_overlay: ^2.1.0
   provider: ^6.0.5
   logging: ^1.1.1
+  flutter_speed_dial: ^6.2.0
+  syncfusion_flutter_datepicker: ^21.1.39
 
 
 dev_dependencies:
@@ -90,10 +92,15 @@ flutter:
     - family: Haviland
       fonts:
         - asset: assets/fonts/MrDeHaviland-Regular.ttf
+    
+    - family: poppins
+      fonts:
+        - asset: assets/fonts/Poppins-Bold.ttf
 
   assets:
     - assets/images/
     - assets/images/logo_pens.png
+    - assets/logo/
 
   # To add assets to your application, add an assets section, like this:
   # assets:
