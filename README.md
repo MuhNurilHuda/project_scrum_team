@@ -2,6 +2,12 @@
 
 A new Flutter project.
 
+<p align="center">
+    <a href="https://github.com/HomeLearner116/project_scrum_team">
+        <img src=".GITHUB/screenshoot.png" alt="0" style="width: 100%;"/>
+    </a>
+</p>
+
 ## Getting Started
 
 This project is a starting point for a Flutter application.
