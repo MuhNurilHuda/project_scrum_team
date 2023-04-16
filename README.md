@@ -4,7 +4,7 @@ A new Flutter project.
 
 <p align="center">
     <a href="https://github.com/HomeLearner116/project_scrum_team">
-        <img src=".GITHUB/screenshoot.png" alt="0" style="width: 100%;"/>
+        <img src=".GITHUB/screenshoot.png" alt="0">
     </a>
 </p>
 
