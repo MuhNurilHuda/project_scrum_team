@@ -3,6 +3,7 @@ import 'package:iterasi1/pages/add_days.dart';
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 import 'package:iterasi1/navigation/side_navbar.dart';
+import 'package:flutter/services.dart';
 
 import '../database/database_service.dart';
 import '../model/itinerary.dart';
@@ -17,104 +18,214 @@ class ItineraryList extends StatefulWidget {
 }
 
 class _ItineraryListState extends State<ItineraryList> {
+  TextEditingController searchController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
-    final dbService = DatabaseService();                                     
+    final dbService = DatabaseService();
     final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+    // String _prefixtext = "Search";
 
-    return Scaffold(
-      key: _scaffoldKey,
-      floatingActionButton: FloatingActionButton(
-          shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(10.0))),
-          backgroundColor: const Color(0xFFFFB252),
-          onPressed: () {
-            getItineraryTitle(context);
-          },
-          child: Icon(Icons.add)),
-      backgroundColor: const Color(0xFFF1F2F6),
-      drawer: NavDrawer(),
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        backgroundColor: const Color(0xFFF1F2F6),
-        elevation: 0,
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            IconButton(
-              icon: const Image(
-                image: AssetImage('assets/logo/SideNavBar.png'),
-              ),
-              onPressed: () {
-                _scaffoldKey.currentState?.openDrawer();
-              },
-              highlightColor: Colors.transparent,
-              splashColor: Colors.transparent,
-              tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
-            ),
-            IconButton(
-              icon: const Image(
-                image: AssetImage('assets/logo/AppLogo.png'),
-              ),
-              onPressed: () {},
-              highlightColor: Colors.transparent,
-              splashColor: Colors.transparent,
-            ),
-          ],
-        ),
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: const SystemUiOverlayStyle(
+        statusBarColor: const Color(0xFFF1F2F6),
       ),
-      body: Container(        
-        margin: const EdgeInsets.only(bottom: 20),
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 7),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Expanded(
-              child: ListView(
-                physics: const BouncingScrollPhysics(),
-                scrollDirection: Axis.vertical,
-                children: [
-                  Container(
-                    margin: const EdgeInsets.only(
-                      top: 5,
-                      bottom: 10,
+      child: Scaffold(
+        resizeToAvoidBottomInset: true,
+        key: _scaffoldKey,
+        floatingActionButton: FloatingActionButton(
+            shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(10.0))),
+            backgroundColor: const Color(0xFFFFB252),
+            onPressed: () {
+              getItineraryTitle(context);
+            },
+            child: const Icon(Icons.add)),
+        backgroundColor: const Color(0xFFF1F2F6),
+        drawer: NavDrawer(),
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          backgroundColor: const Color(0xFFF1F2F6),
+          elevation: 0,
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              SizedBox(
+                height: 50,
+                width: 50,
+                child: Card(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10)),
+                  color: Colors.white,
+                  child: IconButton(
+                    icon: const Image(
+                      image: AssetImage('assets/logo/SideNavBar.png'),
                     ),
-                    child: const Text(
-                      "TripPlanner",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontFamily: 'poppins',
-                          fontSize: 30,
-                          fontWeight: FontWeight.bold,
-                          color: Color(0xFF305A5A)),
-                    ),
+                    onPressed: () {
+                      _scaffoldKey.currentState?.openDrawer();
+                    },
+                    highlightColor: Colors.transparent,
+                    splashColor: Colors.transparent,
+                    tooltip:
+                        MaterialLocalizations.of(context).openAppDrawerTooltip,
                   ),
-                  FutureBuilder<List<Itinerary>>(
-                      future: dbService.fetchItineraries(),
-                      builder: (context, snapshot) {
-                        final itineraries = snapshot.data;
-
-                        if (itineraries != null) {
-                          // developer.log("Itineraries : ${itineraries.length}" , name: "qqq");
-                          return ListView.builder(
-                            shrinkWrap: true,
-                            physics: const BouncingScrollPhysics(),
-                            itemBuilder: (context, index) {
-                              final item = itineraries[index];
-
-                              return listItem(item);
-                            },
-                            itemCount: itineraries.length,
-                          );
-                        } else
-                          return Center(
-                            child: CircularProgressIndicator(),
-                          );
-                      }),
-                ],
+                ),
               ),
-            ),
-          ],
+              SizedBox(
+                height: 50,
+                width: 50,
+                child: Card(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10)),
+                  color: Colors.white,
+                  child: IconButton(
+                    icon: const Icon(
+                      Icons.search,
+                      color: Color(0xFF305A5A),
+                    ),
+                    // icon: const Image(
+                    //   image: AssetImage('assets/logo/AppLogo.png'),
+                    // ),
+                    onPressed: () {
+                      showModalBottomSheet(
+                          shape: const RoundedRectangleBorder(
+                              borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(20),
+                                  topRight: Radius.circular(20))),
+                          context: context,
+                          isScrollControlled: true,
+                          builder: (BuildContext context) {
+                            return Container(
+                                color: const Color(0xFFF1F2F6),
+                                width: double.infinity,
+                                height: 450,
+                                child: IntrinsicHeight(
+                                  child: Container(
+                                    padding:
+                                        const EdgeInsets.fromLTRB(7, 10, 7, 10),
+                                    child: Column(children: [
+                                      Container(
+                                        padding:
+                                            EdgeInsets.fromLTRB(10, 15, 10, 15),
+                                        margin:
+                                            EdgeInsets.fromLTRB(10, 15, 10, 15),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Expanded(
+                                              flex: 5,
+                                                child: Theme(
+                                                  data: Theme.of(context).copyWith(
+                                                    primaryColor: Colors.blue
+                                                  ),
+                                                  child: TextField(
+                                                    controller: searchController,
+                                                    onChanged: (value) {
+                                                      // setState(() {});
+                                                    },
+                                                    decoration: InputDecoration(
+                                                      // fillColor: Colors.white38,
+                                                      filled: true,                                                  
+                                                        hintText: "Search",                                                    
+                                                        border: OutlineInputBorder(  
+                                                          borderRadius: BorderRadius.circular(20)                                                    
+                                                        )
+                                                    ),
+                                                  ),
+                                                ),
+                                            ),
+                                            const SizedBox(
+                                              height: 10,
+                                              width: 10,
+                                            ),
+                                            Expanded(
+                                              flex: 1,
+                                              child: Container(                                              
+                                                height: 50,
+                                                width: 30,
+                                                decoration: const BoxDecoration(
+                                                  shape: BoxShape.circle,
+                                                  color: Colors.white,
+                                                ),                                              
+                                                child: IconButton(
+                                                  onPressed: () {},
+                                                  icon: const Image(
+                                                    image: AssetImage('assets/logo/SearchButton.png'),
+                                                  )
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      )
+                                    ]),
+                                  ),
+                                ),
+                              );
+                          });
+                    },
+                    highlightColor: Colors.transparent,
+                    splashColor: Colors.transparent,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        body: Container(
+          margin: const EdgeInsets.only(bottom: 20),
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 7),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Expanded(
+                child: ListView(
+                  physics: const BouncingScrollPhysics(),
+                  scrollDirection: Axis.vertical,
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.only(
+                        top: 5,
+                        bottom: 10,
+                      ),
+                      child: const Text(
+                        "TripPlanner",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontFamily: 'poppins',
+                            fontSize: 30,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFF305A5A)),
+                      ),
+                    ),
+                    FutureBuilder<List<Itinerary>>(
+                        future: dbService.fetchItineraries(),
+                        builder: (context, snapshot) {
+                          final itineraries = snapshot.data;
+
+                          if (itineraries != null) {
+                            // developer.log("Itineraries : ${itineraries.length}" , name: "qqq");
+                            return ListView.builder(
+                              shrinkWrap: true,
+                              physics: const BouncingScrollPhysics(),
+                              itemBuilder: (context, index) {
+                                final item = itineraries[index];
+
+                                return listItem(item);
+                              },
+                              itemCount: itineraries.length,
+                            );
+                          } else
+                            return Center(
+                              child: CircularProgressIndicator(),
+                            );
+                        }),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
