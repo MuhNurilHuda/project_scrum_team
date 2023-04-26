@@ -1,11 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:iterasi1/pages/itinerary_list.dart';
 import 'package:iterasi1/pages/splash_screen.dart';
+import 'package:flutter/services.dart';
 import 'package:iterasi1/provider/database_provider.dart';
 import 'package:iterasi1/provider/itinerary_provider.dart';
 import 'package:provider/provider.dart';
 
 void main() {
+  // Set the SystemChrome
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
+
+
   runApp(const MyApp());
 }
 

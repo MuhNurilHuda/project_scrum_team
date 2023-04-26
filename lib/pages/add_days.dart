@@ -6,14 +6,25 @@ import 'package:iterasi1/provider/database_provider.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:provider/provider.dart';
 
+import '../model/activity.dart';
 import '../model/itinerary.dart';
 import '../provider/itinerary_provider.dart';
+import 'package:collection/collection.dart';
 
-class AddDays extends StatelessWidget{
+import 'activity/activity_form.dart';
+class AddDays extends StatefulWidget{
   AddDays({Key? key}) : super(key: key);
 
+  @override
+  State<AddDays> createState() => _AddDaysState();
+}
+
+class _AddDaysState extends State<AddDays> {
   late ItineraryProvider itineraryProvider;
+
   late DatabaseProvider databaseProvider;
+
+  int selectedDay = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -66,8 +77,13 @@ class AddDays extends StatelessWidget{
           ),
           appBar: AppBar(
             title: Text(
-              itineraryProvider.itinerary.title,
+              'Itinerary to ${itineraryProvider.itinerary.title}',
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+              ),
+              // itineraryProvider.itinerary.title,
             ),
+            centerTitle: true,
             leading: IconButton(
               icon: const Icon(Icons.arrow_back),
               onPressed: () {
@@ -77,20 +93,41 @@ class AddDays extends StatelessWidget{
             backgroundColor: const Color(0xFF1C3131),
             elevation: 0,
           ),
-          body: ListView.builder(
-            physics: const BouncingScrollPhysics(),
-            itemBuilder: (context, index) {
-              return index == itineraryProvider.itinerary.days.length
-                  ? addNewDayButton(context)
-                  : listItem(index , context);
-            },
-            itemCount: itineraryProvider.itinerary.days.length + 1,
+          body: ClipRRect(
+            borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(30), topRight: Radius.circular(30)),
+            child: Container(
+              color: Colors.white,
+              padding: const EdgeInsets.all(15.0),
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      flex: 1,
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder : (context , index){
+                          return KartuTanggal(index , itineraryProvider.itinerary.days[index].date);
+                        },
+                        itemCount : itineraryProvider.itinerary.days.length,
+                      ),
+                    ),
+                    const Divider(
+                      color: Colors.grey,
+                      thickness: 1,
+                    ),
+                    Expanded(
+                      flex: 10,
+                      child: buildDataTable(context, selectedDay)
+                    )
+                  ]),
+            ),
           ),
         ),
     );
   }
 
-  Widget listItem(int index , BuildContext context) {
+  Widget listItem(int index, BuildContext context) {
     return SizedBox(
       height: 80,
       child: Container(
@@ -114,7 +151,7 @@ class AddDays extends StatelessWidget{
                       elevation: 0,
                       child: Row(mainAxisSize: MainAxisSize.min, children: const [
                         Card(
-                          child: Icon(Icons.add),
+                          child: const Icon(Icons.add),
                         ),
                         Text(
                           "Tambah Aktivitas",
@@ -128,42 +165,75 @@ class AddDays extends StatelessWidget{
     );
   }
 
-  Widget addNewDayButton(BuildContext context) => InkWell(
-    onTap: () async {
-      final choosenDate = await showDatePicker(
-          context: context,
-          initialDate: DateTime.now(),
-          firstDate: DateTime(2023),
-          lastDate: DateTime(2100)
-      );
-
-      if (choosenDate != null) {
-          itineraryProvider.addDay(
-              Day(date: formatDate(choosenDate))
-          );
-      }
-    },
-    child: SizedBox(
-      height: 50,
-      child: Container(
-        padding: const EdgeInsets.fromLTRB(75, 5, 75, 5),
-        child: Card(
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: const [
-              Card(
-                child: Icon(Icons.add),
-              ),
+  Widget KartuTanggal(
+      int index,
+      String tanggal
+  ){
+    return InkWell(
+      onTap: (){
+        setState(() {
+          selectedDay = index;
+        });
+      },
+      child: Card(
+        color: index == selectedDay ? Color(0xFF00FF46) : Colors.white,
+        margin: EdgeInsets.all(5),
+        child: SizedBox(
+          height: 100,
+          width: 100,
+          child: Column(
+            children: [
               Text(
-                "Tambah Hari",
+                'Day ${index + 1}',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                ),
               ),
+              Text(tanggal)
             ],
           ),
         ),
       ),
-    ),
-  );
+    );
+  }
+
+  Widget addNewDayButton(BuildContext context) => InkWell(
+        onTap: () async {
+          final choosenDate = await showDatePicker(
+              context: context,
+              initialDate: DateTime.now(),
+              firstDate: DateTime(2023),
+              lastDate: DateTime(2100));
+
+          if (choosenDate != null) {
+            itineraryProvider.addDay(Day(date: formatDate(choosenDate)));
+          }
+        },
+        child: SizedBox(
+          height: 70,
+          child: Container(
+            padding: const EdgeInsets.fromLTRB(75, 5, 75, 5),
+            child: Card(
+              color: const Color(0xFFFFB252),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: const [
+                  Card(
+                    child: Icon(Icons.add),
+                  ),
+                  Text(
+                    "Tambah Aktivitas",
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      );
 
   String formatDate(DateTime date) {
     return "${date.day}/${date.month}/${date.year}";
@@ -179,4 +249,93 @@ class AddDays extends StatelessWidget{
         return "Desember";
     }
   }
+
+  Widget buildDataTable(BuildContext context , index) {
+    final columns = ['Waktu Aktivitas', 'Nama Aktivitas', ""];
+
+    return Column(children: [
+      DataTable(
+        columns: getColumns(columns),
+        rows: getRows(
+            itineraryProvider.itinerary.days[index].activities,
+            index,
+            context
+        ),
+      ),
+    ]);
+  }
+
+  String formatTime(TimeOfDay time) {
+    return "${time.hour}:${time.minute}";
+  }
+
+  List<DataColumn> getColumns(List<String> columns) {
+    return columns.map((String column) {
+      final id = column == columns[0];
+
+      return DataColumn(
+        label: Text(column),
+        numeric: id,
+      );
+    }).toList();
+  }
+
+  List<DataRow> getRows(List<Activity> activities , int dayIndex , BuildContext context) =>
+      activities.mapIndexed((int activityIndex , Activity activity) {
+        return DataRow(cells: [
+          DataCell(SizedBox(
+            width: double.infinity,
+            height: 50,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  activity.activityTime,
+                ),
+              ],
+            ),
+          )),
+          DataCell(SizedBox(
+            width: 100,
+            height: 50,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  activity.activityName,
+                ),
+              ],
+            ),
+          )),
+          DataCell(Row(
+            children: [
+              InkWell(
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return ActivityForm(
+                      dayIndex: dayIndex,
+                      initialActivity: activity,
+                      activityIndex: activityIndex,
+                    );
+                  }));
+                },
+                child: const Icon(Icons.edit),
+              ),
+              InkWell(
+                onTap: () {
+                  itineraryProvider.removeActivity(dayIndex, activityIndex);
+                },
+                child: const Icon(
+                  Icons.delete,
+                  color: Colors.red,
+                ),
+              )
+            ],
+          )),
+        ]);
+      }).toList();
 }
