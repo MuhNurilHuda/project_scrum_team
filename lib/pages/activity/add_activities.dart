@@ -5,10 +5,10 @@ import 'package:collection/collection.dart';
 import '../../provider/itinerary_provider.dart';
 import 'activity_form.dart';
 
-class ItineraryTable extends StatelessWidget {
+class AddActivities extends StatelessWidget {
   final int dayIndex;
 
-  ItineraryTable({Key? key, required this.dayIndex}) : super(key: key);
+  AddActivities({Key? key, required this.dayIndex}) : super(key: key);
 
   late ItineraryProvider provider;
 

@@ -9,6 +9,12 @@ class Day {
     this.activities = const []
   });
 
+  Day.from(DateTime initialDate) :
+    date = "${initialDate.day}/"
+        "${initialDate.month}/"
+        "${initialDate.year}",
+    activities = [];
+
   Map<String , dynamic> toJson(){
     return {
       'date' : date,

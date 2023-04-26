@@ -167,9 +167,7 @@ class DetailsPage extends StatelessWidget {
                                               title : "Contoh Title"
                                           );
 
-                                          return AddItinerary(
-                                            refreshPreviousPage: (){},
-                                          );
+                                          return AddDays();
                                         }
                                     )
                                 );

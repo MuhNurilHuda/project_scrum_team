@@ -1,57 +1,57 @@
 import 'package:flutter/material.dart';
-import 'package:iterasi1/database/database_service.dart';
 import 'package:iterasi1/model/day.dart';
 import 'package:iterasi1/pages/activity/add_activities.dart';
 import 'package:iterasi1/pages/pdf/preview_pdf_page.dart';
+import 'package:iterasi1/provider/database_provider.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:provider/provider.dart';
 
 import '../model/itinerary.dart';
 import '../provider/itinerary_provider.dart';
 
-class AddItinerary extends StatelessWidget{
+class AddDays extends StatelessWidget{
+  AddDays({Key? key}) : super(key: key);
+
   late ItineraryProvider itineraryProvider;
-
-  final Function() refreshPreviousPage;
-  AddItinerary({required this.refreshPreviousPage});
-
+  late DatabaseProvider databaseProvider;
 
   @override
   Widget build(BuildContext context) {
     itineraryProvider = Provider.of(context , listen: true);
+    databaseProvider = Provider.of(context , listen: true);
 
-    return MaterialApp(
-      home: LoaderOverlay(
+    return LoaderOverlay(
         child: Scaffold(
           backgroundColor: const Color(0xFF1C3131),
           floatingActionButton: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
                 FloatingActionButton(
+                  heroTag: "AddDaysSaveItineraryFAB",
                   backgroundColor: const Color(0xFF39B400),
                   onPressed: (){
                     context.loaderOverlay.show();
 
-                    final dbService = DatabaseService();
-
-                    dbService.insertItinerary(Itinerary(
-                        id: itineraryProvider.itinerary.id,
-                        title: itineraryProvider.itinerary.title,
-                        days: itineraryProvider.itinerary.days
-                    )).whenComplete(
+                    databaseProvider.insertItinerary(
+                        itinerary : Itinerary(
+                            id: itineraryProvider.itinerary.id,
+                            title: itineraryProvider.itinerary.title,
+                            days: itineraryProvider.itinerary.days
+                        )
+                    ).whenComplete(
                             (){
                           context.loaderOverlay.hide();
-                          refreshPreviousPage();
                           Navigator.pop(context);
                         }
                     );
                   },
-                  child: Icon(Icons.save),
+                  child: const Icon(Icons.save),
                 ),
                 const SizedBox(height: 16,),
                 FloatingActionButton(
+                  heroTag: "AddDaysPrintPDFFAB",
                   backgroundColor: const Color(0xFF39B400),
-                  child: Icon(Icons.print),
+                  child: const Icon(Icons.print),
                   onPressed: () {
                     Navigator.of(context).push(
                       MaterialPageRoute(
@@ -69,12 +69,12 @@ class AddItinerary extends StatelessWidget{
               itineraryProvider.itinerary.title,
             ),
             leading: IconButton(
-              icon: Icon(Icons.arrow_back),
+              icon: const Icon(Icons.arrow_back),
               onPressed: () {
                 Navigator.pop(context);
               },
             ),
-            backgroundColor: Color(0xFF1C3131),
+            backgroundColor: const Color(0xFF1C3131),
             elevation: 0,
           ),
           body: ListView.builder(
@@ -87,7 +87,6 @@ class AddItinerary extends StatelessWidget{
             itemCount: itineraryProvider.itinerary.days.length + 1,
           ),
         ),
-      ),
     );
   }
 
@@ -95,7 +94,7 @@ class AddItinerary extends StatelessWidget{
     return SizedBox(
       height: 80,
       child: Container(
-        padding: EdgeInsets.fromLTRB(40, 5, 40, 5),
+        padding: const EdgeInsets.fromLTRB(40, 5, 40, 5),
         child: Card(
             color: Colors.white,
             child: Column(
@@ -106,7 +105,7 @@ class AddItinerary extends StatelessWidget{
                     onTap: () {
                       Navigator.of(context)
                           .push(MaterialPageRoute(builder: (builder) {
-                        return ItineraryTable(dayIndex: index);
+                        return AddActivities(dayIndex: index);
                       }));
                     },
                     child: Card(
@@ -115,7 +114,7 @@ class AddItinerary extends StatelessWidget{
                       elevation: 0,
                       child: Row(mainAxisSize: MainAxisSize.min, children: const [
                         Card(
-                          child: const Icon(Icons.add),
+                          child: Icon(Icons.add),
                         ),
                         Text(
                           "Tambah Aktivitas",
@@ -147,7 +146,7 @@ class AddItinerary extends StatelessWidget{
     child: SizedBox(
       height: 50,
       child: Container(
-        padding: EdgeInsets.fromLTRB(75, 5, 75, 5),
+        padding: const EdgeInsets.fromLTRB(75, 5, 75, 5),
         child: Card(
           child: Row(
             mainAxisSize: MainAxisSize.min,

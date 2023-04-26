@@ -10,31 +10,30 @@ class DatabaseService{
   static const _dbName = 'itinerary_db';
   static const _itinerariesTableName = "itineraries";
 
-  static Future<Database> initializeDB() async {
-    return openDatabase(
-      join(await getDatabasesPath() , _dbName),
-      onCreate: (database, version) async {
-        developer.log("Mencoba create table" , name: "qqq");
-        await database.execute(
-            "CREATE TABLE $_itinerariesTableName("
-                "id STRING PRIMARY KEY,"
-                "data STRING"
-            ")"
-        );
-        developer.log("Berhasil create table" , name: "qqq");
-      },
-      // onUpgrade: (Database db, int oldVersion, int newVersion) async {
-      //     if (oldVersion < newVersion) {
-      //       developer.log("onUpgrade , old : $oldVersion, new : $newVersion" , name : "qqq");
-      //
-      //       final tables = await db.query("sqlite_master", where: "type = 'table'");
-      //       for (final table in tables) {
-      //         await db.execute("DROP TABLE IF EXISTS ${table["name"]}");
-      //       }
-      //     }
-      // },
-      version: 1,
-    );
+  static final DatabaseService _singletonInstance = DatabaseService
+      ._internalConstructor();
+  factory DatabaseService() {
+    return _singletonInstance;
+  }
+ DatabaseService._internalConstructor();
+
+
+  Database? _database;
+
+  Future<Database> get database async{
+    _database ??= await openDatabase(
+        join(await getDatabasesPath() , _dbName),
+        onCreate: (database, version) async {
+          await database.execute(
+              "CREATE TABLE $_itinerariesTableName("
+                  "id STRING PRIMARY KEY,"
+                  "data STRING"
+                  ")"
+          );
+        },
+        version: 1,
+      );
+    return _database!;
   }
 
   Future<void> insertItinerary(Itinerary itinerary) async{
@@ -45,21 +44,21 @@ class DatabaseService{
         "data" : jsonEncode(itinerary.toJson())
       };
 
-      developer.log("Mencoba insert" , name : "qqq");
+      // developer.log("Mencoba insert" , name : "qqq");
 
-      final db = await initializeDB();
+      final db = await database;
 
-      final tables = await db.query("sqlite_master", where: "type = 'table'");
-      for (final table in tables) {
-        developer.log("Nama Table : ${table["name"]}" , name : "qqq");
-      }
+      // final tables = await db.query("sqlite_master", where: "type = 'table'");
+      // for (final table in tables) {
+      //   developer.log("Nama Table : ${table["name"]}" , name : "qqq");
+      // }
 
       await db.insert(
           _itinerariesTableName,
           dataMap,
           conflictAlgorithm: ConflictAlgorithm.replace
       );
-       developer.log("Berhasil insert" , name : "qqq");
+       // developer.log("Berhasil insert" , name : "qqq");
     } catch(e){
       developer.log(e.toString() , name : "qqq");
     }
@@ -67,18 +66,16 @@ class DatabaseService{
 
   Future<List<Itinerary>> fetchItineraries() async{
     try {
-      final db = await initializeDB();
-      developer.log("Mencoba ngefetch" , name : "qqq");
+      final db = await database;
 
       final hasilQuery = (await db.query(_itinerariesTableName)).map(
               (rawData){
                 final jsonString = rawData['data']!.toString();
-                developer.log("Object : $jsonString" , name: "qqq");
+                // developer.log("Object : $jsonString" , name: "qqq");
                 return Itinerary.fromJson(jsonDecode(jsonString));
               }
       ).toList();
 
-      developer.log("Total query : ${hasilQuery.length}" , name: "qqq");
 
       return hasilQuery;
     } catch(e){
@@ -88,7 +85,7 @@ class DatabaseService{
   }
 
   Future<void> deleteItinerary(String id) async{
-    final db = await initializeDB();
+    final db = await database;
 
     await db.delete(
         _itinerariesTableName ,

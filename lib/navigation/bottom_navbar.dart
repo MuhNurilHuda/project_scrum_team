@@ -34,7 +34,7 @@ class _BottomNavbarState extends State<BottomNavbar> {
   final List<Widget> _tabViews = [
     const HomePage(),
     const PaketWisata(),
-    const ItineraryList(),
+    ItineraryList(),
   ];
 
   @override

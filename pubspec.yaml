@@ -49,6 +49,7 @@ dependencies:
   loader_overlay: ^2.1.0
   provider: ^6.0.5
   logging: ^1.1.1
+  syncfusion_flutter_datepicker: ^21.1.39
 
 
 dev_dependencies:
