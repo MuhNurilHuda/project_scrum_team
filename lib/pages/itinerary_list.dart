@@ -28,7 +28,7 @@ class _ItineraryListState extends State<ItineraryList> {
 
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: const SystemUiOverlayStyle(
-        statusBarColor: const Color(0xFFF1F2F6),
+        statusBarColor: Color(0xFFF1F2F6),
       ),
       child: Scaffold(
         resizeToAvoidBottomInset: true,
@@ -96,73 +96,72 @@ class _ItineraryListState extends State<ItineraryList> {
                           isScrollControlled: true,
                           builder: (BuildContext context) {
                             return Container(
-                                color: const Color(0xFFF1F2F6),
-                                width: double.infinity,
-                                height: 450,
-                                child: IntrinsicHeight(
-                                  child: Container(
-                                    padding:
-                                        const EdgeInsets.fromLTRB(7, 10, 7, 10),
-                                    child: Column(children: [
-                                      Container(
-                                        padding:
-                                            EdgeInsets.fromLTRB(10, 15, 10, 15),
-                                        margin:
-                                            EdgeInsets.fromLTRB(10, 15, 10, 15),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Expanded(
-                                              flex: 5,
-                                                child: Theme(
-                                                  data: Theme.of(context).copyWith(
-                                                    primaryColor: Colors.blue
-                                                  ),
-                                                  child: TextField(
-                                                    controller: searchController,
-                                                    onChanged: (value) {
-                                                      // setState(() {});
-                                                    },
-                                                    decoration: InputDecoration(
-                                                      // fillColor: Colors.white38,
-                                                      filled: true,                                                  
-                                                        hintText: "Search",                                                    
-                                                        border: OutlineInputBorder(  
-                                                          borderRadius: BorderRadius.circular(20)                                                    
-                                                        )
-                                                    ),
-                                                  ),
-                                                ),
-                                            ),
-                                            const SizedBox(
-                                              height: 10,
-                                              width: 10,
-                                            ),
-                                            Expanded(
-                                              flex: 1,
-                                              child: Container(                                              
-                                                height: 50,
-                                                width: 30,
-                                                decoration: const BoxDecoration(
-                                                  shape: BoxShape.circle,
-                                                  color: Colors.white,
-                                                ),                                              
-                                                child: IconButton(
-                                                  onPressed: () {},
-                                                  icon: const Image(
-                                                    image: AssetImage('assets/logo/SearchButton.png'),
-                                                  )
-                                                ),
+                              color: const Color(0xFFF1F2F6),
+                              width: double.infinity,
+                              height: 450,
+                              child: IntrinsicHeight(
+                                child: Container(
+                                  padding:
+                                      const EdgeInsets.fromLTRB(7, 10, 7, 10),
+                                  child: Column(children: [
+                                    Container(
+                                      padding: const EdgeInsets.fromLTRB(
+                                          10, 15, 10, 15),
+                                      margin: const EdgeInsets.fromLTRB(
+                                          10, 15, 10, 15),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Expanded(
+                                            flex: 5,
+                                            child: Theme(
+                                              data: Theme.of(context).copyWith(
+                                                  primaryColor: Colors.blue),
+                                              child: TextField(
+                                                controller: searchController,
+                                                onChanged: (value) {
+                                                  // setState(() {});
+                                                },
+                                                decoration: InputDecoration(
+                                                    // fillColor: Colors.white38,
+                                                    filled: true,
+                                                    hintText: "Search",
+                                                    border: OutlineInputBorder(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(20))),
                                               ),
                                             ),
-                                          ],
-                                        ),
-                                      )
-                                    ]),
-                                  ),
+                                          ),
+                                          const SizedBox(
+                                            height: 10,
+                                            width: 10,
+                                          ),
+                                          Expanded(
+                                            flex: 1,
+                                            child: Container(
+                                              height: 50,
+                                              width: 30,
+                                              decoration: const BoxDecoration(
+                                                shape: BoxShape.circle,
+                                                color: Colors.white,
+                                              ),
+                                              child: IconButton(
+                                                  onPressed: () {},
+                                                  icon: const Image(
+                                                    image: AssetImage(
+                                                        'assets/logo/SearchButton.png'),
+                                                  )),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    )
+                                  ]),
                                 ),
-                              );
+                              ),
+                            );
                           });
                     },
                     highlightColor: Colors.transparent,
@@ -206,16 +205,32 @@ class _ItineraryListState extends State<ItineraryList> {
 
                           if (itineraries != null) {
                             // developer.log("Itineraries : ${itineraries.length}" , name: "qqq");
-                            return ListView.builder(
+                            return GridView.builder(
+                              scrollDirection: Axis.vertical,
                               shrinkWrap: true,
-                              physics: const BouncingScrollPhysics(),
+                              gridDelegate:
+                                  const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 2,
+                                crossAxisSpacing: 10,
+                                mainAxisSpacing: 10,                                
+                              ),
+                              itemCount: itineraries.length,
                               itemBuilder: (context, index) {
                                 final item = itineraries[index];
 
                                 return listItem(item);
                               },
-                              itemCount: itineraries.length,
                             );
+                            // return ListView.builder(
+                            //   shrinkWrap: true,
+                            //   physics: const BouncingScrollPhysics(),
+                            //   itemBuilder: (context, index) {
+                            //     final item = itineraries[index];
+
+                            //     return listItem(item);
+                            //   },
+                            //   itemCount: itineraries.length,
+                            // );
                           } else
                             return Center(
                               child: CircularProgressIndicator(),
@@ -232,91 +247,158 @@ class _ItineraryListState extends State<ItineraryList> {
   }
 
   Widget listItem(Itinerary itinerary) {
-    return Card(
-      color: const Color(0xFFFFB252),
-      margin: const EdgeInsets.all(15.0),
-      elevation: 4,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20.0),
-      ),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(20.0),
-        child: InkWell(
-          child: SizedBox(
-            height: 50,
-            width: double.infinity,
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                Flexible(
-                  flex: 4,
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(10, 5, 5, 5),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Text(
-                          'Itinerary to ${itinerary.title}',
-                          // maxLines: 1,
-                          // overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 15,
-                            color: Colors.white,
-                          ),
-                        )
-                      ],
+    return InkWell(
+      onTap: () {
+        navigateToAddDays(itinerary, context);
+      },
+      child: Card(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10.0),
+          // side: BorderSide(
+          //   color: Colors.grey.withOpacity(0.5),
+          //   width: 1,
+          // )
+        ),
+        elevation: 4,
+        child: Container(   
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10.0),
+            color: Colors.white,
+          ),   
+          padding: const EdgeInsets.all(7.0),
+          // color: Colors.white,
+          child: GridTile(        
+            child: Align(
+              child: Text(
+                'Itinerary to ${itinerary.title}',
+                style: TextStyle(
+                  fontFamily: 'poppins',
+                  color: Color(0xFF305A5A),
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ),
+            footer: Container(
+              padding: const EdgeInsets.all(5.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [                  
+                  Divider(
+                    color: Colors.grey,
+                    thickness: 1,
+                  ),
+                  // InkWell(
+                  //   onTap: () {
+                  //     navigateToAddDays(itinerary, context);
+                  //   },
+                  //   child: Icon(Icons.edit),
+                  // ),
+                  InkWell(
+                    onTap: () {
+                      final dbService = DatabaseService();
+                      dbService.deleteItinerary(itinerary.id).whenComplete(() {
+                        setState(() {});
+                      });
+                    }, // Buat method Delete
+                    child: Icon(
+                      Icons.delete,
                     ),
                   ),
-                ),
-                Flexible(
-                  flex: 1,
-                  child: Row(
-                    // mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Flexible(
-                        flex: 1,
-                        child: Row(
-                          children: <Widget>[
-                            Flexible(
-                              flex: 1,
-                              child: InkWell(
-                                onTap: () {
-                                  navigateToAddDays(itinerary, context);
-                                }, // Buat method Edit
-                                child: Icon(
-                                  Icons.edit,
-                                ),
-                              ),
-                            ),
-                            Flexible(
-                                flex: 1,
-                                child: InkWell(
-                                  onTap: () {
-                                    final dbService = DatabaseService();
-                                    dbService
-                                        .deleteItinerary(itinerary.id)
-                                        .whenComplete(() {
-                                      setState(() {});
-                                    });
-                                  }, // Buat method Delete
-                                  child: Icon(
-                                    Icons.delete,
-                                  ),
-                                )),
-                          ],
-                        ),
-                      )
-                    ],
-                  ),
-                )
-              ],
+                ],
+              ),
             ),
           ),
         ),
       ),
     );
   }
+
+  // Widget listItem(Itinerary itinerary) {
+  //   return Card(
+  //     color: const Color(0xFFFFB252),
+  //     margin: const EdgeInsets.all(15.0),
+  //     elevation: 4,
+  //     shape: RoundedRectangleBorder(
+  //       borderRadius: BorderRadius.circular(20.0),
+  //     ),
+  //     child: ClipRRect(
+  //       borderRadius: BorderRadius.circular(20.0),
+  //       child: InkWell(
+  //         child: SizedBox(
+  //           height: 50,
+  //           width: double.infinity,
+  //           child: Row(
+  //             mainAxisSize: MainAxisSize.min,
+  //             children: <Widget>[
+  //               Flexible(
+  //                 flex: 4,
+  //                 child: Padding(
+  //                   padding: const EdgeInsets.fromLTRB(10, 5, 5, 5),
+  //                   child: Row(
+  //                     mainAxisAlignment: MainAxisAlignment.center,
+  //                     children: <Widget>[
+  //                       Text(
+  //                         'Itinerary to ${itinerary.title}',
+  //                         // maxLines: 1,
+  //                         // overflow: TextOverflow.ellipsis,
+  //                         style: const TextStyle(
+  //                           fontWeight: FontWeight.bold,
+  //                           fontSize: 15,
+  //                           color: Colors.white,
+  //                         ),
+  //                       )
+  //                     ],
+  //                   ),
+  //                 ),
+  //               ),
+  //               Flexible(
+  //                 flex: 1,
+  //                 child: Row(
+  //                   // mainAxisAlignment: MainAxisAlignment.center,
+  //                   children: <Widget>[
+  //                     Flexible(
+  //                       flex: 1,
+  //                       child: Row(
+  //                         children: <Widget>[
+  //                           Flexible(
+  //                             flex: 1,
+  //                             child: InkWell(
+  //                               onTap: () {
+  //                                 navigateToAddDays(itinerary, context);
+  //                               }, // Buat method Edit
+  //                               child: Icon(
+  //                                 Icons.edit,
+  //                               ),
+  //                             ),
+  //                           ),
+  //                           Flexible(
+  //                               flex: 1,
+  //                               child: InkWell(
+  //                                 onTap: () {
+  //                                   final dbService = DatabaseService();
+  //                                   dbService
+  //                                       .deleteItinerary(itinerary.id)
+  //                                       .whenComplete(() {
+  //                                     setState(() {});
+  //                                   });
+  //                                 }, // Buat method Delete
+  //                                 child: Icon(
+  //                                   Icons.delete,
+  //                                 ),
+  //                               )),
+  //                         ],
+  //                       ),
+  //                     )
+  //                   ],
+  //                 ),
+  //               )
+  //             ],
+  //           ),
+  //         ),
+  //       ),
+  //     ),
+  //   );
+  // }
 
   Future<void> getItineraryTitle(BuildContext context) async {
     final itineraryTitle = await showTextDialog(context,
