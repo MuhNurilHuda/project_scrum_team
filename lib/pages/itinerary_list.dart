@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:iterasi1/pages/add_days.dart';
 import 'package:iterasi1/pages/datepicker/date_picker_layout.dart';
 import 'package:iterasi1/provider/database_provider.dart';
@@ -14,6 +15,7 @@ class ItineraryList extends StatelessWidget {
   ItineraryList({Key? key}) : super(key: key);
 
   TextEditingController searchController = TextEditingController();
+  var time = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
@@ -193,64 +195,56 @@ class ItineraryList extends StatelessWidget {
                       ),
                     ),
                     Consumer<DatabaseProvider>(
-                      builder: (context , provider , child) {
-                        return FutureBuilder<List<Itinerary>>(
-                            future: provider.itineraryDatas,
-                            builder: (context, snapshot) {
-                              final itineraries = snapshot.data;
-                              if (itineraries != null) {
-                                // developer.log("Itineraries : ${itineraries.length}" , name: "qqq");
-                                return GridView.builder(                                
-                                  scrollDirection: Axis.vertical,
-                                  physics: const BouncingScrollPhysics(),
-                                  shrinkWrap: true,
-                                  gridDelegate:
-                                      const SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: 2,
-                                    crossAxisSpacing: 10,
-                                    mainAxisSpacing: 10,
-                                  ),
-                                  itemCount: itineraries.length,
-                                  itemBuilder: (context, index) {
-                                    final item = itineraries[index];
-    //
-                                    return listItem(item , provider , context);
-                                  },
-                                );
-                              } else
-                                return Center(
-                                  child: CircularProgressIndicator(),
-                                );
-                            });
-                      }
-                    ),
+                        builder: (context, provider, child) {
+                      return FutureBuilder<List<Itinerary>>(
+                          future: provider.itineraryDatas,
+                          builder: (context, snapshot) {
+                            final itineraries = snapshot.data;
+                            if (itineraries != null) {
+                              // developer.log("Itineraries : ${itineraries.length}" , name: "qqq");
+                              return GridView.builder(
+                                scrollDirection: Axis.vertical,
+                                physics: const BouncingScrollPhysics(),
+                                shrinkWrap: true,
+                                gridDelegate:
+                                    const SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2,
+                                  crossAxisSpacing: 10,
+                                  mainAxisSpacing: 10,
+                                ),
+                                itemCount: itineraries.length,
+                                itemBuilder: (context, index) {
+                                  final item = itineraries[index];
+                                  //
+                                  return listItem(item, provider, context);
+                                },
+                              );
+                            } else
+                              return Center(
+                                child: CircularProgressIndicator(),
+                              );
+                          });
+                    }),
                   ],
                 ),
               ),
             ],
           ),
         ),
-    ),
+      ),
     );
   }
 
   Widget listItem(
-      Itinerary itinerary ,
-      DatabaseProvider provider,
-      BuildContext context
-  ) {
+      Itinerary itinerary, DatabaseProvider provider, BuildContext context) {
     return InkWell(
       onTap: () {
-        Provider.of<ItineraryProvider>(context , listen: false)
-          .initItinerary(itinerary);
+        Provider.of<ItineraryProvider>(context, listen: false)
+            .initItinerary(itinerary);
 
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (context){
-              return AddDays();
-            }
-          )
-        );
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+          return AddDays();
+        }));
       },
       child: Card(
         shape: RoundedRectangleBorder(
@@ -283,7 +277,10 @@ class ItineraryList extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
-                    'April, 27 2023',
+                    '${DateFormat('EEEE').format(time)}, ${time.day}-${time.month}-${time.year}',
+                    // time.toString(),
+                    // DateTime.now().toString(),
+                    // 'April, 27 2023',
                     style: TextStyle(
                       fontFamily: 'poppins_regular',
                       color: Colors.grey,
@@ -312,24 +309,17 @@ class ItineraryList extends StatelessWidget {
     );
   }
 
-  Future<void> getItineraryTitle(BuildContext context) async{
-    final itineraryTitle = await showTextDialog(
-        context,
-        title : "Ketik Judul Itinerary",
-        value : ""
-    );
+  Future<void> getItineraryTitle(BuildContext context) async {
+    final itineraryTitle = await showTextDialog(context,
+        title: "Ketik Judul Itinerary", value: "");
 
     if (itineraryTitle != null && context.mounted) {
-      Provider.of<ItineraryProvider>(context , listen: false)
+      Provider.of<ItineraryProvider>(context, listen: false)
           .initItinerary(Itinerary(title: itineraryTitle));
 
-      Navigator.of(context).push(
-          MaterialPageRoute(
-              builder: (context) {
-                return const DatePickerLayout();
-              }
-          )
-      );
+      Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+        return const DatePickerLayout();
+      }));
     }
   }
 }

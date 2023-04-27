@@ -12,8 +12,11 @@ import '../provider/itinerary_provider.dart';
 import 'package:collection/collection.dart';
 
 import 'activity/activity_form.dart';
-class AddDays extends StatefulWidget{
+
+class AddDays extends StatefulWidget {
   AddDays({Key? key}) : super(key: key);
+
+  late ItineraryProvider provider;
 
   @override
   State<AddDays> createState() => _AddDaysState();
@@ -24,108 +27,200 @@ class _AddDaysState extends State<AddDays> {
 
   late DatabaseProvider databaseProvider;
 
+  late int dayIndex;
   int selectedDay = 0;
+  TextEditingController searchController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    itineraryProvider = Provider.of(context , listen: true);
-    databaseProvider = Provider.of(context , listen: true);
+    itineraryProvider = Provider.of(context, listen: true);
+    databaseProvider = Provider.of(context, listen: true);
 
     return LoaderOverlay(
-        child: Scaffold(
-          backgroundColor: const Color(0xFF1C3131),
-          floatingActionButton: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                FloatingActionButton(
-                  heroTag: "AddDaysSaveItineraryFAB",
-                  backgroundColor: const Color(0xFF39B400),
-                  onPressed: (){
-                    context.loaderOverlay.show();
+      child: Scaffold(
+        backgroundColor: const Color(0xFF1C3131),
+        // floatingActionButton: Column(
+        //     mainAxisSize: MainAxisSize.min,
+        //     children: [
+        //       FloatingActionButton(
+        //         heroTag: "AddDaysSaveItineraryFAB",
+        //         backgroundColor: const Color(0xFF39B400),
+        //         onPressed: (){
+        //           context.loaderOverlay.show();
 
-                    databaseProvider.insertItinerary(
-                        itinerary : Itinerary(
-                            id: itineraryProvider.itinerary.id,
-                            title: itineraryProvider.itinerary.title,
-                            days: itineraryProvider.itinerary.days
-                        )
-                    ).whenComplete(
-                            (){
-                          context.loaderOverlay.hide();
-                          // Navigator.pop(context);
-                          // Navigator.of(context).pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false);
-                          Navigator.popUntil(context, ModalRoute.withName('/next'));
-                        }
-                    );
-                  },
-                  child: const Icon(Icons.save),
-                ),
-                const SizedBox(height: 16,),
-                FloatingActionButton(
-                  heroTag: "AddDaysPrintPDFFAB",
-                  backgroundColor: const Color(0xFF39B400),
-                  child: const Icon(Icons.print),
-                  onPressed: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (builder) => PdfPreviewPage(
-                            itinerary : itineraryProvider.itinerary
+        //           databaseProvider.insertItinerary(
+        //               itinerary : Itinerary(
+        //                   id: itineraryProvider.itinerary.id,
+        //                   title: itineraryProvider.itinerary.title,
+        //                   days: itineraryProvider.itinerary.days
+        //               )
+        //           ).whenComplete(
+        //                   (){
+        //                 context.loaderOverlay.hide();
+        //                 // Navigator.pop(context);
+        //                 // Navigator.of(context).pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false);
+        //                 Navigator.popUntil(context, ModalRoute.withName('/next'));
+        //               }
+        //           );
+        //         },
+        //         child: const Icon(Icons.save),
+        //       ),
+        //       const SizedBox(height: 16,),
+        //       FloatingActionButton(
+        //         heroTag: "AddDaysPrintPDFFAB",
+        //         backgroundColor: const Color(0xFF39B400),
+        //         child: const Icon(Icons.print),
+        //         onPressed: () {
+        //           Navigator.of(context).push(
+        //             MaterialPageRoute(
+        //               builder: (builder) => PdfPreviewPage(
+        //                   itinerary : itineraryProvider.itinerary
+        //               ),
+        //             ),
+        //           );
+        //         },
+        //       )
+        //     ]
+        // ),
+        appBar: AppBar(
+          title: Text(
+            'Itinerary to ${itineraryProvider.itinerary.title}',
+            style: const TextStyle(
+              fontWeight: FontWeight.bold,
+            ),
+            // itineraryProvider.itinerary.title,
+          ),
+          centerTitle: true,
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+          backgroundColor: const Color(0xFF1C3131),
+          elevation: 0,
+        ),
+        body: Stack(
+          children: [
+            ClipRRect(
+              borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(30), topRight: Radius.circular(30)),
+              child: Container(
+                color: Colors.white,
+                padding: const EdgeInsets.all(15.0),
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        flex: 1,
+                        child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (context, index) {
+                            return KartuTanggal(index,
+                                itineraryProvider.itinerary.days[index].date);
+                          },
+                          itemCount: itineraryProvider.itinerary.days.length,
                         ),
                       ),
-                    );
-                  },
-                )
-              ]
-          ),
-          appBar: AppBar(
-            title: Text(
-              'Itinerary to ${itineraryProvider.itinerary.title}',
-              style: const TextStyle(
-                fontWeight: FontWeight.bold,
+                      const Divider(
+                        color: Colors.grey,
+                        thickness: 1,
+                      ),
+                      Expanded(
+                          flex: 10, child: buildDataTable(context, selectedDay))
+                    ]),
               ),
-              // itineraryProvider.itinerary.title,
             ),
-            centerTitle: true,
-            leading: IconButton(
-              icon: const Icon(Icons.arrow_back),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            ),
-            backgroundColor: const Color(0xFF1C3131),
-            elevation: 0,
-          ),
-          body: ClipRRect(
-            borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(30), topRight: Radius.circular(30)),
-            child: Container(
-              color: Colors.white,
-              padding: const EdgeInsets.all(15.0),
-              child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Expanded(
-                      flex: 1,
-                      child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemBuilder : (context , index){
-                          return KartuTanggal(index , itineraryProvider.itinerary.days[index].date);
-                        },
-                        itemCount : itineraryProvider.itinerary.days.length,
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Row(children: [
+                Expanded(
+                  child: Container(
+                    margin: EdgeInsets.only(
+                      bottom: 20,
+                      right: 20,
+                      left: 20,
+                    ),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 20,
+                      vertical: 5,
+                    ),
+                    decoration: BoxDecoration(
+                        color: Color.fromARGB(255, 255, 185, 33),
+                        // boxShadow: const [
+                        //   BoxShadow(
+                        //     color: Colors.grey,
+                        //     offset: Offset(0.0, 0.0),
+                        //     blurRadius: 0.0,
+                        //     spreadRadius: 0.0,
+                        //   ),
+                        // ],
+                        borderRadius: BorderRadius.circular(10)),
+                    // child: TextField(
+                    //   controller: searchController,
+                    //   decoration: const InputDecoration(
+                    //     hintText: "Tambahkan Aktivitas",
+                    //     border: InputBorder.none,
+                    //   ),
+                    // ),
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) {
+                          return ActivityForm(dayIndex: dayIndex);
+                        }));
+                      },
+                      child: SizedBox(
+                        height: 45,
+                        width: 200,
+                        child: Card(
+                          color: Color.fromARGB(255, 255, 185, 33),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                          elevation: 0,
+                          child: Align(
+                            alignment: Alignment.center,
+                            child: Text('Add New Activity',
+                                style: TextStyle(
+                                    fontFamily: 'poppins_bold',
+                                    fontSize: 17,
+                                    color: Colors.white)),
+                          ),
+                        ),
                       ),
                     ),
-                    const Divider(
-                      color: Colors.grey,
-                      thickness: 1,
-                    ),
-                    Expanded(
-                      flex: 10,
-                      child: buildDataTable(context, selectedDay)
-                    )
-                  ]),
-            ),
-          ),
+                  ),
+                ),
+                Container(
+                  height: 55,
+                  margin: const EdgeInsets.only(bottom: 20, right: 20),
+                  decoration:
+                      BoxDecoration(borderRadius: BorderRadius.circular(20.0)),
+                  child: ElevatedButton(
+                    style: ButtonStyle(
+                        shape:
+                            MaterialStateProperty.all<RoundedRectangleBorder>(
+                                RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10.0))),
+                        backgroundColor: MaterialStatePropertyAll(
+                            Color.fromARGB(255, 255, 185, 33))),
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (builder) => PdfPreviewPage(
+                              itinerary: itineraryProvider.itinerary),
+                        ),
+                      );
+                    },
+                    child: Icon(Icons.print),
+                  ),
+                )
+              ]),
+            )
+          ],
         ),
+      ),
     );
   }
 
@@ -151,7 +246,8 @@ class _AddDaysState extends State<AddDays> {
                       // color: Color(0x1C3131),
                       color: Colors.grey,
                       elevation: 0,
-                      child: Row(mainAxisSize: MainAxisSize.min, children: const [
+                      child:
+                          Row(mainAxisSize: MainAxisSize.min, children: const [
                         Card(
                           child: const Icon(Icons.add),
                         ),
@@ -167,12 +263,9 @@ class _AddDaysState extends State<AddDays> {
     );
   }
 
-  Widget KartuTanggal(
-      int index,
-      String tanggal
-  ){
+  Widget KartuTanggal(int index, String tanggal) {
     return InkWell(
-      onTap: (){
+      onTap: () {
         setState(() {
           selectedDay = index;
         });
@@ -252,17 +345,14 @@ class _AddDaysState extends State<AddDays> {
     }
   }
 
-  Widget buildDataTable(BuildContext context , index) {
+  Widget buildDataTable(BuildContext context, index) {
     final columns = ['Waktu Aktivitas', 'Nama Aktivitas', ""];
 
     return Column(children: [
       DataTable(
         columns: getColumns(columns),
         rows: getRows(
-            itineraryProvider.itinerary.days[index].activities,
-            index,
-            context
-        ),
+            itineraryProvider.itinerary.days[index].activities, index, context),
       ),
     ]);
   }
@@ -282,8 +372,9 @@ class _AddDaysState extends State<AddDays> {
     }).toList();
   }
 
-  List<DataRow> getRows(List<Activity> activities , int dayIndex , BuildContext context) =>
-      activities.mapIndexed((int activityIndex , Activity activity) {
+  List<DataRow> getRows(
+          List<Activity> activities, int dayIndex, BuildContext context) =>
+      activities.mapIndexed((int activityIndex, Activity activity) {
         return DataRow(cells: [
           DataCell(SizedBox(
             width: double.infinity,
