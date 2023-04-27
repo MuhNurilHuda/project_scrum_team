@@ -1,6 +1,6 @@
 # iterasi1
 
-A new Flutter project.
+TRIPPLANNER
 
 <p>
     <a href="https://github.com/HomeLearner116/project_scrum_team">
