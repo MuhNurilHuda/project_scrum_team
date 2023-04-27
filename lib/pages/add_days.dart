@@ -52,7 +52,9 @@ class _AddDaysState extends State<AddDays> {
                     ).whenComplete(
                             (){
                           context.loaderOverlay.hide();
-                          Navigator.pop(context);
+                          // Navigator.pop(context);
+                          // Navigator.of(context).pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false);
+                          Navigator.popUntil(context, ModalRoute.withName('/next'));
                         }
                     );
                   },

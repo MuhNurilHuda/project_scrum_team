@@ -186,7 +186,7 @@ class ItineraryList extends StatelessWidget {
                         "TripPlanner",
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                            fontFamily: 'poppins',
+                            fontFamily: 'poppins_bold',
                             fontSize: 30,
                             fontWeight: FontWeight.bold,
                             color: Color(0xFF305A5A)),
@@ -200,8 +200,9 @@ class ItineraryList extends StatelessWidget {
                               final itineraries = snapshot.data;
                               if (itineraries != null) {
                                 // developer.log("Itineraries : ${itineraries.length}" , name: "qqq");
-                                return GridView.builder(
+                                return GridView.builder(                                
                                   scrollDirection: Axis.vertical,
+                                  physics: const BouncingScrollPhysics(),
                                   shrinkWrap: true,
                                   gridDelegate:
                                       const SliverGridDelegateWithFixedCrossAxisCount(
@@ -257,6 +258,7 @@ class ItineraryList extends StatelessWidget {
         ),
         elevation: 4,
         child: Container(
+          margin: EdgeInsets.only(top: 12.0, left: 8.0, right: 8.0),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10.0),
             color: Colors.white,
@@ -265,10 +267,11 @@ class ItineraryList extends StatelessWidget {
           // color: Colors.white,
           child: GridTile(
             child: Align(
+              alignment: Alignment.topCenter,
               child: Text(
                 'Itinerary to ${itinerary.title}',
                 style: TextStyle(
-                  fontFamily: 'poppins',
+                  fontFamily: 'poppins_bold',
                   color: Color(0xFF305A5A),
                 ),
                 textAlign: TextAlign.center,
@@ -279,7 +282,16 @@ class ItineraryList extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Divider(
+                  Text(
+                    'April, 27 2023',
+                    style: TextStyle(
+                      fontFamily: 'poppins_regular',
+                      color: Colors.grey,
+                      fontSize: 11,
+                      // fontWeight: FontWeight.normal,
+                    ),
+                  ),
+                  const Divider(
                     color: Colors.grey,
                     thickness: 1,
                   ),
