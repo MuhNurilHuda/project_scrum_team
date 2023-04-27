@@ -18,25 +18,11 @@ class ActivityForm extends StatefulWidget {
   });
 
   @override
-  _ActivityFormState createState() => _ActivityFormState(
-    dayIndex : dayIndex,
-    initialActivity: initialActivity,
-    activityIndex: activityIndex
-  );
+  _ActivityFormState createState() => _ActivityFormState();
 }
 
 class _ActivityFormState extends State<ActivityForm> {
   late ItineraryProvider provider;
-
-  final int dayIndex;
-  final Activity? initialActivity;
-  final int? activityIndex;
-
-  _ActivityFormState({
-    required this.dayIndex,
-    this.initialActivity,
-    this.activityIndex
-  });
 
   final _formKey = GlobalKey<FormState>();
 
@@ -47,10 +33,10 @@ class _ActivityFormState extends State<ActivityForm> {
   void initState() {
     super.initState();
     _activityController = TextEditingController();
-    if (initialActivity != null) {
-      _activityController.text = initialActivity!.activityName;
+    if (widget.initialActivity != null) {
+      _activityController.text = widget.initialActivity!.activityName;
 
-      final times = initialActivity!.activityTime.split(":");
+      final times = widget.initialActivity!.activityTime.split(":");
       final minute = int.parse(times[1]);
       final hour = int.parse(times[0]);
 
@@ -81,16 +67,16 @@ class _ActivityFormState extends State<ActivityForm> {
           activityTime: time.format(context)
       );
 
-      if (initialActivity == null) {
+      if (widget.initialActivity == null) {
         provider.addNewActivity(
             newActivity,
-            dayIndex
+            widget.dayIndex
         );
       }
       else{
         provider.editActivity(
-            dayIndex: dayIndex,
-            activityIndex: activityIndex!,
+            dayIndex: widget.dayIndex,
+            activityIndex: widget.activityIndex!,
             newActivity: newActivity
         );
       }

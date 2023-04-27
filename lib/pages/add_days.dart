@@ -7,7 +7,6 @@ import 'package:loader_overlay/loader_overlay.dart';
 import 'package:provider/provider.dart';
 
 import '../model/activity.dart';
-import '../model/itinerary.dart';
 import '../provider/itinerary_provider.dart';
 import 'package:collection/collection.dart';
 
@@ -15,8 +14,6 @@ import 'activity/activity_form.dart';
 
 class AddDays extends StatefulWidget {
   AddDays({Key? key}) : super(key: key);
-
-  late ItineraryProvider provider;
 
   @override
   State<AddDays> createState() => _AddDaysState();
@@ -27,8 +24,8 @@ class _AddDaysState extends State<AddDays> {
 
   late DatabaseProvider databaseProvider;
 
-  late int dayIndex;
-  int selectedDay = 0;
+  int selectedDayIndex = 0;
+
   TextEditingController searchController = TextEditingController();
 
   @override
@@ -39,49 +36,6 @@ class _AddDaysState extends State<AddDays> {
     return LoaderOverlay(
       child: Scaffold(
         backgroundColor: const Color(0xFF1C3131),
-        // floatingActionButton: Column(
-        //     mainAxisSize: MainAxisSize.min,
-        //     children: [
-        //       FloatingActionButton(
-        //         heroTag: "AddDaysSaveItineraryFAB",
-        //         backgroundColor: const Color(0xFF39B400),
-        //         onPressed: (){
-        //           context.loaderOverlay.show();
-
-        //           databaseProvider.insertItinerary(
-        //               itinerary : Itinerary(
-        //                   id: itineraryProvider.itinerary.id,
-        //                   title: itineraryProvider.itinerary.title,
-        //                   days: itineraryProvider.itinerary.days
-        //               )
-        //           ).whenComplete(
-        //                   (){
-        //                 context.loaderOverlay.hide();
-        //                 // Navigator.pop(context);
-        //                 // Navigator.of(context).pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false);
-        //                 Navigator.popUntil(context, ModalRoute.withName('/next'));
-        //               }
-        //           );
-        //         },
-        //         child: const Icon(Icons.save),
-        //       ),
-        //       const SizedBox(height: 16,),
-        //       FloatingActionButton(
-        //         heroTag: "AddDaysPrintPDFFAB",
-        //         backgroundColor: const Color(0xFF39B400),
-        //         child: const Icon(Icons.print),
-        //         onPressed: () {
-        //           Navigator.of(context).push(
-        //             MaterialPageRoute(
-        //               builder: (builder) => PdfPreviewPage(
-        //                   itinerary : itineraryProvider.itinerary
-        //               ),
-        //             ),
-        //           );
-        //         },
-        //       )
-        //     ]
-        // ),
         appBar: AppBar(
           title: Text(
             'Itinerary to ${itineraryProvider.itinerary.title}',
@@ -127,7 +81,7 @@ class _AddDaysState extends State<AddDays> {
                         thickness: 1,
                       ),
                       Expanded(
-                          flex: 10, child: buildDataTable(context, selectedDay))
+                          flex: 10, child: buildDataTable(context, selectedDayIndex))
                     ]),
               ),
             ),
@@ -147,27 +101,12 @@ class _AddDaysState extends State<AddDays> {
                     ),
                     decoration: BoxDecoration(
                         color: Color.fromARGB(255, 255, 185, 33),
-                        // boxShadow: const [
-                        //   BoxShadow(
-                        //     color: Colors.grey,
-                        //     offset: Offset(0.0, 0.0),
-                        //     blurRadius: 0.0,
-                        //     spreadRadius: 0.0,
-                        //   ),
-                        // ],
                         borderRadius: BorderRadius.circular(10)),
-                    // child: TextField(
-                    //   controller: searchController,
-                    //   decoration: const InputDecoration(
-                    //     hintText: "Tambahkan Aktivitas",
-                    //     border: InputBorder.none,
-                    //   ),
-                    // ),
                     child: InkWell(
                       onTap: () {
                         Navigator.push(context,
                             MaterialPageRoute(builder: (context) {
-                          return ActivityForm(dayIndex: dayIndex);
+                          return ActivityForm(dayIndex: selectedDayIndex);
                         }));
                       },
                       child: SizedBox(
@@ -267,11 +206,11 @@ class _AddDaysState extends State<AddDays> {
     return InkWell(
       onTap: () {
         setState(() {
-          selectedDay = index;
+          selectedDayIndex = index;
         });
       },
       child: Card(
-        color: index == selectedDay ? Color(0xFF00FF46) : Colors.white,
+        color: index == selectedDayIndex ? Color(0xFF00FF46) : Colors.white,
         margin: EdgeInsets.all(5),
         child: SizedBox(
           height: 100,
