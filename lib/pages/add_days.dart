@@ -5,6 +5,7 @@ import 'package:iterasi1/pages/pdf/preview_pdf_page.dart';
 import 'package:iterasi1/provider/database_provider.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:provider/provider.dart';
+import 'package:iterasi1/model/itinerary.dart';
 
 import '../model/activity.dart';
 import '../provider/itinerary_provider.dart';
@@ -69,6 +70,7 @@ class _AddDaysState extends State<AddDays> {
                         flex: 1,
                         child: ListView.builder(
                           scrollDirection: Axis.horizontal,
+                          physics: const BouncingScrollPhysics(),
                           itemBuilder: (context, index) {
                             return KartuTanggal(index,
                                 itineraryProvider.itinerary.days[index].date);
@@ -81,7 +83,17 @@ class _AddDaysState extends State<AddDays> {
                         thickness: 1,
                       ),
                       Expanded(
-                          flex: 10, child: buildDataTable(context, selectedDayIndex))
+                          flex: 10,
+                          child: Padding(
+                            padding: const EdgeInsets.only(bottom: 65.0),
+                            child: SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              physics: const BouncingScrollPhysics(),
+                              child: SingleChildScrollView(
+                                physics: const BouncingScrollPhysics(),
+                                  child: buildDataTable(context, selectedDayIndex)),
+                            ),
+                          ))
                     ]),
               ),
             ),
@@ -123,7 +135,7 @@ class _AddDaysState extends State<AddDays> {
                             child: Text('Add New Activity',
                                 style: TextStyle(
                                     fontFamily: 'poppins_bold',
-                                    fontSize: 17,
+                                    fontSize: 16,
                                     color: Colors.white)),
                           ),
                         ),
@@ -154,7 +166,38 @@ class _AddDaysState extends State<AddDays> {
                     },
                     child: Icon(Icons.print),
                   ),
-                )
+                ),
+                Container(
+                  height: 55,
+                  margin: const EdgeInsets.only(bottom: 20, right: 20),
+                  decoration:
+                      BoxDecoration(borderRadius: BorderRadius.circular(20.0)),
+                  child: ElevatedButton(
+                    style: ButtonStyle(
+                        shape:
+                            MaterialStateProperty.all<RoundedRectangleBorder>(
+                                RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10.0))),
+                        backgroundColor: MaterialStatePropertyAll(
+                            Color.fromARGB(255, 255, 185, 33))),
+                    onPressed: () {
+                      context.loaderOverlay.show();
+                      databaseProvider
+                          .insertItinerary(
+                              itinerary: Itinerary(
+                                  id: itineraryProvider.itinerary.id,
+                                  title: itineraryProvider.itinerary.title,
+                                  days: itineraryProvider.itinerary.days))
+                          .whenComplete(() {
+                        context.loaderOverlay.hide();
+                        // refreshPreviousPage();
+                        // Navigator.pop(context);
+                        Navigator.popUntil(context, ModalRoute.withName('/next'));
+                      });
+                    },
+                    child: const Icon(Icons.save),
+                  ),
+                ),
               ]),
             )
           ],
@@ -209,22 +252,43 @@ class _AddDaysState extends State<AddDays> {
           selectedDayIndex = index;
         });
       },
-      child: Card(
-        color: index == selectedDayIndex ? Color(0xFF00FF46) : Colors.white,
-        margin: EdgeInsets.all(5),
-        child: SizedBox(
-          height: 100,
-          width: 100,
-          child: Column(
-            children: [
-              Text(
-                'Day ${index + 1}',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
+      child: Container(
+        decoration: BoxDecoration(
+          border: index == selectedDayIndex 
+            ? const Border(
+              bottom: BorderSide(                
+                width: 2.0,
+                color: Color(0xFFF8A700),
+              )
+            )
+            : null,
+        ),
+        child: Card(
+          // color: index == selectedDayIndex ? Color(0xFF00FF46) : Colors.white,
+          margin: EdgeInsets.all(5),
+          elevation: 0,
+          child: SizedBox(
+            height: 100,
+            width: 100,
+            child: Column(
+              children: [
+                Text(
+                  'Day ${index + 1}',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontFamily: 'poppins_bold',
+                    color: index == selectedDayIndex ? Color(0xFFF8A700) : Colors.black,
+                  ),
                 ),
-              ),
-              Text(tanggal)
-            ],
+                Text(
+                  tanggal,
+                  style: TextStyle(
+                    fontFamily: 'poppins_regular',
+                    color: index == selectedDayIndex ? Color(0xFFF8A700) : Colors.black,
+                  ),
+                )
+              ],
+            ),
           ),
         ),
       ),
