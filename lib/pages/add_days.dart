@@ -90,8 +90,9 @@ class _AddDaysState extends State<AddDays> {
                               scrollDirection: Axis.horizontal,
                               physics: const BouncingScrollPhysics(),
                               child: SingleChildScrollView(
-                                physics: const BouncingScrollPhysics(),
-                                  child: buildDataTable(context, selectedDayIndex)),
+                                  physics: const BouncingScrollPhysics(),
+                                  child: buildDataTable(
+                                      context, selectedDayIndex)),
                             ),
                           ))
                     ]),
@@ -254,14 +255,13 @@ class _AddDaysState extends State<AddDays> {
       },
       child: Container(
         decoration: BoxDecoration(
-          border: index == selectedDayIndex 
-            ? const Border(
-              bottom: BorderSide(                
-                width: 2.0,
-                color: Color(0xFFF8A700),
-              )
-            )
-            : null,
+          border: index == selectedDayIndex
+              ? const Border(
+                  bottom: BorderSide(
+                  width: 2.0,
+                  color: Color(0xFFF8A700),
+                ))
+              : null,
         ),
         child: Card(
           // color: index == selectedDayIndex ? Color(0xFF00FF46) : Colors.white,
@@ -277,14 +277,18 @@ class _AddDaysState extends State<AddDays> {
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontFamily: 'poppins_bold',
-                    color: index == selectedDayIndex ? Color(0xFFF8A700) : Colors.black,
+                    color: index == selectedDayIndex
+                        ? Color(0xFFF8A700)
+                        : Colors.black,
                   ),
                 ),
                 Text(
                   tanggal,
                   style: TextStyle(
                     fontFamily: 'poppins_regular',
-                    color: index == selectedDayIndex ? Color(0xFFF8A700) : Colors.black,
+                    color: index == selectedDayIndex
+                        ? Color(0xFFF8A700)
+                        : Colors.black,
                   ),
                 )
               ],
