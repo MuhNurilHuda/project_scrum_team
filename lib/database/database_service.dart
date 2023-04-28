@@ -64,7 +64,9 @@ class DatabaseService{
     }
   }
 
-  Future<List<Itinerary>> fetchItineraries() async{
+  Future<List<Itinerary>> fetchItineraries({
+    String filterItineraryName = "",
+  }) async{
     try {
       final db = await database;
 
@@ -74,6 +76,10 @@ class DatabaseService{
                 // developer.log("Object : $jsonString" , name: "qqq");
                 return Itinerary.fromJson(jsonDecode(jsonString));
               }
+      ).where(
+          (itinerary){
+            return itinerary.title.contains(RegExp(filterItineraryName , caseSensitive: false));
+          }
       ).toList();
 
 

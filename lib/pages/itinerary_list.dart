@@ -17,8 +17,12 @@ class ItineraryList extends StatelessWidget {
   TextEditingController searchController = TextEditingController();
   var time = DateTime.now();
 
+  late DatabaseProvider dbProvider;
+
   @override
   Widget build(BuildContext context) {
+    dbProvider = Provider.of(context , listen: true);
+
     final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
     // String _prefixtext = "Search";
 
@@ -117,7 +121,9 @@ class ItineraryList extends StatelessWidget {
                                               child: TextField(
                                                 controller: searchController,
                                                 onChanged: (value) {
-                                                  // setState(() {});
+                                                  dbProvider.refreshData(
+                                                    filterItineraryName: searchController.text
+                                                  );
                                                 },
                                                 decoration: InputDecoration(
                                                     // fillColor: Colors.white38,
@@ -194,37 +200,35 @@ class ItineraryList extends StatelessWidget {
                             color: Color(0xFF305A5A)),
                       ),
                     ),
-                    Consumer<DatabaseProvider>(
-                        builder: (context, provider, child) {
-                      return FutureBuilder<List<Itinerary>>(
-                          future: provider.itineraryDatas,
-                          builder: (context, snapshot) {
-                            final itineraries = snapshot.data;
-                            if (itineraries != null) {
-                              // developer.log("Itineraries : ${itineraries.length}" , name: "qqq");
-                              return GridView.builder(
-                                scrollDirection: Axis.vertical,
-                                physics: const BouncingScrollPhysics(),
-                                shrinkWrap: true,
-                                gridDelegate:
-                                    const SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 2,
-                                  crossAxisSpacing: 10,
-                                  mainAxisSpacing: 10,
-                                ),
-                                itemCount: itineraries.length,
-                                itemBuilder: (context, index) {
-                                  final item = itineraries[index];
-                                  //
-                                  return listItem(item, provider, context);
-                                },
-                              );
-                            } else
-                              return Center(
-                                child: CircularProgressIndicator(),
-                              );
-                          });
-                    }),
+                    FutureBuilder<List<Itinerary>>(
+                        future: dbProvider.itineraryDatas,
+                        builder: (context, snapshot) {
+                          final itineraries = snapshot.data;
+                          if (itineraries != null) {
+                            // developer.log("Itineraries : ${itineraries.length}" , name: "qqq");
+                            return GridView.builder(
+                              scrollDirection: Axis.vertical,
+                              physics: const BouncingScrollPhysics(),
+                              shrinkWrap: true,
+                              gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 2,
+                                crossAxisSpacing: 10,
+                                mainAxisSpacing: 10,
+                              ),
+                              itemCount: itineraries.length,
+                              itemBuilder: (context, index) {
+                                final item = itineraries[index];
+                                //
+                                return listItem(item, dbProvider, context);
+                              },
+                            );
+                          } else
+                            return Center(
+                              child: CircularProgressIndicator(),
+                            );
+                        }
+                    )
                   ],
                 ),
               ),
