@@ -15,8 +15,12 @@ class DatabaseProvider extends ChangeNotifier{
     refreshData();
   }
 
-  void refreshData(){
-    _itineraryDatas = _dbService.fetchItineraries();
+  void refreshData({
+    String filterItineraryName = ""
+  }){
+    _itineraryDatas = _dbService.fetchItineraries(
+      filterItineraryName: filterItineraryName
+    );
     notifyListeners();
   }
 
