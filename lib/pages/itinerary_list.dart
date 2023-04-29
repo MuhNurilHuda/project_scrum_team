@@ -12,6 +12,8 @@ import '../model/itinerary.dart';
 import '../widget/text_dialog.dart';
 import 'dart:developer' as developer;
 class ItineraryList extends StatelessWidget {
+  static const route = "/ItineraryListRoute";
+
   ItineraryList({Key? key}) : super(key: key);
 
   TextEditingController searchController = TextEditingController();
@@ -21,7 +23,6 @@ class ItineraryList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    developer.log("Rebuild itinerary list" , name : "qqq");
     dbProvider = Provider.of(context , listen: true);
 
     final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -219,7 +220,6 @@ class ItineraryList extends StatelessWidget {
                               ),
                               itemCount: itineraries.length,
                               itemBuilder: (context, index) {
-                                // developer.log("${itineraries[index].title}" , name : "qqq");
                                 final item = itineraries[index];
                                 //
                                 return listItem(item, dbProvider, context);
@@ -242,11 +242,11 @@ class ItineraryList extends StatelessWidget {
   }
 
   Widget listItem(
-      Itinerary itinerary, DatabaseProvider provider, BuildContext context) {
+      Itinerary itinerary, DatabaseProvider dbProvider, BuildContext context) {
     return InkWell(
       onTap: () {
-        Provider.of<ItineraryProvider>(context, listen: false)
-            .initItinerary(itinerary);
+        final itineraryProvider = Provider.of<ItineraryProvider>(context, listen: false);
+        itineraryProvider.initItinerary(itinerary);
 
         Navigator.of(context).push(MaterialPageRoute(builder: (context) {
           return AddDays();
@@ -300,7 +300,7 @@ class ItineraryList extends StatelessWidget {
                   ),
                   InkWell(
                     onTap: () {
-                      provider.deleteItinerary(id: itinerary.id);
+                      dbProvider.deleteItinerary(id: itinerary.id);
                     }, // Buat method Delete
                     child: Icon(
                       Icons.delete,

@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:iterasi1/model/alert_save_dialog_result.dart';
 import 'package:iterasi1/model/day.dart';
+import 'package:iterasi1/pages/itinerary_list.dart';
 import 'package:iterasi1/pages/pdf/preview_pdf_page.dart';
 import 'package:iterasi1/provider/database_provider.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:provider/provider.dart';
 import 'package:iterasi1/model/itinerary.dart';
+import 'dart:developer' as dev;
 
 import '../model/activity.dart';
 import '../provider/itinerary_provider.dart';
@@ -14,6 +17,8 @@ import 'activity/activity_form.dart';
 
 class AddDays extends StatefulWidget {
   AddDays({Key? key}) : super(key: key);
+
+
 
   @override
   State<AddDays> createState() => _AddDaysState();
@@ -34,182 +39,179 @@ class _AddDaysState extends State<AddDays> {
     databaseProvider = Provider.of(context, listen: true);
 
     return LoaderOverlay(
-      child: Scaffold(
-        backgroundColor: const Color(0xFF1C3131),
-        appBar: AppBar(
-          title: Text(
-            'Itinerary to ${itineraryProvider.itinerary.title}',
-            style: const TextStyle(
-              fontWeight: FontWeight.bold,
-            ),
-            // itineraryProvider.itinerary.title,
-          ),
-          centerTitle: true,
-          leading: IconButton(
-            icon: const Icon(Icons.arrow_back),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          ),
+      child: WillPopScope(
+        onWillPop : handleBackBehaviour ,
+        child: Scaffold(
           backgroundColor: const Color(0xFF1C3131),
-          elevation: 0,
-        ),
-        body: Stack(
-          children: [
-            ClipRRect(
-              borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(30), topRight: Radius.circular(30)),
-              child: Container(
-                color: Colors.white,
-                padding: const EdgeInsets.all(15.0),
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(
-                        height: 60,
-                        child: ListView.separated(
-                          scrollDirection: Axis.horizontal,
-                          physics: const BouncingScrollPhysics(),
-                          itemBuilder: (context, index) {
-                            return KartuTanggal(index,
-                                itineraryProvider.itinerary.days[index].date);
-                          },
-                          itemCount: itineraryProvider.itinerary.days.length,
-                          separatorBuilder: (BuildContext context , int index){
-                            return SizedBox(
-                              width: 48,
-                            );
-                          },
-                        ),
-                      ),
-
-                      const Divider(
-                        color: Colors.grey,
-                        thickness: 1,
-                      ),
-
-                      Expanded(
-                          child: Padding(
-                            padding: const EdgeInsets.only(bottom: 24),
-                            child: SingleChildScrollView(
-                              scrollDirection: Axis.horizontal,
-                              physics: const BouncingScrollPhysics(),
-                              child: SingleChildScrollView(
-                                physics: const BouncingScrollPhysics(),
-                                  child: buildDataTable(context, selectedDayIndex)),
-                            ),
-                          ))
-                    ]),
+          appBar: AppBar(
+            title: Text(
+              'Itinerary to ${itineraryProvider.itinerary.title}',
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
               ),
+              // itineraryProvider.itinerary.title,
             ),
-            Padding(
-              padding: const EdgeInsets.only(
-                left : 24,
-                right : 24,
-                bottom: 24
-              ),
-              child: Align(
-                alignment: Alignment.bottomCenter,
-                child: Row(children: [
-                  Expanded(
-                    child: Container(
-                      decoration: BoxDecoration(
-                          color: Color.fromARGB(255, 255, 185, 33),
-                          borderRadius: BorderRadius.circular(10)
-                      ),
-                      child: InkWell(
-                        onTap: () {
-                          Navigator.push(context,
-                              MaterialPageRoute(builder: (context) {
-                            return ActivityForm(dayIndex: selectedDayIndex);
-                          }));
-                        },
-                        child: SizedBox(
+            centerTitle: true,
+            leading: IconButton(
+              icon: const Icon(Icons.arrow_back),
+              onPressed: () {
+                handleBackBehaviour().then(
+                    (shouldPop){
+                      if (shouldPop){
+                        Navigator.of(context).popUntil(
+                          ModalRoute.withName(ItineraryList.route)
+                        );
+                      }
+                    }
+                );
+              },
+            ),
+            backgroundColor: const Color(0xFF1C3131),
+            elevation: 0,
+          ),
+          body: Stack(
+            children: [
+              ClipRRect(
+                borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(30), topRight: Radius.circular(30)),
+                child: Container(
+                  color: Colors.white,
+                  padding: const EdgeInsets.all(15.0),
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(
                           height: 60,
-                          width: 200,
-                          child: Card(
+                          child: ListView.separated(
+                            scrollDirection: Axis.horizontal,
+                            physics: const BouncingScrollPhysics(),
+                            itemBuilder: (context, index) {
+                              return KartuTanggal(index,
+                                  itineraryProvider.itinerary.days[index].date);
+                            },
+                            itemCount: itineraryProvider.itinerary.days.length,
+                            separatorBuilder: (BuildContext context , int index){
+                              return SizedBox(
+                                width: 48,
+                              );
+                            },
+                          ),
+                        ),
+
+                        const Divider(
+                          color: Colors.grey,
+                          thickness: 1,
+                        ),
+
+                        Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.only(bottom: 24),
+                              child: SingleChildScrollView(
+                                scrollDirection: Axis.horizontal,
+                                physics: const BouncingScrollPhysics(),
+                                child: SingleChildScrollView(
+                                    physics: const BouncingScrollPhysics(),
+                                    child: buildDataTable(context, selectedDayIndex)),
+                              ),
+                            ))
+                      ]),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(
+                    left : 24,
+                    right : 24,
+                    bottom: 24
+                ),
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Row(children: [
+                    Expanded(
+                      child: Container(
+                        decoration: BoxDecoration(
                             color: Color.fromARGB(255, 255, 185, 33),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10.0),
-                            ),
-                            elevation: 0,
-                            child: Align(
-                              alignment: Alignment.center,
-                              child: Text('Add New Activity',
-                                  style: TextStyle(
-                                      fontFamily: 'poppins_bold',
-                                      fontSize: 16,
-                                      color: Colors.white)),
+                            borderRadius: BorderRadius.circular(10)
+                        ),
+                        child: InkWell(
+                          onTap: () {
+                            Navigator.push(context,
+                                MaterialPageRoute(builder: (context) {
+                                  return ActivityForm(dayIndex: selectedDayIndex);
+                                }));
+                          },
+                          child: SizedBox(
+                            height: 60,
+                            width: 200,
+                            child: Card(
+                              color: Color.fromARGB(255, 255, 185, 33),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                              ),
+                              elevation: 0,
+                              child: Align(
+                                alignment: Alignment.center,
+                                child: Text('Add New Activity',
+                                    style: TextStyle(
+                                        fontFamily: 'poppins_bold',
+                                        fontSize: 16,
+                                        color: Colors.white)),
+                              ),
                             ),
                           ),
                         ),
                       ),
                     ),
-                  ),
 
-                  SizedBox(width: 8,),
+                    SizedBox(width: 8,),
 
-                  Container(
-                    height: 55,
-                    decoration:
-                        BoxDecoration(borderRadius: BorderRadius.circular(20.0)),
-                    child: ElevatedButton(
-                      style: ButtonStyle(
-                          shape:
-                              MaterialStateProperty.all<RoundedRectangleBorder>(
-                                  RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10.0))),
-                          backgroundColor: MaterialStatePropertyAll(
-                              Color.fromARGB(255, 255, 185, 33))),
-                      onPressed: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (builder) => PdfPreviewPage(
-                                itinerary: itineraryProvider.itinerary
+                    Container(
+                      height: 55,
+                      decoration:
+                      BoxDecoration(borderRadius: BorderRadius.circular(20.0)),
+                      child: ElevatedButton(
+                        style: ButtonStyle(
+                            shape:
+                            MaterialStateProperty.all<RoundedRectangleBorder>(
+                                RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10.0))),
+                            backgroundColor: MaterialStatePropertyAll(
+                                Color.fromARGB(255, 255, 185, 33))),
+                        onPressed: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (builder) => PdfPreviewPage(
+                                  itinerary: itineraryProvider.itinerary
+                              ),
                             ),
-                          ),
-                        );
-                      },
-                      child: Icon(Icons.print),
+                          );
+                        },
+                        child: Icon(Icons.print),
+                      ),
                     ),
-                  ),
 
-                  SizedBox(width: 8,),
+                    SizedBox(width: 8,),
 
-                  Container(
-                    height: 55,
-                    decoration:
-                        BoxDecoration(borderRadius: BorderRadius.circular(20.0)),
-                    child: ElevatedButton(
-                      style: ButtonStyle(
-                          shape:
-                              MaterialStateProperty.all<RoundedRectangleBorder>(
-                                  RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10.0))),
-                          backgroundColor: MaterialStatePropertyAll(
-                              Color.fromARGB(255, 255, 185, 33))),
-                      onPressed: () {
-                        context.loaderOverlay.show();
-                        databaseProvider
-                            .insertItinerary(
-                                itinerary: Itinerary(
-                                    id: itineraryProvider.itinerary.id,
-                                    title: itineraryProvider.itinerary.title,
-                                    days: itineraryProvider.itinerary.days))
-                            .whenComplete(() {
-                          context.loaderOverlay.hide();
-                          // refreshPreviousPage();
-                          // Navigator.pop(context);
-                          Navigator.popUntil(context, ModalRoute.withName('/next'));
-                        });
-                      },
-                      child: const Icon(Icons.save),
+                    Container(
+                      height: 55,
+                      decoration:
+                      BoxDecoration(borderRadius: BorderRadius.circular(20.0)),
+                      child: ElevatedButton(
+                        style: ButtonStyle(
+                            shape:
+                            MaterialStateProperty.all<RoundedRectangleBorder>(
+                                RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10.0))),
+                            backgroundColor: MaterialStatePropertyAll(
+                                Color.fromARGB(255, 255, 185, 33))),
+                        onPressed: saveCurrentItinerary,
+                        child: const Icon(Icons.save),
+                      ),
                     ),
-                  ),
-                ]),
-              ),
-            )
-          ],
+                  ]),
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );
@@ -400,4 +402,78 @@ class _AddDaysState extends State<AddDays> {
           )),
         ]);
       }).toList();
+  
+    Future<AlertSaveDialogResult?> showAlertSaveDialog(BuildContext context) {
+      return showDialog<AlertSaveDialogResult?>( // Nilai yang direturn adalah Future<HasilPop>
+          context: context,
+          builder: (context){
+            return AlertDialog(
+              content: Text("Yakin ingin kembali?"),
+              actions: [
+                TextButton(
+                    onPressed: (){
+                      Navigator.of(context).pop(
+                        AlertSaveDialogResult.cancel
+                      );
+                    },
+                    child: Text("Cancel")
+                ),
+
+                TextButton(
+                    onPressed: (){
+                      Navigator.of(context).pop(
+                        AlertSaveDialogResult.saveAndQuit
+                      );
+                    },
+                    child: Text("Save and Quit")
+                ),
+
+                TextButton(
+                    onPressed: (){
+                      Navigator.of(context).pop(
+                        AlertSaveDialogResult.saveWithoutQuit
+                      );
+                    },
+                    child: Text("Save Without Quit")
+                )
+              ],
+            );
+          }
+      );
+    }
+
+    Future<void> saveCurrentItinerary(){
+      context.loaderOverlay.show();
+      return databaseProvider
+          .insertItinerary(itinerary: itineraryProvider.itinerary)
+          .whenComplete(() {
+            Navigator.popUntil(
+                context,
+                ModalRoute.withName(ItineraryList.route)
+            );
+            context.loaderOverlay.hide();
+          });
+    }
+
+    Future<bool> handleBackBehaviour() async {
+      final resultSaveDialog = await showAlertSaveDialog(context);
+
+      late bool shouldPop;
+
+      if (resultSaveDialog == AlertSaveDialogResult.saveWithoutQuit){
+        dev.log("save without quit");
+        shouldPop = true;
+      }
+      else if (resultSaveDialog == AlertSaveDialogResult.saveAndQuit){
+        await saveCurrentItinerary();
+        shouldPop = true;
+      }
+      else {
+        shouldPop = false;
+      }
+
+      return shouldPop;
+    }
 }
+
+
