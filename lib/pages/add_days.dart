@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:iterasi1/model/day.dart';
-import 'package:iterasi1/pages/activity/add_activities.dart';
 import 'package:iterasi1/pages/pdf/preview_pdf_page.dart';
 import 'package:iterasi1/provider/database_provider.dart';
 import 'package:loader_overlay/loader_overlay.dart';
@@ -66,9 +65,9 @@ class _AddDaysState extends State<AddDays> {
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Expanded(
-                        flex: 1,
-                        child: ListView.builder(
+                      SizedBox(
+                        height: 60,
+                        child: ListView.separated(
                           scrollDirection: Axis.horizontal,
                           physics: const BouncingScrollPhysics(),
                           itemBuilder: (context, index) {
@@ -76,16 +75,22 @@ class _AddDaysState extends State<AddDays> {
                                 itineraryProvider.itinerary.days[index].date);
                           },
                           itemCount: itineraryProvider.itinerary.days.length,
+                          separatorBuilder: (BuildContext context , int index){
+                            return SizedBox(
+                              width: 48,
+                            );
+                          },
                         ),
                       ),
+
                       const Divider(
                         color: Colors.grey,
                         thickness: 1,
                       ),
+
                       Expanded(
-                          flex: 10,
                           child: Padding(
-                            padding: const EdgeInsets.only(bottom: 65.0),
+                            padding: const EdgeInsets.only(bottom: 24),
                             child: SingleChildScrollView(
                               scrollDirection: Axis.horizontal,
                               physics: const BouncingScrollPhysics(),
@@ -97,150 +102,115 @@ class _AddDaysState extends State<AddDays> {
                     ]),
               ),
             ),
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: Row(children: [
-                Expanded(
-                  child: Container(
-                    margin: EdgeInsets.only(
-                      bottom: 20,
-                      right: 20,
-                      left: 20,
-                    ),
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 20,
-                      vertical: 5,
-                    ),
-                    decoration: BoxDecoration(
-                        color: Color.fromARGB(255, 255, 185, 33),
-                        borderRadius: BorderRadius.circular(10)),
-                    child: InkWell(
-                      onTap: () {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) {
-                          return ActivityForm(dayIndex: selectedDayIndex);
-                        }));
-                      },
-                      child: SizedBox(
-                        height: 45,
-                        width: 200,
-                        child: Card(
+            Padding(
+              padding: const EdgeInsets.only(
+                left : 24,
+                right : 24,
+                bottom: 24
+              ),
+              child: Align(
+                alignment: Alignment.bottomCenter,
+                child: Row(children: [
+                  Expanded(
+                    child: Container(
+                      decoration: BoxDecoration(
                           color: Color.fromARGB(255, 255, 185, 33),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
-                          elevation: 0,
-                          child: Align(
-                            alignment: Alignment.center,
-                            child: Text('Add New Activity',
-                                style: TextStyle(
-                                    fontFamily: 'poppins_bold',
-                                    fontSize: 16,
-                                    color: Colors.white)),
+                          borderRadius: BorderRadius.circular(10)
+                      ),
+                      child: InkWell(
+                        onTap: () {
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (context) {
+                            return ActivityForm(dayIndex: selectedDayIndex);
+                          }));
+                        },
+                        child: SizedBox(
+                          height: 60,
+                          width: 200,
+                          child: Card(
+                            color: Color.fromARGB(255, 255, 185, 33),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+                            ),
+                            elevation: 0,
+                            child: Align(
+                              alignment: Alignment.center,
+                              child: Text('Add New Activity',
+                                  style: TextStyle(
+                                      fontFamily: 'poppins_bold',
+                                      fontSize: 16,
+                                      color: Colors.white)),
+                            ),
                           ),
                         ),
                       ),
                     ),
                   ),
-                ),
-                Container(
-                  height: 55,
-                  margin: const EdgeInsets.only(bottom: 20, right: 20),
-                  decoration:
-                      BoxDecoration(borderRadius: BorderRadius.circular(20.0)),
-                  child: ElevatedButton(
-                    style: ButtonStyle(
-                        shape:
-                            MaterialStateProperty.all<RoundedRectangleBorder>(
-                                RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10.0))),
-                        backgroundColor: MaterialStatePropertyAll(
-                            Color.fromARGB(255, 255, 185, 33))),
-                    onPressed: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (builder) => PdfPreviewPage(
-                              itinerary: itineraryProvider.itinerary),
-                        ),
-                      );
-                    },
-                    child: Icon(Icons.print),
+
+                  SizedBox(width: 8,),
+
+                  Container(
+                    height: 55,
+                    decoration:
+                        BoxDecoration(borderRadius: BorderRadius.circular(20.0)),
+                    child: ElevatedButton(
+                      style: ButtonStyle(
+                          shape:
+                              MaterialStateProperty.all<RoundedRectangleBorder>(
+                                  RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10.0))),
+                          backgroundColor: MaterialStatePropertyAll(
+                              Color.fromARGB(255, 255, 185, 33))),
+                      onPressed: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (builder) => PdfPreviewPage(
+                                itinerary: itineraryProvider.itinerary
+                            ),
+                          ),
+                        );
+                      },
+                      child: Icon(Icons.print),
+                    ),
                   ),
-                ),
-                Container(
-                  height: 55,
-                  margin: const EdgeInsets.only(bottom: 20, right: 20),
-                  decoration:
-                      BoxDecoration(borderRadius: BorderRadius.circular(20.0)),
-                  child: ElevatedButton(
-                    style: ButtonStyle(
-                        shape:
-                            MaterialStateProperty.all<RoundedRectangleBorder>(
-                                RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10.0))),
-                        backgroundColor: MaterialStatePropertyAll(
-                            Color.fromARGB(255, 255, 185, 33))),
-                    onPressed: () {
-                      context.loaderOverlay.show();
-                      databaseProvider
-                          .insertItinerary(
-                              itinerary: Itinerary(
-                                  id: itineraryProvider.itinerary.id,
-                                  title: itineraryProvider.itinerary.title,
-                                  days: itineraryProvider.itinerary.days))
-                          .whenComplete(() {
-                        context.loaderOverlay.hide();
-                        // refreshPreviousPage();
-                        // Navigator.pop(context);
-                        Navigator.popUntil(context, ModalRoute.withName('/next'));
-                      });
-                    },
-                    child: const Icon(Icons.save),
+
+                  SizedBox(width: 8,),
+
+                  Container(
+                    height: 55,
+                    decoration:
+                        BoxDecoration(borderRadius: BorderRadius.circular(20.0)),
+                    child: ElevatedButton(
+                      style: ButtonStyle(
+                          shape:
+                              MaterialStateProperty.all<RoundedRectangleBorder>(
+                                  RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10.0))),
+                          backgroundColor: MaterialStatePropertyAll(
+                              Color.fromARGB(255, 255, 185, 33))),
+                      onPressed: () {
+                        context.loaderOverlay.show();
+                        databaseProvider
+                            .insertItinerary(
+                                itinerary: Itinerary(
+                                    id: itineraryProvider.itinerary.id,
+                                    title: itineraryProvider.itinerary.title,
+                                    days: itineraryProvider.itinerary.days))
+                            .whenComplete(() {
+                          context.loaderOverlay.hide();
+                          // refreshPreviousPage();
+                          // Navigator.pop(context);
+                          Navigator.popUntil(context, ModalRoute.withName('/next'));
+                        });
+                      },
+                      child: const Icon(Icons.save),
+                    ),
                   ),
-                ),
-              ]),
+                ]),
+              ),
             )
           ],
         ),
-      ),
-    );
-  }
-
-  Widget listItem(int index, BuildContext context) {
-    return SizedBox(
-      height: 80,
-      child: Container(
-        padding: const EdgeInsets.fromLTRB(40, 5, 40, 5),
-        child: Card(
-            color: Colors.white,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Text(itineraryProvider.itinerary.days[index].date),
-                InkWell(
-                    onTap: () {
-                      Navigator.of(context)
-                          .push(MaterialPageRoute(builder: (builder) {
-                        return AddActivities(dayIndex: index);
-                      }));
-                    },
-                    child: Card(
-                      // color: Color(0x1C3131),
-                      color: Colors.grey,
-                      elevation: 0,
-                      child:
-                          Row(mainAxisSize: MainAxisSize.min, children: const [
-                        Card(
-                          child: const Icon(Icons.add),
-                        ),
-                        Text(
-                          "Tambah Aktivitas",
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ]),
-                    )),
-              ],
-            )),
       ),
     );
   }
@@ -254,41 +224,37 @@ class _AddDaysState extends State<AddDays> {
       },
       child: Container(
         decoration: BoxDecoration(
-          border: index == selectedDayIndex 
-            ? const Border(
-              bottom: BorderSide(                
+          border: index == selectedDayIndex
+              ? const Border(
+              bottom: BorderSide(
                 width: 2.0,
                 color: Color(0xFFF8A700),
               )
-            )
-            : null,
+          )
+              : null,
         ),
         child: Card(
           // color: index == selectedDayIndex ? Color(0xFF00FF46) : Colors.white,
           margin: EdgeInsets.all(5),
           elevation: 0,
-          child: SizedBox(
-            height: 100,
-            width: 100,
-            child: Column(
-              children: [
-                Text(
-                  'Day ${index + 1}',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontFamily: 'poppins_bold',
-                    color: index == selectedDayIndex ? Color(0xFFF8A700) : Colors.black,
-                  ),
+          child: Column(
+            children: [
+              Text(
+                'Day ${index + 1}',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'poppins_bold',
+                  color: index == selectedDayIndex ? Color(0xFFF8A700) : Colors.black,
                 ),
-                Text(
-                  tanggal,
-                  style: TextStyle(
-                    fontFamily: 'poppins_regular',
-                    color: index == selectedDayIndex ? Color(0xFFF8A700) : Colors.black,
-                  ),
-                )
-              ],
-            ),
+              ),
+              Text(
+                tanggal,
+                style: TextStyle(
+                  fontFamily: 'poppins_regular',
+                  color: index == selectedDayIndex ? Color(0xFFF8A700) : Colors.black,
+                ),
+              )
+            ],
           ),
         ),
       ),

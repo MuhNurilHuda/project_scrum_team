@@ -10,7 +10,7 @@ import 'package:flutter/services.dart';
 
 import '../model/itinerary.dart';
 import '../widget/text_dialog.dart';
-
+import 'dart:developer' as developer;
 class ItineraryList extends StatelessWidget {
   ItineraryList({Key? key}) : super(key: key);
 
@@ -21,6 +21,7 @@ class ItineraryList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    developer.log("Rebuild itinerary list" , name : "qqq");
     dbProvider = Provider.of(context , listen: true);
 
     final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -218,6 +219,7 @@ class ItineraryList extends StatelessWidget {
                               ),
                               itemCount: itineraries.length,
                               itemBuilder: (context, index) {
+                                // developer.log("${itineraries[index].title}" , name : "qqq");
                                 final item = itineraries[index];
                                 //
                                 return listItem(item, dbProvider, context);

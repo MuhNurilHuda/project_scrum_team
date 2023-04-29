@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:iterasi1/database/database_service.dart';
-
 import '../model/itinerary.dart';
 
 class DatabaseProvider extends ChangeNotifier{
@@ -25,12 +24,12 @@ class DatabaseProvider extends ChangeNotifier{
   }
 
   Future<void> deleteItinerary({required String id}) async{
-    _dbService.deleteItinerary(id);
+    await _dbService.deleteItinerary(id);
     refreshData();
   }
 
   Future<void> insertItinerary({required Itinerary itinerary}) async {
-    _dbService.insertItinerary(itinerary);
+    await _dbService.insertItinerary(itinerary);
     refreshData();
   }
 }
