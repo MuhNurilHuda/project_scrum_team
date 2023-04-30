@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
         home: const SplashScreen(),
         debugShowCheckedModeBanner : false,
         routes: {
-          ItineraryList.route : (context) => ItineraryList(),
+          '/next' : (context) => ItineraryList(),
         },
       ),
     );

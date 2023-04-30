@@ -17,7 +17,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
     // Navigate after 2 seconds
     Future.delayed(const Duration(milliseconds: 1500), () {
-      Navigator.pushReplacementNamed(context, ItineraryList.route);
+      Navigator.pushReplacementNamed(context, '/next');
     });
   }
 
