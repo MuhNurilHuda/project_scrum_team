@@ -72,7 +72,7 @@ class _AddDaysState extends State<AddDays> {
                           scrollDirection: Axis.horizontal,
                           physics: const BouncingScrollPhysics(),
                           itemBuilder: (context, index) {
-                            return KartuTanggal(index,
+                            return kartuTanggal(index,
                                 itineraryProvider.itinerary.days[index].date);
                           },
                           itemCount: itineraryProvider.itinerary.days.length,
@@ -103,17 +103,17 @@ class _AddDaysState extends State<AddDays> {
               child: Row(children: [
                 Expanded(
                   child: Container(
-                    margin: EdgeInsets.only(
+                    margin: const EdgeInsets.only(
                       bottom: 20,
                       right: 20,
                       left: 20,
                     ),
-                    padding: EdgeInsets.symmetric(
+                    padding: const EdgeInsets.symmetric(
                       horizontal: 20,
                       vertical: 5,
                     ),
                     decoration: BoxDecoration(
-                        color: Color.fromARGB(255, 255, 185, 33),
+                        color: const Color.fromARGB(255, 255, 185, 33),
                         borderRadius: BorderRadius.circular(10)),
                     child: InkWell(
                       onTap: () {
@@ -126,12 +126,12 @@ class _AddDaysState extends State<AddDays> {
                         height: 45,
                         width: 200,
                         child: Card(
-                          color: Color.fromARGB(255, 255, 185, 33),
+                          color: const Color.fromARGB(255, 255, 185, 33),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10.0),
                           ),
                           elevation: 0,
-                          child: Align(
+                          child: const Align(
                             alignment: Alignment.center,
                             child: Text('Add New Activity',
                                 style: TextStyle(
@@ -155,7 +155,7 @@ class _AddDaysState extends State<AddDays> {
                             MaterialStateProperty.all<RoundedRectangleBorder>(
                                 RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10.0))),
-                        backgroundColor: MaterialStatePropertyAll(
+                        backgroundColor: const MaterialStatePropertyAll(
                             Color.fromARGB(255, 255, 185, 33))),
                     onPressed: () {
                       Navigator.of(context).push(
@@ -165,7 +165,7 @@ class _AddDaysState extends State<AddDays> {
                         ),
                       );
                     },
-                    child: Icon(Icons.print),
+                    child: const Icon(Icons.print),
                   ),
                 ),
                 Container(
@@ -179,7 +179,7 @@ class _AddDaysState extends State<AddDays> {
                             MaterialStateProperty.all<RoundedRectangleBorder>(
                                 RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10.0))),
-                        backgroundColor: MaterialStatePropertyAll(
+                        backgroundColor: const MaterialStatePropertyAll(
                             Color.fromARGB(255, 255, 185, 33))),
                     onPressed: () {
                       context.loaderOverlay.show();
@@ -232,7 +232,7 @@ class _AddDaysState extends State<AddDays> {
                       child:
                           Row(mainAxisSize: MainAxisSize.min, children: const [
                         Card(
-                          child: const Icon(Icons.add),
+                          child: Icon(Icons.add),
                         ),
                         Text(
                           "Tambah Aktivitas",
@@ -246,7 +246,7 @@ class _AddDaysState extends State<AddDays> {
     );
   }
 
-  Widget KartuTanggal(int index, String tanggal) {
+  Widget kartuTanggal(int index, String tanggal) {
     return InkWell(
       onTap: () {
         setState(() {
@@ -265,7 +265,7 @@ class _AddDaysState extends State<AddDays> {
         ),
         child: Card(
           // color: index == selectedDayIndex ? Color(0xFF00FF46) : Colors.white,
-          margin: EdgeInsets.all(5),
+          margin: const EdgeInsets.all(5),
           elevation: 0,
           child: SizedBox(
             height: 100,
@@ -278,7 +278,7 @@ class _AddDaysState extends State<AddDays> {
                     fontWeight: FontWeight.bold,
                     fontFamily: 'poppins_bold',
                     color: index == selectedDayIndex
-                        ? Color(0xFFF8A700)
+                        ? const Color(0xFFF8A700)
                         : Colors.black,
                   ),
                 ),
@@ -287,7 +287,7 @@ class _AddDaysState extends State<AddDays> {
                   style: TextStyle(
                     fontFamily: 'poppins_regular',
                     color: index == selectedDayIndex
-                        ? Color(0xFFF8A700)
+                        ? const Color(0xFFF8A700)
                         : Colors.black,
                   ),
                 )

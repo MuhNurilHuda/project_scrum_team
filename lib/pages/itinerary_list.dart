@@ -4,6 +4,7 @@ import 'package:iterasi1/pages/add_days.dart';
 import 'package:iterasi1/pages/datepicker/date_picker_layout.dart';
 import 'package:iterasi1/provider/database_provider.dart';
 import 'package:iterasi1/provider/itinerary_provider.dart';
+import 'package:iterasi1/pages/select_date.dart';
 import 'package:provider/provider.dart';
 import 'package:iterasi1/navigation/side_navbar.dart';
 import 'package:flutter/services.dart';
@@ -21,7 +22,7 @@ class ItineraryList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    dbProvider = Provider.of(context , listen: true);
+    dbProvider = Provider.of(context, listen: true);
 
     final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
     // String _prefixtext = "Search";
@@ -95,72 +96,83 @@ class ItineraryList extends StatelessWidget {
                           context: context,
                           isScrollControlled: true,
                           builder: (BuildContext context) {
-                            return Container(
-                              color: const Color(0xFFF1F2F6),
-                              width: double.infinity,
-                              height: 450,
-                              child: IntrinsicHeight(
-                                child: Container(
-                                  padding:
-                                      const EdgeInsets.fromLTRB(7, 10, 7, 10),
-                                  child: Column(children: [
-                                    Container(
-                                      padding: const EdgeInsets.fromLTRB(
-                                          10, 15, 10, 15),
-                                      margin: const EdgeInsets.fromLTRB(
-                                          10, 15, 10, 15),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Expanded(
-                                            flex: 5,
-                                            child: Theme(
-                                              data: Theme.of(context).copyWith(
-                                                  primaryColor: Colors.blue),
-                                              child: TextField(
-                                                controller: searchController,
-                                                onChanged: (value) {
-                                                  dbProvider.refreshData(
-                                                    filterItineraryName: searchController.text
-                                                  );
-                                                },
-                                                decoration: InputDecoration(
-                                                    // fillColor: Colors.white38,
-                                                    filled: true,
-                                                    hintText: "Search",
-                                                    border: OutlineInputBorder(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(20))),
+                            return SingleChildScrollView(
+                              physics: const BouncingScrollPhysics(),
+                              child: Container(
+                                color: const Color(0xFFF1F2F6),
+                                width: double.infinity,
+                                height: 450,
+                                child: IntrinsicHeight(
+                                  child: Container(
+                                    padding:
+                                        const EdgeInsets.fromLTRB(7, 10, 7, 10),
+                                    child: Column(children: [
+                                      Container(
+                                        padding: const EdgeInsets.fromLTRB(
+                                            10, 15, 10, 15),
+                                        margin: const EdgeInsets.fromLTRB(
+                                            10, 15, 10, 15),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Expanded(
+                                              flex: 5,
+                                              child: Theme(
+                                                data: Theme.of(context)
+                                                    .copyWith(
+                                                        primaryColor:
+                                                            Colors.blue),
+                                                child: TextField(
+                                                  controller: searchController,
+                                                  onChanged: (value) {
+                                                    dbProvider.refreshData(
+                                                        filterItineraryName:
+                                                            searchController
+                                                                .text);
+                                                  },
+                                                  decoration: InputDecoration(
+                                                      // fillColor: Colors.white38,
+                                                      filled: true,
+                                                      hintText: "Search",
+                                                      border:
+                                                          OutlineInputBorder(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          20))),
+                                                ),
                                               ),
                                             ),
-                                          ),
-                                          const SizedBox(
-                                            height: 10,
-                                            width: 10,
-                                          ),
-                                          Expanded(
-                                            flex: 1,
-                                            child: Container(
-                                              height: 50,
-                                              width: 30,
-                                              decoration: const BoxDecoration(
-                                                shape: BoxShape.circle,
-                                                color: Colors.white,
-                                              ),
-                                              child: IconButton(
-                                                  onPressed: () {},
-                                                  icon: const Image(
-                                                    image: AssetImage(
-                                                        'assets/logo/SearchButton.png'),
-                                                  )),
+                                            const SizedBox(
+                                              height: 10,
+                                              width: 10,
                                             ),
-                                          ),
-                                        ],
-                                      ),
-                                    )
-                                  ]),
+                                            Expanded(
+                                              flex: 1,
+                                              child: Container(
+                                                height: 50,
+                                                width: 30,
+                                                padding: const EdgeInsets.all(5.0),
+                                                decoration: const BoxDecoration(
+                                                  shape: BoxShape.circle,
+                                                  color: Colors.white,
+                                                ),
+                                                child: IconButton(
+                                                    onPressed: () {
+                                                      Navigator.pop(context);
+                                                    },
+                                                    icon: const Image(
+                                                      image: AssetImage(
+                                                          'assets/logo/SearchButton.png'),
+                                                    )),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      )
+                                    ]),
+                                  ),
                                 ),
                               ),
                             );
@@ -211,7 +223,7 @@ class ItineraryList extends StatelessWidget {
                               physics: const BouncingScrollPhysics(),
                               shrinkWrap: true,
                               gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
+                                  const SliverGridDelegateWithFixedCrossAxisCount(
                                 crossAxisCount: 2,
                                 crossAxisSpacing: 10,
                                 mainAxisSpacing: 10,
@@ -223,12 +235,13 @@ class ItineraryList extends StatelessWidget {
                                 return listItem(item, dbProvider, context);
                               },
                             );
-                          } else
-                            return Center(
+                          } else {
+                            return const Center(
                               child: CircularProgressIndicator(),
                             );
-                        }
-                    )
+                          }
+                            
+                        })
                   ],
                 ),
               ),
@@ -256,25 +269,14 @@ class ItineraryList extends StatelessWidget {
         ),
         elevation: 4,
         child: Container(
-          margin: EdgeInsets.only(top: 12.0, left: 8.0, right: 8.0),
+          margin: const EdgeInsets.only(top: 12.0, left: 8.0, right: 8.0),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10.0),
             color: Colors.white,
           ),
           padding: const EdgeInsets.all(7.0),
           // color: Colors.white,
-          child: GridTile(
-            child: Align(
-              alignment: Alignment.topCenter,
-              child: Text(
-                'Itinerary to ${itinerary.title}',
-                style: TextStyle(
-                  fontFamily: 'poppins_bold',
-                  color: Color(0xFF305A5A),
-                ),
-                textAlign: TextAlign.center,
-              ),
-            ),
+          child: GridTile(            
             footer: Container(
               padding: const EdgeInsets.all(5.0),
               child: Column(
@@ -285,7 +287,7 @@ class ItineraryList extends StatelessWidget {
                     // time.toString(),
                     // DateTime.now().toString(),
                     // 'April, 27 2023',
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontFamily: 'poppins_regular',
                       color: Colors.grey,
                       fontSize: 11,
@@ -300,11 +302,22 @@ class ItineraryList extends StatelessWidget {
                     onTap: () {
                       provider.deleteItinerary(id: itinerary.id);
                     }, // Buat method Delete
-                    child: Icon(
+                    child: const Icon(
                       Icons.delete,
                     ),
                   ),
                 ],
+              ),
+            ),
+            child: Align(
+              alignment: Alignment.topCenter,
+              child: Text(
+                'Itinerary to ${itinerary.title}',
+                style: const TextStyle(
+                  fontFamily: 'poppins_bold',
+                  color: Color(0xFF305A5A),
+                ),
+                textAlign: TextAlign.center,
               ),
             ),
           ),
@@ -322,7 +335,7 @@ class ItineraryList extends StatelessWidget {
           .initItinerary(Itinerary(title: itineraryTitle));
 
       Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-        return const DatePickerLayout();
+        return SelectDate();
       }));
     }
   }
