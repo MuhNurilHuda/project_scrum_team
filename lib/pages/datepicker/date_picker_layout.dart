@@ -5,7 +5,7 @@ import 'package:iterasi1/pages/add_days.dart';
 import 'package:iterasi1/provider/itinerary_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
-import 'dart:developer' as developer;
+import 'dart:developer' as dev;
 
 
 class DatePickerLayout extends StatelessWidget{
@@ -31,10 +31,9 @@ class DatePickerLayout extends StatelessWidget{
                 },
                 onSubmit : (Object? selectedValue){
                   try {
-                    final List<PickerDateRange>? choosenRanges =
-                      selectedValue as List<PickerDateRange>;
+                    final List<DateTime>? choosenRanges =
+                      selectedValue as List<DateTime>;
 
-                    developer.log(choosenRanges.toString() , name: "qqqDatePickerData");
                     if (choosenRanges?.isNotEmpty == true) {
                       final ItineraryProvider provider = Provider.of(
                           context ,
@@ -59,7 +58,7 @@ class DatePickerLayout extends StatelessWidget{
                             content: Text("Tanggal yang dipilih tidak boleh kosong!")
                         )
                     );
-                    developer.log(e.toString() , name: "qqq");
+                    dev.log(e.toString() , name: "qqq");
                   }
                 },
                 headerStyle: const DateRangePickerHeaderStyle(

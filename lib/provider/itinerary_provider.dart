@@ -24,27 +24,11 @@ class ItineraryProvider extends ChangeNotifier{
     notifyListeners();
   }
 
-  void initializeDays(List<PickerDateRange> dateRanges){
-    List<DateTime> sortedDates = dateRanges.map(
-            (dateRange){
-          var currentDay = dateRange.startDate!;
-          final endDay = dateRange.endDate!;
-
-          final List<DateTime> currentDates = [];
-          while(!(currentDay.isAfter(endDay))){
-            // developer.log(currentDay.toString() , name: "qqq");
-            currentDates.add(currentDay);
-            currentDay = currentDay.add(const Duration(days: 1));
-          }
-
-          return currentDates;
-        }
-    ).expand((e) => e)
-        .toList()
+  void initializeDays(List<DateTime> dates){
+    List<DateTime> sortedDates = dates
         ..sort();
 
     itinerary.days = sortedDates.map((date) => Day.from(date)).toList();
-    developer.log("Total Days : ${itinerary.days.length}");
 
     notifyListeners();
   }

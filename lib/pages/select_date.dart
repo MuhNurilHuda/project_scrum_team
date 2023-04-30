@@ -1,20 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:iterasi1/model/day.dart';
-import 'package:iterasi1/pages/activity/add_activities.dart';
-import 'package:iterasi1/pages/pdf/preview_pdf_page.dart';
 import 'package:iterasi1/provider/database_provider.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:provider/provider.dart';
-import 'package:iterasi1/model/itinerary.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:iterasi1/pages/add_days.dart';
 import 'dart:developer' as developer;
 
-import '../model/activity.dart';
 import '../provider/itinerary_provider.dart';
-import 'package:collection/collection.dart';
 
-import 'activity/activity_form.dart';
 
 class SelectDate extends StatefulWidget {
   SelectDate({Key? key}) : super(key: key);
@@ -28,9 +21,7 @@ class _SelectDateState extends State<SelectDate> {
 
   late DatabaseProvider databaseProvider;
 
-  int selectedDayIndex = 0;
-
-  TextEditingController searchController = TextEditingController();
+  List<DateTime> selectedDates = [];
 
   @override
   Widget build(BuildContext context) {
@@ -80,35 +71,11 @@ class _SelectDateState extends State<SelectDate> {
                         thickness: 1,
                       ),
                       SfDateRangePicker(
-                        selectionMode: DateRangePickerSelectionMode.multiRange,
-                        showActionButtons: true,
-                        onCancel: () {
-                          Navigator.of(context).pop();
-                        },
-                        onSubmit: (Object? selectedValue) {
-                          try {
-                            final List<PickerDateRange>? choosenRanges =
-                                selectedValue as List<PickerDateRange>;
-
-                            developer.log(choosenRanges.toString(),
-                                name: "qqqDatePickerData");
-                            if (choosenRanges?.isNotEmpty == true) {
-                              final ItineraryProvider provider =
-                                  Provider.of(context, listen: false);
-
-                              provider.initializeDays(choosenRanges!);
-
-                              Navigator.of(context)
-                                  .push(MaterialPageRoute(builder: (context) {
-                                return AddDays();
-                              }));
-                            }
-                          } catch (e) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                    content: Text(
-                                        "Tanggal yang dipilih tidak boleh kosong!")));
-                            developer.log(e.toString(), name: "qqq");
+                        selectionMode: DateRangePickerSelectionMode.multiple,
+                        onSelectionChanged: (DateRangePickerSelectionChangedArgs? args){
+                          if (args?.value is List<DateTime>){
+                            final dates = args?.value as List<DateTime>;
+                            selectedDates = dates;
                           }
                         },
                         headerStyle: const DateRangePickerHeaderStyle(
@@ -140,51 +107,6 @@ class _SelectDateState extends State<SelectDate> {
                           offset: const Offset(0, 2))
                     ]),
                 height: 200,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Column(
-                      children: [
-                        Text(
-                          'From',
-                          textAlign: TextAlign.start,
-                          style: TextStyle(
-                            fontFamily: 'poppins_regular',
-                            color: Colors.grey,
-                          ),
-                        ),
-                        Text(
-                          '5 April',
-                          textAlign: TextAlign.start,
-                          style: TextStyle(
-                            fontFamily: 'poppins_bold',
-                            color: Colors.black,
-                          ),
-                        )
-                      ],
-                    ),
-                    Column(
-                      children: [
-                        Text(
-                          'To',
-                          textAlign: TextAlign.start,
-                          style: TextStyle(
-                            fontFamily: 'poppins_regular',
-                            color: Colors.grey,
-                          ),
-                        ),
-                        Text(
-                          '5 April',
-                          textAlign: TextAlign.start,
-                          style: TextStyle(
-                            fontFamily: 'poppins_bold',
-                            color: Colors.black,
-                          ),
-                        )
-                      ],
-                    )
-                  ],
-                ),
                 // color: Colors.grey,
               ),
             ),
@@ -194,9 +116,9 @@ class _SelectDateState extends State<SelectDate> {
                 Expanded(
                   child: Container(
                     margin: const EdgeInsets.only(
-                      bottom: 20,
-                      right: 20,
-                      left: 20,
+                      bottom: 48,
+                      right: 48,
+                      left: 48,
                     ),
                     padding: const EdgeInsets.symmetric(
                       horizontal: 20,
@@ -207,9 +129,10 @@ class _SelectDateState extends State<SelectDate> {
                         borderRadius: BorderRadius.circular(10)),
                     child: InkWell(
                       onTap: () {
+                        itineraryProvider.initializeDays(selectedDates);
                         Navigator.push(context,
                             MaterialPageRoute(builder: (context) {
-                          return ActivityForm(dayIndex: selectedDayIndex);
+                          return AddDays();
                         }));
                       },
                       child: SizedBox(
