@@ -37,28 +37,43 @@ class DatabaseService{
   }
 
   Future<void> insertItinerary(Itinerary itinerary) async{
-    try {
+    late Database db;
+    late Map<String , String> dataMap;
 
-      final Map<String , String> dataMap = {
+    try {
+      db = await database;
+      dataMap = {
         "id" : itinerary.id,
         "data" : jsonEncode(itinerary.toJson())
       };
 
-      // developer.log("Mencoba insert" , name : "qqq");
-
-      final db = await database;
-
+      developer.log("Mencoba insert" , name : "qqq");
       // final tables = await db.query("sqlite_master", where: "type = 'table'");
       // for (final table in tables) {
       //   developer.log("Nama Table : ${table["name"]}" , name : "qqq");
       // }
 
+      /*await db.rawInsert(
+          "INSERT OR REPLACE INTO "
+              "$_itinerariesTableName(id , data) "
+              "VALUES('${dataMap["id"]}' , '${dataMap["data"]}')"
+      );*/
+
       await db.insert(
           _itinerariesTableName,
           dataMap,
-          conflictAlgorithm: ConflictAlgorithm.replace
+          conflictAlgorithm: ConflictAlgorithm.ignore
       );
-       // developer.log("Berhasil insert" , name : "qqq");
+
+      await db.update(
+          _itinerariesTableName ,
+          dataMap,
+          where: "id = ?",
+          whereArgs: [itinerary.id]
+      );
+
+      developer.log("Berhasil insert atau update" , name : "qqq");
+
     } catch(e){
       developer.log(e.toString() , name : "qqq");
     }
@@ -73,7 +88,7 @@ class DatabaseService{
       final hasilQuery = (await db.query(_itinerariesTableName)).map(
               (rawData){
                 final jsonString = rawData['data']!.toString();
-                // developer.log("Object : $jsonString" , name: "qqq");
+                developer.log("Object : $jsonString" , name: "qqq");
                 return Itinerary.fromJson(jsonDecode(jsonString));
               }
       ).where(

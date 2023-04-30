@@ -11,7 +11,7 @@ class ItineraryProvider extends ChangeNotifier{
   late Itinerary itinerary;
 
   void initItinerary(Itinerary newItinerary){
-    itinerary = newItinerary;
+    itinerary = newItinerary.copy();
     notifyListeners();
   }
 
@@ -25,7 +25,6 @@ class ItineraryProvider extends ChangeNotifier{
   }
 
   void initializeDays(List<PickerDateRange> dateRanges){
-    developer.log("Total range picked : ${dateRanges.length}");
     List<DateTime> sortedDates = dateRanges.map(
             (dateRange){
           var currentDay = dateRange.startDate!;

@@ -41,6 +41,6 @@ class Itinerary{
       Itinerary(
         id : id ?? this.id,
         title : title ?? this.title,
-        days : days ?? this.days
+        days : days ?? this.days.map((e) => e.copy()).toList()
       );
 }

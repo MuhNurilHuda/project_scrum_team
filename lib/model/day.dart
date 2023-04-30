@@ -31,4 +31,13 @@ class Day {
                 .toList()
     );
   }
+
+  Day copy({
+    String? date,
+    List<Activity>? activities
+  }) =>
+      Day(
+          date: date ?? this.date,
+          activities: activities ?? this.activities.map((e) => e.copy()).toList()
+      );
 }
