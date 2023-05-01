@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:iterasi1/model/alert_save_dialog_result.dart';
 import 'package:iterasi1/model/day.dart';
+import 'package:iterasi1/pages/add_days/app_bar_itinerary_title.dart';
+import 'package:iterasi1/pages/add_days/search_field.dart';
 import 'package:iterasi1/pages/itinerary_list.dart';
 import 'package:iterasi1/pages/pdf/preview_pdf_page.dart';
 import 'package:iterasi1/provider/database_provider.dart';
@@ -8,15 +10,14 @@ import 'package:loader_overlay/loader_overlay.dart';
 import 'package:provider/provider.dart';
 import 'dart:developer' as dev;
 
-import '../model/activity.dart';
-import '../provider/itinerary_provider.dart';
+import '../../model/activity.dart';
+import '../../provider/itinerary_provider.dart';
 import 'package:collection/collection.dart';
 
-import 'activity/activity_form.dart';
+import '../activity/activity_form.dart';
 
 class AddDays extends StatefulWidget {
   AddDays({Key? key}) : super(key: key);
-
 
 
   @override
@@ -24,32 +25,60 @@ class AddDays extends StatefulWidget {
 }
 
 class _AddDaysState extends State<AddDays> {
+  // Provider
   late ItineraryProvider itineraryProvider;
-
   late DatabaseProvider databaseProvider;
 
+  // State
   int selectedDayIndex = 0;
-
-  TextEditingController searchController = TextEditingController();
+  bool isEditing = false;
+  late Widget appBarTitle;
+  late List<Widget> actionIcon;
 
   @override
   Widget build(BuildContext context) {
     itineraryProvider = Provider.of(context, listen: true);
     databaseProvider = Provider.of(context, listen: true);
 
+    if (isEditing){
+      appBarTitle = SearchField(
+          initialText: itineraryProvider.itinerary.title,
+          onSubmit : (String newTitle){
+            setState(() {
+              itineraryProvider.setNewItineraryTitle(newTitle);
+              isEditing = false;
+            });
+          },
+          onValueChange: (newTitle){
+            itineraryProvider.setNewItineraryTitle(newTitle);
+          },
+      );
+
+      actionIcon = [];
+    }
+    else{
+      appBarTitle = AppBarItineraryTitle(title: itineraryProvider.itinerary.title);
+
+      actionIcon = [
+        IconButton(
+          icon : Icon(Icons.edit),
+          onPressed: (){
+            setState(() {
+              isEditing = true;
+            });
+          },
+        )
+      ];
+    }
+    
     return LoaderOverlay(
       child: WillPopScope(
         onWillPop : handleBackBehaviour ,
         child: Scaffold(
           backgroundColor: const Color(0xFF1C3131),
           appBar: AppBar(
-            title: Text(
-              'Itinerary to ${itineraryProvider.itinerary.title}',
-              style: const TextStyle(
-                fontWeight: FontWeight.bold,
-              ),
-              // itineraryProvider.itinerary.title,
-            ),
+            title: appBarTitle,
+            actions: actionIcon,
             centerTitle: true,
             leading: IconButton(
               icon: const Icon(Icons.arrow_back),
@@ -425,7 +454,7 @@ class _AddDaysState extends State<AddDays> {
                         AlertSaveDialogResult.saveWithoutQuit
                     );
                   },
-                  child: Text("Save Without Quit")
+                  child: Text("Quit Without Saving")
               )
             ],
           );

@@ -1,17 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:iterasi1/pages/add_days.dart';
-import 'package:iterasi1/pages/datepicker/date_picker_layout.dart';
+import 'package:iterasi1/pages/add_days/add_days.dart';
 import 'package:iterasi1/provider/database_provider.dart';
 import 'package:iterasi1/provider/itinerary_provider.dart';
-import 'package:iterasi1/pages/select_date.dart';
+import 'package:iterasi1/pages/datepicker/select_date.dart';
 import 'package:provider/provider.dart';
 import 'package:iterasi1/navigation/side_navbar.dart';
 import 'package:flutter/services.dart';
 
 import '../model/itinerary.dart';
 import '../widget/text_dialog.dart';
-import 'dart:developer' as developer;
 class ItineraryList extends StatelessWidget {
   static const route = "/ItineraryListRoute";
 

@@ -3,10 +3,10 @@ import 'package:iterasi1/provider/database_provider.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
-import 'package:iterasi1/pages/add_days.dart';
+import 'package:iterasi1/pages/add_days/add_days.dart';
 import 'dart:developer' as developer;
 
-import '../provider/itinerary_provider.dart';
+import '../../provider/itinerary_provider.dart';
 
 
 class SelectDate extends StatefulWidget {
@@ -129,11 +129,21 @@ class _SelectDateState extends State<SelectDate> {
                         borderRadius: BorderRadius.circular(10)),
                     child: InkWell(
                       onTap: () {
-                        itineraryProvider.initializeDays(selectedDates);
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) {
-                          return AddDays();
-                        }));
+                        if (selectedDates.isNotEmpty) {
+                          itineraryProvider.initializeDays(selectedDates);
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (context) {
+                                return AddDays();
+                              }));
+                        }
+                        else{
+                          ScaffoldMessenger.of(context)
+                              .showSnackBar(
+                              const SnackBar(
+                                  content: Text("Tanggal yang dipilih tidak boleh kosong!")
+                              )
+                          );
+                        }
                       },
                       child: SizedBox(
                         height: 45,
