@@ -10,7 +10,7 @@
 <hr>
 
 TRIPPLANNER
-
+>
 <p>
     <a href="https://github.com/HomeLearner116/project_scrum_team">
         <img align="center" alt="all-layout" src="https://github.com/Halimp07/b3i-image/blob/main/layout/all-layout.png"/>
