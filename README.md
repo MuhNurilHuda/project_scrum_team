@@ -2,7 +2,7 @@
 ## Iterasi 1
 
 <p align="center">
-    <a href="#">
+    <a href="https://drive.google.com/drive/folders/1xLRF0fxSW7xYhObrOVRvdZ5yKAEiYYDm?usp=share_link">
         <img align="center" width="280"  alt="logo-tripplanner" src="https://github.com/Halimp07/b3i-image/blob/main/logo/logo-full.png"/>
     </a>
 </p>
@@ -12,12 +12,12 @@
 TRIPPLANNER
 >
 <p>
-    <a href="https://github.com/HomeLearner116/project_scrum_team">
+<!--     <a href="https://github.com/HomeLearner116/project_scrum_team"> -->
         <img align="center" alt="all-layout" src="https://github.com/Halimp07/b3i-image/blob/main/layout/all-layout.png"/>
-    </a>
+<!--     </a> -->
 </p>
 
-## Getting Started
+<!-- ## Getting Started
 
 This project is a starting point for a Flutter application.
 
@@ -33,4 +33,4 @@ samples, guidance on mobile development, and a full API reference.
 
 For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+samples, guidance on mobile development, and a full API reference. -->
