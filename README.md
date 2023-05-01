@@ -13,7 +13,7 @@ TRIPPLANNER
 
 <p>
     <a href="https://github.com/HomeLearner116/project_scrum_team">
-        <img align="center" width="20" alt="all-layout" src="https://github.com/Halimp07/b3i-image/blob/main/layout/all-layout.png"/>
+        <img align="center" width="200" alt="all-layout" src="https://github.com/Halimp07/b3i-image/blob/main/layout/all-layout.png"/>
     </a>
 </p>
 
