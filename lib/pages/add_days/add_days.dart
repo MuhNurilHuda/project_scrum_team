@@ -19,7 +19,6 @@ import '../activity/activity_form.dart';
 class AddDays extends StatefulWidget {
   AddDays({Key? key}) : super(key: key);
 
-
   @override
   State<AddDays> createState() => _AddDaysState();
 }
@@ -40,29 +39,29 @@ class _AddDaysState extends State<AddDays> {
     itineraryProvider = Provider.of(context, listen: true);
     databaseProvider = Provider.of(context, listen: true);
 
-    if (isEditing){
+    if (isEditing) {
       appBarTitle = SearchField(
-          initialText: itineraryProvider.itinerary.title,
-          onSubmit : (String newTitle){
-            setState(() {
-              itineraryProvider.setNewItineraryTitle(newTitle);
-              isEditing = false;
-            });
-          },
-          onValueChange: (newTitle){
+        initialText: itineraryProvider.itinerary.title,
+        onSubmit: (String newTitle) {
+          setState(() {
             itineraryProvider.setNewItineraryTitle(newTitle);
-          },
+            isEditing = false;
+          });
+        },
+        onValueChange: (newTitle) {
+          itineraryProvider.setNewItineraryTitle(newTitle);
+        },
       );
 
       actionIcon = [];
-    }
-    else{
-      appBarTitle = AppBarItineraryTitle(title: itineraryProvider.itinerary.title);
+    } else {
+      appBarTitle =
+          AppBarItineraryTitle(title: itineraryProvider.itinerary.title);
 
       actionIcon = [
         IconButton(
-          icon : Icon(Icons.edit),
-          onPressed: (){
+          icon: const Icon(Icons.edit),
+          onPressed: () {
             setState(() {
               isEditing = true;
             });
@@ -70,10 +69,10 @@ class _AddDaysState extends State<AddDays> {
         )
       ];
     }
-    
+
     return LoaderOverlay(
       child: WillPopScope(
-        onWillPop : handleBackBehaviour ,
+        onWillPop: handleBackBehaviour,
         child: Scaffold(
           backgroundColor: const Color(0xFF1C3131),
           appBar: AppBar(
@@ -93,82 +92,121 @@ class _AddDaysState extends State<AddDays> {
             children: [
               ClipRRect(
                 borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(30), topRight: Radius.circular(30)),
+                    topLeft: Radius.circular(30),
+                    topRight: Radius.circular(30)),
                 child: Container(
                   color: Colors.white,
                   padding: const EdgeInsets.all(15.0),
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        SizedBox(
-                          height: 60,
-                          child: ListView.separated(
-                            scrollDirection: Axis.horizontal,
-                            physics: const BouncingScrollPhysics(),
-                            itemBuilder: (context, index) {
-                              return KartuTanggal(index,
-                                  itineraryProvider.itinerary.days[index].date);
-                            },
-                            itemCount: itineraryProvider.itinerary.days.length,
-                            separatorBuilder: (BuildContext context , int index){
-                              return SizedBox(
-                                width: 48,
-                              );
-                            },
+                        Stack(children: [
+                          SizedBox(
+                            height: 60,
+                            child: ListView.separated(
+                              scrollDirection: Axis.horizontal,
+                              physics: const BouncingScrollPhysics(),
+                              itemBuilder: (context, index) {
+                                return KartuTanggal(
+                                    index,
+                                    itineraryProvider
+                                        .itinerary.days[index].date);
+                              },
+                              itemCount:
+                                  itineraryProvider.itinerary.days.length,
+                              separatorBuilder:
+                                  (BuildContext context, int index) {
+                                return const SizedBox(
+                                  width: 48,
+                                );
+                              },
+                            ),
                           ),
-                        ),
-
+                          Align(
+                            alignment: Alignment.centerRight,
+                            child: InkWell(
+                              onTap: () {
+                                
+                              },
+                              child: Container(
+                                decoration: const BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: Color(0xFFF8A700),
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(1.0),
+                                  child: const Icon(Icons.add),
+                                ),
+                              ),
+                            ),
+                          )
+                        ]),
                         const Divider(
                           color: Colors.grey,
                           thickness: 1,
                         ),
-
+                        // Expanded(
+                        //     child: Padding(
+                        //   padding: const EdgeInsets.only(bottom: 65),
+                        //   child: SingleChildScrollView(
+                        //     scrollDirection: Axis.horizontal,
+                        //     physics: const BouncingScrollPhysics(),
+                        //     child: SingleChildScrollView(
+                        //         physics: const BouncingScrollPhysics(),
+                        //         child:
+                        //             buildDataTable(context, selectedDayIndex)),
+                        //   ),
+                        // ))
                         Expanded(
                             child: Padding(
-                              padding: const EdgeInsets.only(bottom: 24),
-                              child: SingleChildScrollView(
-                                scrollDirection: Axis.horizontal,
-                                physics: const BouncingScrollPhysics(),
-                                child: SingleChildScrollView(
-                                    physics: const BouncingScrollPhysics(),
-                                    child: buildDataTable(context, selectedDayIndex)),
-                              ),
-                            ))
+                          padding: const EdgeInsets.only(bottom: 65),
+                          child: ListView.separated(
+                            padding: EdgeInsets.fromLTRB(20, 24, 20, 0),
+                            scrollDirection: Axis.vertical,
+                            physics: const BouncingScrollPhysics(),
+                            shrinkWrap: true,
+                            itemBuilder: (context, index) {
+                              return buildActivityCard(context, index);
+                            },
+                            separatorBuilder:
+                                (BuildContext context, int index) {
+                              return const SizedBox(
+                                height: 24,
+                              );
+                            },
+                            itemCount: 10,
+                          ),
+                        ))
                       ]),
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(
-                    left : 24,
-                    right : 24,
-                    bottom: 24
-                ),
+                padding: const EdgeInsets.only(left: 24, right: 24, bottom: 15),
                 child: Align(
                   alignment: Alignment.bottomCenter,
                   child: Row(children: [
                     Expanded(
                       child: Container(
                         decoration: BoxDecoration(
-                            color: Color.fromARGB(255, 255, 185, 33),
-                            borderRadius: BorderRadius.circular(10)
-                        ),
+                            color: const Color.fromARGB(255, 255, 185, 33),
+                            borderRadius: BorderRadius.circular(10)),
                         child: InkWell(
                           onTap: () {
                             Navigator.push(context,
                                 MaterialPageRoute(builder: (context) {
-                                  return ActivityForm(dayIndex: selectedDayIndex);
-                                }));
+                              return ActivityForm(dayIndex: selectedDayIndex);
+                            }));
                           },
                           child: SizedBox(
                             height: 60,
                             width: 200,
                             child: Card(
-                              color: Color.fromARGB(255, 255, 185, 33),
+                              color: const Color.fromARGB(255, 255, 185, 33),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10.0),
                               ),
                               elevation: 0,
-                              child: Align(
+                              child: const Align(
                                 alignment: Alignment.center,
                                 child: Text('Add New Activity',
                                     style: TextStyle(
@@ -181,47 +219,46 @@ class _AddDaysState extends State<AddDays> {
                         ),
                       ),
                     ),
-
-                    SizedBox(width: 8,),
-
+                    const SizedBox(
+                      width: 8,
+                    ),
                     Container(
-                      height: 55,
-                      decoration:
-                      BoxDecoration(borderRadius: BorderRadius.circular(20.0)),
+                      height: 60,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20.0)),
                       child: ElevatedButton(
                         style: ButtonStyle(
-                            shape:
-                            MaterialStateProperty.all<RoundedRectangleBorder>(
+                            shape: MaterialStateProperty.all<
+                                    RoundedRectangleBorder>(
                                 RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10.0))),
-                            backgroundColor: MaterialStatePropertyAll(
+                            backgroundColor: const MaterialStatePropertyAll(
                                 Color.fromARGB(255, 255, 185, 33))),
                         onPressed: () {
                           Navigator.of(context).push(
                             MaterialPageRoute(
                               builder: (builder) => PdfPreviewPage(
-                                  itinerary: itineraryProvider.itinerary
-                              ),
+                                  itinerary: itineraryProvider.itinerary),
                             ),
                           );
                         },
-                        child: Icon(Icons.print),
+                        child: const Icon(Icons.print),
                       ),
                     ),
-
-                    SizedBox(width: 8,),
-
+                    const SizedBox(
+                      width: 8,
+                    ),
                     Container(
-                      height: 55,
-                      decoration:
-                      BoxDecoration(borderRadius: BorderRadius.circular(20.0)),
+                      height: 60,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20.0)),
                       child: ElevatedButton(
                         style: ButtonStyle(
-                            shape:
-                            MaterialStateProperty.all<RoundedRectangleBorder>(
+                            shape: MaterialStateProperty.all<
+                                    RoundedRectangleBorder>(
                                 RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10.0))),
-                            backgroundColor: MaterialStatePropertyAll(
+                            backgroundColor: const MaterialStatePropertyAll(
                                 Color.fromARGB(255, 255, 185, 33))),
                         onPressed: saveCurrentItinerary,
                         child: const Icon(Icons.save),
@@ -248,16 +285,15 @@ class _AddDaysState extends State<AddDays> {
         decoration: BoxDecoration(
           border: index == selectedDayIndex
               ? const Border(
-              bottom: BorderSide(
-                width: 2.0,
-                color: Color(0xFFF8A700),
-              )
-          )
+                  bottom: BorderSide(
+                  width: 2.0,
+                  color: Color(0xFFF8A700),
+                ))
               : null,
         ),
         child: Card(
           // color: index == selectedDayIndex ? Color(0xFF00FF46) : Colors.white,
-          margin: EdgeInsets.all(5),
+          margin: const EdgeInsets.all(5),
           elevation: 0,
           child: Column(
             children: [
@@ -266,14 +302,18 @@ class _AddDaysState extends State<AddDays> {
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontFamily: 'poppins_bold',
-                  color: index == selectedDayIndex ? Color(0xFFF8A700) : Colors.black,
+                  color: index == selectedDayIndex
+                      ? const Color(0xFFF8A700)
+                      : Colors.black,
                 ),
               ),
               Text(
                 tanggal,
                 style: TextStyle(
                   fontFamily: 'poppins_regular',
-                  color: index == selectedDayIndex ? Color(0xFFF8A700) : Colors.black,
+                  color: index == selectedDayIndex
+                      ? const Color(0xFFF8A700)
+                      : Colors.black,
                 ),
               )
             ],
@@ -284,42 +324,42 @@ class _AddDaysState extends State<AddDays> {
   }
 
   Widget addNewDayButton(BuildContext context) => InkWell(
-    onTap: () async {
-      final choosenDate = await showDatePicker(
-          context: context,
-          initialDate: DateTime.now(),
-          firstDate: DateTime(2023),
-          lastDate: DateTime(2100));
+        onTap: () async {
+          final choosenDate = await showDatePicker(
+              context: context,
+              initialDate: DateTime.now(),
+              firstDate: DateTime(2023),
+              lastDate: DateTime(2100));
 
-      if (choosenDate != null) {
-        itineraryProvider.addDay(Day(date: formatDate(choosenDate)));
-      }
-    },
-    child: SizedBox(
-      height: 70,
-      child: Container(
-        padding: const EdgeInsets.fromLTRB(75, 5, 75, 5),
-        child: Card(
-          color: const Color(0xFFFFB252),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: const [
-              Card(
-                child: Icon(Icons.add),
+          if (choosenDate != null) {
+            itineraryProvider.addDay(Day(date: formatDate(choosenDate)));
+          }
+        },
+        child: SizedBox(
+          height: 70,
+          child: Container(
+            padding: const EdgeInsets.fromLTRB(75, 5, 75, 5),
+            child: Card(
+              color: const Color(0xFFFFB252),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: const [
+                  Card(
+                    child: Icon(Icons.add),
+                  ),
+                  Text(
+                    "Tambah Aktivitas",
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                ],
               ),
-              Text(
-                "Tambah Aktivitas",
-                style: TextStyle(
-                  color: Colors.white,
-                ),
-              ),
-            ],
+            ),
           ),
         ),
-      ),
-    ),
-  );
+      );
 
   String formatDate(DateTime date) {
     return "${date.day}/${date.month}/${date.year}";
@@ -337,7 +377,7 @@ class _AddDaysState extends State<AddDays> {
   }
 
   Widget buildDataTable(BuildContext context, index) {
-    final columns = ['Waktu Aktivitas', 'Nama Aktivitas', ""];
+    final columns = ['Time', 'Activity', ""];
 
     return Column(children: [
       DataTable(
@@ -346,6 +386,47 @@ class _AddDaysState extends State<AddDays> {
             itineraryProvider.itinerary.days[index].activities, index, context),
       ),
     ]);
+  }
+
+  Widget buildActivityCard(BuildContext context, index) {
+    return Container(
+      decoration: BoxDecoration(
+          color: const Color(0xFFFFB252),
+          borderRadius: BorderRadius.circular(15)),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'PREPARATION',
+              textAlign: TextAlign.left,
+              style: TextStyle(fontFamily: 'poppins_bold', fontSize: 24),
+            ),
+            Row(
+              children: [
+                Icon(Icons.timer),
+                Text(
+                  '19.00 - 20.00',
+                  style: TextStyle(
+                    fontFamily: 'poppins_bold',
+                    fontSize: 15,
+                  ),
+                )
+              ],
+            ),
+            Text(
+              'Raincoat, 2 layer jackets, Gloves, Mask, Medication (optional)',
+              style: TextStyle(
+                fontFamily: 'poppins_regular',
+                fontSize: 12,
+              ),
+            )
+          ],
+        ),
+      ),
+    );
   }
 
   String formatTime(TimeOfDay time) {
@@ -357,14 +438,14 @@ class _AddDaysState extends State<AddDays> {
       final id = column == columns[0];
 
       return DataColumn(
-        label: Text(column),
+        label: SizedBox(width: 100, child: Text(column)),
         numeric: id,
       );
     }).toList();
   }
 
   List<DataRow> getRows(
-      List<Activity> activities, int dayIndex, BuildContext context) =>
+          List<Activity> activities, int dayIndex, BuildContext context) =>
       activities.mapIndexed((int activityIndex, Activity activity) {
         return DataRow(cells: [
           DataCell(SizedBox(
@@ -424,53 +505,41 @@ class _AddDaysState extends State<AddDays> {
       }).toList();
 
   Future<AlertSaveDialogResult?> showAlertSaveDialog(BuildContext context) {
-    return showDialog<AlertSaveDialogResult?>( // Nilai yang direturn adalah Future<HasilPop>
+    return showDialog<AlertSaveDialogResult?>(
+        // Nilai yang direturn adalah Future<HasilPop>
         context: context,
-        builder: (context){
+        builder: (context) {
           return AlertDialog(
-            content: Text("Yakin ingin kembali?"),
+            content: const Text("Yakin ingin kembali?"),
             actions: [
               TextButton(
-                  onPressed: (){
-                    Navigator.of(context).pop(
-                        AlertSaveDialogResult.cancel
-                    );
+                  onPressed: () {
+                    Navigator.of(context).pop(AlertSaveDialogResult.cancel);
                   },
-                  child: Text("Cancel")
-              ),
-
+                  child: const Text("Cancel")),
               TextButton(
-                  onPressed: (){
-                    Navigator.of(context).pop(
-                        AlertSaveDialogResult.saveAndQuit
-                    );
+                  onPressed: () {
+                    Navigator.of(context)
+                        .pop(AlertSaveDialogResult.saveAndQuit);
                   },
-                  child: Text("Save and Quit")
-              ),
-
+                  child: const Text("Save and Quit")),
               TextButton(
-                  onPressed: (){
-                    Navigator.of(context).pop(
-                        AlertSaveDialogResult.saveWithoutQuit
-                    );
+                  onPressed: () {
+                    Navigator.of(context)
+                        .pop(AlertSaveDialogResult.saveWithoutQuit);
                   },
-                  child: Text("Quit Without Saving")
-              )
+                  child: const Text("Quit Without Saving"))
             ],
           );
-        }
-    );
+        });
   }
 
-  Future<void> saveCurrentItinerary(){
+  Future<void> saveCurrentItinerary() {
     context.loaderOverlay.show();
     return databaseProvider
         .insertItinerary(itinerary: itineraryProvider.itinerary)
         .whenComplete(() {
-      Navigator.popUntil(
-          context,
-          ModalRoute.withName(ItineraryList.route)
-      );
+      Navigator.popUntil(context, ModalRoute.withName(ItineraryList.route));
       context.loaderOverlay.hide();
     });
   }
@@ -480,15 +549,13 @@ class _AddDaysState extends State<AddDays> {
 
     late bool shouldPop;
 
-    if (resultSaveDialog == AlertSaveDialogResult.saveWithoutQuit){
+    if (resultSaveDialog == AlertSaveDialogResult.saveWithoutQuit) {
       dev.log("save without quit");
       shouldPop = true;
-    }
-    else if (resultSaveDialog == AlertSaveDialogResult.saveAndQuit){
+    } else if (resultSaveDialog == AlertSaveDialogResult.saveAndQuit) {
       await saveCurrentItinerary();
       shouldPop = true;
-    }
-    else {
+    } else {
       shouldPop = false;
     }
     if (shouldPop)
@@ -496,5 +563,3 @@ class _AddDaysState extends State<AddDays> {
     return false;
   }
 }
-
-
