@@ -93,10 +93,14 @@ flutter:
     - family: Haviland
       fonts:
         - asset: assets/fonts/MrDeHaviland-Regular.ttf
-    
-    - family: poppins
+
+    - family: poppins_bold
       fonts:
         - asset: assets/fonts/Poppins-Bold.ttf
+
+    - family: poppins_regular
+      fonts:
+        - asset: assets/fonts/Poppins-Regular.ttf
 
   assets:
     - assets/images/

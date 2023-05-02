@@ -1,15 +1,19 @@
+import 'package:uuid/uuid.dart';
+
 import 'day.dart';
 
 class Itinerary{
-  String id;
+  late String id;
   String title;
   List<Day> days;
 
   Itinerary({
-    required this.id,
+    String? id,
     required this.title,
-    this.days = const []
-  });
+    List<Day>? days
+  }) :
+      this.id = id ?? const Uuid().v1(),
+      this.days = days ?? [];
 
   Map<String , dynamic> toJson(){
     return {
@@ -37,6 +41,6 @@ class Itinerary{
       Itinerary(
         id : id ?? this.id,
         title : title ?? this.title,
-        days : days ?? this.days
+        days : days ?? this.days.map((e) => e.copy()).toList()
       );
 }

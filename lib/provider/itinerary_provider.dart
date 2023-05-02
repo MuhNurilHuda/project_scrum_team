@@ -4,24 +4,48 @@ import 'package:iterasi1/model/day.dart';
 import 'package:iterasi1/model/itinerary.dart';
 import 'dart:developer' as developer;
 
-class ItineraryProvider extends ChangeNotifier{
-  Itinerary itinerary;
 
-  ItineraryProvider({required this.itinerary});
+
+class ItineraryProvider extends ChangeNotifier{
+  late Itinerary _itinerary;
+  Itinerary get itinerary => _itinerary;
+
+
+  void initItinerary(Itinerary newItinerary){
+    _itinerary = newItinerary.copy();
+    notifyListeners();
+  }
+
+  void setNewItineraryTitle(String newTitle){
+    _itinerary.title = newTitle;
+  }
 
   void addDay(Day newDay){
     try {
-      itinerary.days = [...itinerary.days , newDay];
+      _itinerary.days = [..._itinerary.days , newDay];
     } catch (e) {
       developer.log("$e" , name : 'qqq');
     }
     notifyListeners();
   }
 
+  void initializeDays(List<DateTime> dates){
+    List<DateTime> sortedDates = dates
+        ..sort();
+
+    _itinerary.days = sortedDates.map((date) => Day.from(date)).toList();
+
+    notifyListeners();
+  }
+
+  String convertDateTimeToString({required DateTime dateTime}) =>
+    "${dateTime.day}/" "${dateTime.month}/" "${dateTime.year}";
+
+
   void addNewActivity(Activity newActivity , int index){
     try {
-      itinerary.days[index].activities = [
-        ...itinerary.days[index].activities,
+      _itinerary.days[index].activities = [
+        ..._itinerary.days[index].activities,
         newActivity
       ];
     } catch (e) {
@@ -38,13 +62,13 @@ class ItineraryProvider extends ChangeNotifier{
         String? activityTime
       }
   ){
-    final newActivity = itinerary.days[dayIndex].activities[activityIndex].copy(
+    final newActivity = _itinerary.days[dayIndex].activities[activityIndex].copy(
       activityName: activityName,
       activityTime: activityTime
     );
 
     try{
-      itinerary.days[dayIndex].activities[activityIndex] = newActivity;
+      _itinerary.days[dayIndex].activities[activityIndex] = newActivity;
     }catch (e){
       developer.log("$e" , name : 'qqq');
     }
@@ -53,10 +77,10 @@ class ItineraryProvider extends ChangeNotifier{
 
   void removeActivity(int dayIndex , int activityIndex){
     final currentActivities = List<Activity>.from(
-        itinerary.days[dayIndex].activities
+        _itinerary.days[dayIndex].activities
     );
 
-    itinerary.days[dayIndex].activities = currentActivities
+    _itinerary.days[dayIndex].activities = currentActivities
         ..removeAt(activityIndex);
 
     notifyListeners();
@@ -67,7 +91,7 @@ class ItineraryProvider extends ChangeNotifier{
     required int activityIndex,
     required Activity newActivity
   }){
-    itinerary.days[dayIndex].activities[activityIndex] = newActivity;
+    _itinerary.days[dayIndex].activities[activityIndex] = newActivity;
 
     notifyListeners();
   }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:full_screen_image/full_screen_image.dart';
 import 'package:iterasi1/model/destination.dart';
-import 'package:iterasi1/pages/add_days.dart';
+import 'package:iterasi1/pages/add_days/add_days.dart';
 import 'package:uuid/uuid.dart';
 
 import '../model/itinerary.dart';
@@ -167,9 +167,7 @@ class DetailsPage extends StatelessWidget {
                                               title : "Contoh Title"
                                           );
 
-                                          return AddItinerary(
-                                            refreshPreviousPage: (){},
-                                          );
+                                          return AddDays();
                                         }
                                     )
                                 );

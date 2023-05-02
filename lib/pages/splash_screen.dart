@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 
+import 'itinerary_list.dart';
+
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
 
@@ -14,8 +16,8 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
 
     // Navigate after 2 seconds
-    Future.delayed(const Duration(seconds: 6), () {
-      Navigator.pushReplacementNamed(context, '/next');
+    Future.delayed(const Duration(milliseconds: 1500), () {
+      Navigator.pushReplacementNamed(context, ItineraryList.route);
     });
   }
 
@@ -57,7 +59,7 @@ class _SplashScreenState extends State<SplashScreen> {
                     fontWeight: FontWeight.w100,
                     color: Colors.white,
                   ),
-                  speed: Duration(milliseconds: 300),
+                  speed: const Duration(milliseconds: 15),
                 ),
               ],
               totalRepeatCount: 1, // animasi akan diulang sekali saja
