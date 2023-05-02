@@ -23,14 +23,14 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-<<<<<<< HEAD
+
     return MaterialApp(
       home:  AddActivities(),
       debugShowCheckedModeBanner : false,
       routes: {
         '/next' : (context) => const ItineraryList(),
       },
-=======
+
     return MultiProvider(
       providers : [
         ChangeNotifierProvider(create: (_) => DatabaseProvider()),
@@ -43,7 +43,6 @@ class MyApp extends StatelessWidget {
           ItineraryList.route : (context) => ItineraryList(),
         },
       ),
->>>>>>> 96ba3f47bd485297c7a8efc25265e63ba681868f
     );
   }
 }
