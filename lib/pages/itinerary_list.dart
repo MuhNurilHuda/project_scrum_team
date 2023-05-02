@@ -8,6 +8,7 @@ import '../database/database_service.dart';
 import '../model/itinerary.dart';
 import '../provider/itinerary_provider.dart';
 import '../widget/text_dialog.dart';
+import 'dart:math';
 
 class ItineraryList extends StatefulWidget {
   const ItineraryList({Key? key}) : super(key: key);
@@ -31,38 +32,38 @@ class _ItineraryListState extends State<ItineraryList> {
           onPressed: () {
             getItineraryTitle(context);
           },
-          child: Icon(Icons.add)),
-      backgroundColor: const Color(0xFFF1F2F6),
-      drawer: NavDrawer(),
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        backgroundColor: const Color(0xFFF1F2F6),
-        elevation: 0,
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            IconButton(
-              icon: const Image(
-                image: AssetImage('assets/logo/SideNavBar.png'),
-              ),
-              onPressed: () {
-                _scaffoldKey.currentState?.openDrawer();
-              },
-              highlightColor: Colors.transparent,
-              splashColor: Colors.transparent,
-              tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
+          child: Icon(Icons.add)),  
+          backgroundColor: const Color(0xFFF1F2F6),
+          drawer: NavDrawer(),
+          appBar: AppBar(
+            automaticallyImplyLeading: false,
+            backgroundColor: const Color(0xFFF1F2F6),
+            elevation: 0,
+            title: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                IconButton(
+                  icon: const Image(
+                    image: AssetImage('assets/logo/SideNavBar.png'),
+                  ),
+                  onPressed: () {
+                    _scaffoldKey.currentState?.openDrawer();
+                  },
+                  highlightColor: Colors.transparent,
+                  splashColor: Colors.transparent,
+                  tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
+                ),
+                IconButton(
+                  icon: const Image(
+                    image: AssetImage('assets/logo/AppLogo.png'),
+                  ),
+                  onPressed: () {},
+                  highlightColor: Colors.transparent,
+                  splashColor: Colors.transparent,
+                ),
+              ],
             ),
-            IconButton(
-              icon: const Image(
-                image: AssetImage('assets/logo/AppLogo.png'),
-              ),
-              onPressed: () {},
-              highlightColor: Colors.transparent,
-              splashColor: Colors.transparent,
-            ),
-          ],
-        ),
-      ),
+          ),
       body: Container(        
         margin: const EdgeInsets.only(bottom: 20),
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 7),
@@ -80,7 +81,7 @@ class _ItineraryListState extends State<ItineraryList> {
                       bottom: 10,
                     ),
                     child: const Text(
-                      "TripPlanner",
+                      "Trip Planner",
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontFamily: 'poppins',
@@ -206,28 +207,432 @@ class _ItineraryListState extends State<ItineraryList> {
       ),
     );
   }
+  
+Future<void> getItineraryTitle(BuildContext context) async {
+  final textEditingController = TextEditingController();
+  final itineraryTitle = await showModalBottomSheet<String>(
+    context: context,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.only(
+        topLeft: Radius.circular(20.0),
+        topRight: Radius.circular(20.0),
+      ),
+    ),
+    builder: (BuildContext context) {
+      return SizedBox(
+        height: 400,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 8, vertical: 20),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: TextField(
+                      controller: textEditingController,
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(),
+                        hintText: 'Ketik Judul Itinerary',
+                      ),
+                    ),
+                  ),
+                  IconButton(
+                  onPressed: () {
+                    Navigator.pop(context, textEditingController.text);
+                  },
+                  icon: Transform.rotate(
+                    
+                    angle: 180 * pi / 90,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        // tambhkan ukuran bulat 
+                        color: Colors.white,
+                        
+                      ),
+                      padding: EdgeInsets.all(8),
+                      child: Icon(
+                        Icons.send,
+                        color: Colors.orange,
+                        size: 40,
+                      ),
+                    ),
+                  ),
+                ),
+                                ],
+              ),
+            ),
+           SizedBox(height: 20),
+            Column(
+              children: [
+                Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Container(
+                    width: 120,
+                    height: 40,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(12),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.5),
+                          spreadRadius: 2,
+                          blurRadius: 5,
+                          offset: Offset(0, 3),
+                        ),
+                      ],
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SizedBox(height: 8),
+                        Text(
+                          'Gunung Bromo',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                            color: Colors.blue,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    width: 120,
+                    height: 40,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(12),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.5),
+                          spreadRadius: 2,
+                          blurRadius: 5,
+                          offset: Offset(0, 3),
+                        ),
+                      ],
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SizedBox(height: 8),
+                        Text(
+                          'Wisata 2',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                            color: Colors.green,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    width: 120,
+                    height: 40,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(12),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.5),
+                          spreadRadius: 2,
+                          blurRadius: 5,
+                          offset: Offset(0, 3),
+                        ),
+                      ],
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        // Icon(Icons.local_activity, size: 40, color: Colors.orange),
+                        SizedBox(height: 8),
+                        Text(
+                          'Wisata 3',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                            color: Colors.orange,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: 20),
+                Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Container(
+                    width: 120,
+                    height: 40,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(12),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.5),
+                          spreadRadius: 2,
+                          blurRadius: 5,
+                          offset: Offset(0, 3),
+                        ),
+                      ],
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SizedBox(height: 8),
+                        Text(
+                          'Gunung Bromo',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                            color: Colors.blue,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    width: 120,
+                    height: 40,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(12),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.5),
+                          spreadRadius: 2,
+                          blurRadius: 5,
+                          offset: Offset(0, 3),
+                        ),
+                      ],
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SizedBox(height: 8),
+                        Text(
+                          'Wisata 2',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                            color: Colors.green,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    width: 120,
+                    height: 40,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(12),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.5),
+                          spreadRadius: 2,
+                          blurRadius: 5,
+                          offset: Offset(0, 3),
+                        ),
+                      ],
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        // Icon(Icons.local_activity, size: 40, color: Colors.orange),
+                        SizedBox(height: 8),
+                        Text(
+                          'Wisata 3',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                            color: Colors.orange,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: 20),
+                Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Container(
+                    width: 120,
+                    height: 40,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(12),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.5),
+                          spreadRadius: 2,
+                          blurRadius: 5,
+                          offset: Offset(0, 3),
+                        ),
+                      ],
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SizedBox(height: 8),
+                        Text(
+                          'Gunung Bromo',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                            color: Colors.blue,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    width: 120,
+                    height: 40,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(12),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.5),
+                          spreadRadius: 2,
+                          blurRadius: 5,
+                          offset: Offset(0, 3),
+                        ),
+                      ],
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SizedBox(height: 8),
+                        Text(
+                          'Wisata 2',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                            color: Colors.green,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    width: 120,
+                    height: 40,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(12),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.5),
+                          spreadRadius: 2,
+                          blurRadius: 5,
+                          offset: Offset(0, 3),
+                        ),
+                      ],
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        // Icon(Icons.local_activity, size: 40, color: Colors.orange),
+                        SizedBox(height: 8),
+                        Text(
+                          'Wisata 3',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                            color: Colors.orange,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: 20,),
+              
+            ],
+          )
+        ],
+      ),
+    );
+  },
+);
 
-  Future<void> getItineraryTitle(BuildContext context) async {
-    final itineraryTitle = await showTextDialog(context,
-        title: "Ketik Judul Itinerary", value: "");
-
-    if (itineraryTitle != null)
-      navigateToAddDays(
-          Itinerary(id: const Uuid().v1(), title: itineraryTitle), context);
-  }
-
-  void navigateToAddDays(Itinerary itinerary, BuildContext context) {
-    Navigator.push(context, MaterialPageRoute(builder: (context) {
-      return ChangeNotifierProvider<ItineraryProvider>(
-        create: (context) => ItineraryProvider(itinerary: itinerary),
-        child: AddItinerary(
-          refreshPreviousPage: refreshState,
-        ),
-      );
-    }));
-  }
-
-  void refreshState() {
-    setState(() {});
+  if (itineraryTitle != null && itineraryTitle.isNotEmpty) {
+    final itinerary = Itinerary(id: const Uuid().v1(), title: itineraryTitle);
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) {
+          return ChangeNotifierProvider<ItineraryProvider>(
+            create: (context) => ItineraryProvider(itinerary: itinerary),
+            child: AddItinerary(refreshPreviousPage: refreshState),
+          );
+        },
+      ),
+    );
   }
 }
+
+void navigateToAddDays(Itinerary itinerary, BuildContext context) {
+  Navigator.push(
+    context,
+    MaterialPageRoute(
+      builder: (context) {
+        return ChangeNotifierProvider<ItineraryProvider>(
+          create: (context) => ItineraryProvider(itinerary: itinerary),
+          child: AddItinerary(
+            refreshPreviousPage: refreshState,
+          ),
+        );
+      },
+    ),
+  );
+}
+
+void refreshState() {
+  setState(() {});
+}
+}
+
+//   Future<void> getItineraryTitle(BuildContext context) async {
+//     final itineraryTitle = await showTextDialog(context,
+//         title: "Ketik Judul Itinerary", value: "");
+
+//     if (itineraryTitle != null)
+//       navigateToAddDays(
+//           Itinerary(id: const Uuid().v1(), title: itineraryTitle), context);
+//   }
+
+//   void navigateToAddDays(Itinerary itinerary, BuildContext context) {
+//     Navigator.push(context, MaterialPageRoute(builder: (context) {
+//       return ChangeNotifierProvider<ItineraryProvider>(
+//         create: (context) => ItineraryProvider(itinerary: itinerary),
+//         child: AddItinerary(
+//           refreshPreviousPage: refreshState,
+//         ),
+//       );
+//     }));
+//   }
+
+//   void refreshState() {
+//     setState(() {});
+//   }
+// }

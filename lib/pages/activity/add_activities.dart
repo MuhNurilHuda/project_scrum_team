@@ -71,7 +71,6 @@ class ItineraryTable extends StatelessWidget {
       );
     }).toList();
   }
-
   List<DataRow> getRows(List<Activity> activities , BuildContext context) =>
       activities.mapIndexed((int activityIndex , Activity activity) {
         return DataRow(cells: [

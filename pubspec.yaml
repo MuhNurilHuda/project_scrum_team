@@ -51,6 +51,7 @@ dependencies:
   logging: ^1.1.1
   flutter_speed_dial: ^6.2.0
   syncfusion_flutter_datepicker: ^21.1.39
+  math_expressions: ^2.0.0
 
 
 dev_dependencies:

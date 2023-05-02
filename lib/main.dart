@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:iterasi1/pages/_add_activities.dart';
 import 'package:iterasi1/pages/itinerary_list.dart';
 import 'package:iterasi1/pages/splash_screen.dart';
 
@@ -12,7 +13,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: const SplashScreen(),
+      home:  AddActivities(),
       debugShowCheckedModeBanner : false,
       routes: {
         '/next' : (context) => const ItineraryList(),
