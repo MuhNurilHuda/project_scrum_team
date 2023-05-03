@@ -349,6 +349,5 @@ class ItineraryList extends StatelessWidget {
         );
       }
     }
-
   }
 }

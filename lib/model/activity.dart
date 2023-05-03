@@ -1,7 +1,9 @@
 
+import 'package:flutter/material.dart';
+
 class Activity {
-  final String activityName;
-  final String activityTime;
+  String activityName;
+  String activityTime;
 
 
   Activity({
@@ -37,6 +39,15 @@ class Activity {
         activityName: activityName ?? this.activityName,
         activityTime: activityTime ?? this.activityTime,
       );
+
+  TimeOfDay getTimeOfDay(){
+    final timeSplitted = activityTime.split(":");
+
+    return TimeOfDay(
+        hour: int.parse(timeSplitted[0]),
+        minute: int.parse(timeSplitted[1])
+    );
+  }
 }
 
 

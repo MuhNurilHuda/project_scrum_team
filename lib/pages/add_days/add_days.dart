@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:iterasi1/model/alert_save_dialog_result.dart';
 import 'package:iterasi1/model/day.dart';
+import 'package:iterasi1/pages/add_activities/add_activities.dart';
 import 'package:iterasi1/pages/add_days/app_bar_itinerary_title.dart';
 import 'package:iterasi1/pages/add_days/search_field.dart';
 import 'package:iterasi1/pages/datepicker/select_date.dart';
@@ -15,7 +16,6 @@ import '../../model/activity.dart';
 import '../../provider/itinerary_provider.dart';
 import 'package:collection/collection.dart';
 
-import '../activity/activity_form.dart';
 
 class AddDays extends StatefulWidget {
   AddDays({Key? key}) : super(key: key);
@@ -210,7 +210,15 @@ class _AddDaysState extends State<AddDays> {
                           onTap: () {
                             Navigator.push(context,
                                 MaterialPageRoute(builder: (context) {
-                              return ActivityForm(dayIndex: selectedDayIndex);
+                              return AddActivities(
+                                onSubmit: (newActivity){
+                                  itineraryProvider.insertNewActivity(
+                                      activities: itineraryProvider.itinerary.days[selectedDayIndex].activities,
+                                      newActivity: newActivity
+                                  );
+                                  dev.log("${itineraryProvider.itinerary.days[selectedDayIndex].activities.length}");
+                                },
+                              );
                             }));
                           },
                           child: SizedBox(
@@ -392,133 +400,67 @@ class _AddDaysState extends State<AddDays> {
     }
   }
 
-  Widget buildDataTable(BuildContext context, index) {
-    final columns = ['Time', 'Activity', ""];
-
-    return Column(children: [
-      DataTable(
-        columns: getColumns(columns),
-        rows: getRows(
-            itineraryProvider.itinerary.days[index].activities, index, context),
-      ),
-    ]);
-  }
 
   Widget buildActivityCard(BuildContext context, Activity activity) {
-    return Container(
-      decoration: BoxDecoration(
-          color: const Color(0xFFFFB252),
-          borderRadius: BorderRadius.circular(15)),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              activity.activityName,
-              textAlign: TextAlign.left,
-              style: TextStyle(fontFamily: 'poppins_bold', fontSize: 24),
-            ),
-            Row(
-              children: [
-                Icon(Icons.timer),
-                Text(
-                  activity.activityTime,
-                  style: TextStyle(
-                    fontFamily: 'poppins_bold',
-                    fontSize: 15,
-                  ),
-                )
-              ],
-            ),
-            Text(
-              'Raincoat, 2 layer jackets, Gloves, Mask, Medication (optional)',
-              style: TextStyle(
-                fontFamily: 'poppins_regular',
-                fontSize: 12,
+    return InkWell(
+      onTap: (){
+        Navigator.of(context).push(
+          MaterialPageRoute(
+              builder: (context){
+                return AddActivities(
+                    initialActivity: activity,
+                    onSubmit: (newActivity){
+                      itineraryProvider.updateActivity(
+                          oldActivity: activity,
+                          newActivity: newActivity
+                      );
+                    },
+                  );
+              }
+          )
+        );
+      },
+      child: Container(
+        decoration: BoxDecoration(
+            color: const Color(0xFFFFB252),
+            borderRadius: BorderRadius.circular(15)),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                activity.activityName,
+                textAlign: TextAlign.left,
+                style: TextStyle(fontFamily: 'poppins_bold', fontSize: 24),
               ),
-            )
-          ],
+              Row(
+                children: [
+                  Icon(Icons.timer),
+                  Text(
+                    activity.activityTime,
+                    style: TextStyle(
+                      fontFamily: 'poppins_bold',
+                      fontSize: 15,
+                    ),
+                  )
+                ],
+              ),
+              Text(
+                'Raincoat, 2 layer jackets, Gloves, Mask, Medication (optional)',
+                style: TextStyle(
+                  fontFamily: 'poppins_regular',
+                  fontSize: 12,
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );
   }
 
-  String formatTime(TimeOfDay time) {
-    return "${time.hour}:${time.minute}";
-  }
-
-  List<DataColumn> getColumns(List<String> columns) {
-    return columns.map((String column) {
-      final id = column == columns[0];
-
-      return DataColumn(
-        label: SizedBox(width: 100, child: Text(column)),
-        numeric: id,
-      );
-    }).toList();
-  }
-
-  List<DataRow> getRows(
-          List<Activity> activities, int dayIndex, BuildContext context) =>
-      activities.mapIndexed((int activityIndex, Activity activity) {
-        return DataRow(cells: [
-          DataCell(SizedBox(
-            width: double.infinity,
-            height: 50,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  activity.activityTime,
-                ),
-              ],
-            ),
-          )),
-          DataCell(SizedBox(
-            width: 100,
-            height: 50,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  activity.activityName,
-                ),
-              ],
-            ),
-          )),
-          DataCell(Row(
-            children: [
-              InkWell(
-                onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return ActivityForm(
-                      dayIndex: dayIndex,
-                      initialActivity: activity,
-                      activityIndex: activityIndex,
-                    );
-                  }));
-                },
-                child: const Icon(Icons.edit),
-              ),
-              InkWell(
-                onTap: () {
-                  itineraryProvider.removeActivity(dayIndex, activityIndex);
-                },
-                child: const Icon(
-                  Icons.delete,
-                  color: Colors.red,
-                ),
-              )
-            ],
-          )),
-        ]);
-      }).toList();
 
   Future<AlertSaveDialogResult?> showAlertSaveDialog(BuildContext context) {
     return showDialog<AlertSaveDialogResult?>(

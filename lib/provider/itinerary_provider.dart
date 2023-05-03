@@ -42,57 +42,28 @@ class ItineraryProvider extends ChangeNotifier{
     "${dateTime.day}/" "${dateTime.month}/" "${dateTime.year}";
 
 
-  void addNewActivity(Activity newActivity , int index){
-    try {
-      _itinerary.days[index].activities = [
-        ..._itinerary.days[index].activities,
-        newActivity
-      ];
-    } catch (e) {
-      developer.log("$e" , name : 'qqq');
-    }
-    notifyListeners();
-  }
-
-  void updateActivity(
-      int dayIndex ,
-      int activityIndex,
-      {
-        String? activityName,
-        String? activityTime
-      }
-  ){
-    final newActivity = _itinerary.days[dayIndex].activities[activityIndex].copy(
-      activityName: activityName,
-      activityTime: activityTime
-    );
-
-    try{
-      _itinerary.days[dayIndex].activities[activityIndex] = newActivity;
-    }catch (e){
-      developer.log("$e" , name : 'qqq');
-    }
-    notifyListeners();
-  }
-
-  void removeActivity(int dayIndex , int activityIndex){
-    final currentActivities = List<Activity>.from(
-        _itinerary.days[dayIndex].activities
-    );
-
-    _itinerary.days[dayIndex].activities = currentActivities
-        ..removeAt(activityIndex);
-
-    notifyListeners();
-  }
-
-  void editActivity({
-    required int dayIndex,
-    required int activityIndex,
+  void updateActivity({
+    required Activity oldActivity,
     required Activity newActivity
   }){
-    _itinerary.days[dayIndex].activities[activityIndex] = newActivity;
+    oldActivity.activityTime = newActivity.activityTime;
+    oldActivity.activityName = newActivity.activityName;
+    notifyListeners();
+  }
 
+  void insertNewActivity({
+    required List<Activity> activities,
+    required Activity newActivity
+  }){
+    activities.add(newActivity);
+    notifyListeners();
+  }
+
+  void removeActivity({
+    required List<Activity> activities,
+    required int removedIndex
+  }){
+    activities.removeAt(removedIndex);
     notifyListeners();
   }
 }
