@@ -10,7 +10,11 @@ import '../../provider/itinerary_provider.dart';
 
 
 class SelectDate extends StatefulWidget {
-  SelectDate({Key? key}) : super(key: key);
+  List<DateTime> initialDates;
+  SelectDate({
+    Key? key,
+    this.initialDates = const []
+  }) : super(key: key);
 
   @override
   State<SelectDate> createState() => _SelectDateState();
@@ -22,6 +26,12 @@ class _SelectDateState extends State<SelectDate> {
   late DatabaseProvider databaseProvider;
 
   List<DateTime> selectedDates = [];
+
+
+  @override
+  void initState() {
+    selectedDates = widget.initialDates;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -71,6 +81,7 @@ class _SelectDateState extends State<SelectDate> {
                         thickness: 1,
                       ),
                       SfDateRangePicker(
+                        initialSelectedDates: widget.initialDates,
                         selectionMode: DateRangePickerSelectionMode.multiple,
                         onSelectionChanged: (DateRangePickerSelectionChangedArgs? args){
                           if (args?.value is List<DateTime>){

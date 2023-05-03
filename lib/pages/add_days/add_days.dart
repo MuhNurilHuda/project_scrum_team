@@ -3,6 +3,7 @@ import 'package:iterasi1/model/alert_save_dialog_result.dart';
 import 'package:iterasi1/model/day.dart';
 import 'package:iterasi1/pages/add_days/app_bar_itinerary_title.dart';
 import 'package:iterasi1/pages/add_days/search_field.dart';
+import 'package:iterasi1/pages/datepicker/select_date.dart';
 import 'package:iterasi1/pages/itinerary_list.dart';
 import 'package:iterasi1/pages/pdf/preview_pdf_page.dart';
 import 'package:iterasi1/provider/database_provider.dart';
@@ -104,6 +105,7 @@ class _AddDaysState extends State<AddDays> {
                           SizedBox(
                             height: 60,
                             child: ListView.separated(
+                              padding: EdgeInsets.only(right: 24),
                               scrollDirection: Axis.horizontal,
                               physics: const BouncingScrollPhysics(),
                               itemBuilder: (context, index) {
@@ -126,7 +128,17 @@ class _AddDaysState extends State<AddDays> {
                             alignment: Alignment.centerRight,
                             child: InkWell(
                               onTap: () {
-                                
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context){
+                                      return SelectDate(
+                                        initialDates: itineraryProvider.itinerary.days.map(
+                                                (e) => e.getDatetime()
+                                        ).toList(),
+                                      );
+                                    }
+                                  )
+                                );
                               },
                               child: Container(
                                 decoration: const BoxDecoration(
@@ -147,16 +159,17 @@ class _AddDaysState extends State<AddDays> {
                         ),
                         // Expanded(
                         //     child: Padding(
-                        //   padding: const EdgeInsets.only(bottom: 65),
-                        //   child: SingleChildScrollView(
-                        //     scrollDirection: Axis.horizontal,
-                        //     physics: const BouncingScrollPhysics(),
-                        //     child: SingleChildScrollView(
-                        //         physics: const BouncingScrollPhysics(),
-                        //         child:
-                        //             buildDataTable(context, selectedDayIndex)),
-                        //   ),
-                        // ))
+                          //   padding: const EdgeInsets.only(bottom: 65),
+                          //   child: SingleChildScrollView(
+                          //     scrollDirection: Axis.horizontal,
+                          //     physics: const BouncingScrollPhysics(),
+                          //     child: SingleChildScrollView(
+                          //         physics: const BouncingScrollPhysics(),
+                          //         child:
+                          //             buildDataTable(context, selectedDayIndex)),
+                          //   ),
+                        //  )
+                        // )
                         Expanded(
                             child: Padding(
                           padding: const EdgeInsets.only(bottom: 65),
@@ -166,7 +179,10 @@ class _AddDaysState extends State<AddDays> {
                             physics: const BouncingScrollPhysics(),
                             shrinkWrap: true,
                             itemBuilder: (context, index) {
-                              return buildActivityCard(context, index);
+                              return buildActivityCard(
+                                  context,
+                                  itineraryProvider.itinerary.days[selectedDayIndex].activities[index]
+                              );
                             },
                             separatorBuilder:
                                 (BuildContext context, int index) {
@@ -174,7 +190,7 @@ class _AddDaysState extends State<AddDays> {
                                 height: 24,
                               );
                             },
-                            itemCount: 10,
+                            itemCount: itineraryProvider.itinerary.days[selectedDayIndex].activities.length,
                           ),
                         ))
                       ]),
@@ -388,7 +404,7 @@ class _AddDaysState extends State<AddDays> {
     ]);
   }
 
-  Widget buildActivityCard(BuildContext context, index) {
+  Widget buildActivityCard(BuildContext context, Activity activity) {
     return Container(
       decoration: BoxDecoration(
           color: const Color(0xFFFFB252),
@@ -400,7 +416,7 @@ class _AddDaysState extends State<AddDays> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'PREPARATION',
+              activity.activityName,
               textAlign: TextAlign.left,
               style: TextStyle(fontFamily: 'poppins_bold', fontSize: 24),
             ),
@@ -408,7 +424,7 @@ class _AddDaysState extends State<AddDays> {
               children: [
                 Icon(Icons.timer),
                 Text(
-                  '19.00 - 20.00',
+                  activity.activityTime,
                   style: TextStyle(
                     fontFamily: 'poppins_bold',
                     fontSize: 15,

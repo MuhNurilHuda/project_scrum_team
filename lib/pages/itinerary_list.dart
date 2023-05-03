@@ -7,7 +7,7 @@ import 'package:iterasi1/pages/datepicker/select_date.dart';
 import 'package:provider/provider.dart';
 import 'package:iterasi1/navigation/side_navbar.dart';
 import 'package:flutter/services.dart';
-
+import 'dart:developer' as dev;
 import '../model/itinerary.dart';
 import '../widget/text_dialog.dart';
 class ItineraryList extends StatelessWidget {
@@ -331,12 +331,24 @@ class ItineraryList extends StatelessWidget {
         title: "Ketik Judul Itinerary", value: "");
 
     if (itineraryTitle != null && context.mounted) {
-      Provider.of<ItineraryProvider>(context, listen: false)
-          .initItinerary(Itinerary(title: itineraryTitle));
+      if (itineraryTitle.isNotEmpty) {
+        Provider.of<ItineraryProvider>(context, listen: false)
+            .initItinerary(Itinerary(title: itineraryTitle));
 
-      Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-        return SelectDate();
-      }));
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+          return SelectDate();
+        }));
+      }
+      else{
+        dev.log("Masuk ke else");
+        ScaffoldMessenger.of(context)
+            .showSnackBar(
+            const SnackBar(
+                content: Text("Judul tidak boleh kosong!")
+            )
+        );
+      }
     }
+
   }
 }
