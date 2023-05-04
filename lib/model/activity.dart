@@ -8,7 +8,7 @@ class Activity {
   String endActivityTime;
   String keterangan;
 
-  static final _formatter = DateFormat("h:mm");
+  static final _formatter = DateFormat("hh:mm");
 
 
   Activity({
