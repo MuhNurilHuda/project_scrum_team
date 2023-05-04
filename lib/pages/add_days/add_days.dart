@@ -191,7 +191,13 @@ class _AddDaysState extends State<AddDays> {
                                   itemBuilder: (context, index) {
                                     return buildActivityCard(
                                       context,
-                                      data[index]
+                                      data[index],
+                                      (){
+                                        itineraryProvider.removeActivity(
+                                            activities: data!,
+                                            removedIndex: index
+                                        );
+                                      }
                                     );
                                   },
                                   separatorBuilder:
@@ -419,62 +425,72 @@ class _AddDaysState extends State<AddDays> {
   }
 
 
-  Widget buildActivityCard(BuildContext context, Activity activity) {
-    return InkWell(
-      onTap: (){
-        Navigator.of(context).push(
-          MaterialPageRoute(
-              builder: (context){
-                return AddActivities(
-                    initialActivity: activity,
-                    onSubmit: (newActivity){
-                      itineraryProvider.updateActivity(
-                          oldActivity: activity,
-                          newActivity: newActivity
-                      );
-                    },
-                  );
-              }
-          )
-        );
+  Widget buildActivityCard(
+      BuildContext context,
+      Activity activity,
+      void Function() onDismiss
+  ) {
+    return Dismissible(
+      onDismissed: (DismissDirection direction){
+        onDismiss();
       },
-      child: Container(
-        decoration: BoxDecoration(
-            color: const Color(0xFFFFB252),
-            borderRadius: BorderRadius.circular(15)),
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                activity.activityName,
-                textAlign: TextAlign.left,
-                style: TextStyle(fontFamily: 'poppins_bold', fontSize: 24),
-              ),
-              Row(
-                children: [
-                  Icon(Icons.timer),
-                  Text(
-                    "${activity.startActivityTime} - ${activity.endActivityTime}",
-                    style: TextStyle(
-                      fontFamily: 'poppins_bold',
-                      fontSize: 15,
-                    ),
-                  )
-                ],
-              ),
-              Text(
-                activity.keterangan,
-                style: TextStyle(
-                  fontFamily: 'poppins_regular',
-                  fontSize: 12,
+      key: Key(activity.hashCode.toString()),
+      child: InkWell(
+        onTap: (){
+          Navigator.of(context).push(
+            MaterialPageRoute(
+                builder: (context){
+                  return AddActivities(
+                      initialActivity: activity,
+                      onSubmit: (newActivity){
+                        itineraryProvider.updateActivity(
+                            oldActivity: activity,
+                            newActivity: newActivity
+                        );
+                      },
+                    );
+                }
+            )
+          );
+        },
+        child: Container(
+          decoration: BoxDecoration(
+              color: const Color(0xFFFFB252),
+              borderRadius: BorderRadius.circular(15)),
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  activity.activityName,
+                  textAlign: TextAlign.left,
+                  style: TextStyle(fontFamily: 'poppins_bold', fontSize: 24),
                 ),
-                overflow: TextOverflow.ellipsis,
-                maxLines: 2,
-              )
-            ],
+                Row(
+                  children: [
+                    Icon(Icons.timer),
+                    Text(
+                      "${activity.startActivityTime} - ${activity.endActivityTime}",
+                      style: TextStyle(
+                        fontFamily: 'poppins_bold',
+                        fontSize: 15,
+                      ),
+                    )
+                  ],
+                ),
+                Text(
+                  activity.keterangan,
+                  style: TextStyle(
+                    fontFamily: 'poppins_regular',
+                    fontSize: 12,
+                  ),
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                )
+              ],
+            ),
           ),
         ),
       ),
