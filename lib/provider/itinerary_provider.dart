@@ -46,8 +46,10 @@ class ItineraryProvider extends ChangeNotifier{
     required Activity oldActivity,
     required Activity newActivity
   }){
-    oldActivity.activityTime = newActivity.activityTime;
+    oldActivity.startActivityTime = newActivity.startActivityTime;
     oldActivity.activityName = newActivity.activityName;
+    oldActivity.endActivityTime = newActivity.endActivityTime;
+    oldActivity.keterangan = newActivity.keterangan;
     notifyListeners();
   }
 

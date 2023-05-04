@@ -439,7 +439,7 @@ class _AddDaysState extends State<AddDays> {
                 children: [
                   Icon(Icons.timer),
                   Text(
-                    activity.activityTime,
+                    "${activity.startActivityTime} - ${activity.endActivityTime}",
                     style: TextStyle(
                       fontFamily: 'poppins_bold',
                       fontSize: 15,
@@ -448,11 +448,13 @@ class _AddDaysState extends State<AddDays> {
                 ],
               ),
               Text(
-                'Raincoat, 2 layer jackets, Gloves, Mask, Medication (optional)',
+                activity.keterangan,
                 style: TextStyle(
                   fontFamily: 'poppins_regular',
                   fontSize: 12,
                 ),
+                overflow: TextOverflow.ellipsis,
+                maxLines: 2,
               )
             ],
           ),

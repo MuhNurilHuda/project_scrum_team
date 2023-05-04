@@ -38,7 +38,7 @@ Future<Uint8List> makePdf(Itinerary itinerary) async {
             data: [
               ['Time', 'Activity'],
               ...day.activities.map((activity) => [
-                activity.activityTime,
+                activity.startActivityTime,
                 activity.activityName,
               ])
             ],

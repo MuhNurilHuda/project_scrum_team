@@ -21,6 +21,7 @@ class _AddActivitiesState extends State<AddActivities> {
   TimeOfDay _selectedEndTime = TimeOfDay.now();
 
   final TextEditingController titleController = TextEditingController();
+  final TextEditingController keteranganController = TextEditingController();
 
 
   @override
@@ -28,7 +29,9 @@ class _AddActivitiesState extends State<AddActivities> {
     super.initState();
     if (widget.initialActivity != null){
       titleController.text = widget.initialActivity!.activityName;
-      _selectedStartTime = widget.initialActivity!.getTimeOfDay();
+      keteranganController.text = widget.initialActivity!.keterangan;
+      _selectedStartTime = widget.initialActivity!.startTimeOfDay;
+      _selectedEndTime = widget.initialActivity!.endTimeOfDay;
     }
   }
 
@@ -272,7 +275,9 @@ class _AddActivitiesState extends State<AddActivities> {
                         ),
                       ),
                       SizedBox(height: 10),
+
                       TextFormField(
+                        controller: keteranganController,
                         decoration: InputDecoration(
                           hintStyle: TextStyle(
                             fontFamily: 'Popins',
@@ -312,9 +317,10 @@ class _AddActivitiesState extends State<AddActivities> {
                     onPressed: (){
                       widget.onSubmit(
                         Activity(
+                            keterangan: keteranganController.text,
                             activityName: titleController.text,
-                            activityTime: "${_selectedStartTime.hour}:"
-                                          "${_selectedStartTime.minute}"
+                            startActivityTime: _selectedStartTime.format(context),
+                            endActivityTime : _selectedEndTime.format(context)
                         )
                       );
                       Navigator.of(context).pop();

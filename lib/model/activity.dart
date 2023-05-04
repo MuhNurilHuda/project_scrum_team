@@ -1,27 +1,40 @@
 
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class Activity {
   String activityName;
-  String activityTime;
+  String startActivityTime;
+  String endActivityTime;
+  String keterangan;
+
+  static final _formatter = DateFormat("h:mm");
 
 
   Activity({
     required this.activityName,
-    required this.activityTime,
+    required this.startActivityTime,
+    required this.endActivityTime,
+    required this.keterangan
   });
 
 
   Map<String, dynamic> toJson() {
     return {
       'activity_name': activityName,
-      'activity_time': activityTime,
+      'start_activity_time': startActivityTime,
+      'end_activity_time': endActivityTime,
+      'keterangan': keterangan
     };
   }
-  factory Activity.fromJson(Map<String , dynamic> json) => Activity(
-    activityName: json['activity_name'],
-    activityTime: json['activity_time'],
-  );
+
+  factory Activity.fromJson(Map<String, dynamic> json) =>
+      Activity(
+          activityName: json['activity_name'],
+          startActivityTime: json['start_activity_time'],
+          endActivityTime: json['end_activity_time'],
+          keterangan: json['keterangan']
+      );
 
   @override
   bool operator ==(Object other) =>
@@ -29,25 +42,27 @@ class Activity {
           other is Activity &&
               runtimeType == other.runtimeType &&
               activityName == other.activityName &&
-              activityTime == other.activityTime;
+              startActivityTime == other.startActivityTime &&
+              endActivityTime == other.endActivityTime;
 
   Activity copy({
     String? activityName,
-    String? activityTime,
+    String? startActivityTime,
+    String? endActivityTime,
+    String? keterangan
   }) =>
       Activity(
-        activityName: activityName ?? this.activityName,
-        activityTime: activityTime ?? this.activityTime,
+          activityName: activityName ?? this.activityName,
+          startActivityTime: startActivityTime ?? this.startActivityTime,
+          endActivityTime: endActivityTime ?? this.endActivityTime,
+          keterangan: keterangan ?? this.keterangan
       );
 
-  TimeOfDay getTimeOfDay(){
-    final timeSplitted = activityTime.split(":");
+  TimeOfDay get startTimeOfDay =>
+    TimeOfDay.fromDateTime(_formatter.parse(startActivityTime));
 
-    return TimeOfDay(
-        hour: int.parse(timeSplitted[0]),
-        minute: int.parse(timeSplitted[1])
-    );
-  }
+  TimeOfDay get endTimeOfDay =>
+      TimeOfDay.fromDateTime(_formatter.parse(endActivityTime));
 }
 
 
