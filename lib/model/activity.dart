@@ -59,10 +59,16 @@ class Activity {
       );
 
   TimeOfDay get startTimeOfDay =>
-    TimeOfDay.fromDateTime(_formatter.parse(startActivityTime));
+    TimeOfDay.fromDateTime(startDateTime);
 
   TimeOfDay get endTimeOfDay =>
-      TimeOfDay.fromDateTime(_formatter.parse(endActivityTime));
+      TimeOfDay.fromDateTime(endDateTime);
+
+  DateTime get startDateTime =>
+      _formatter.parse(startActivityTime);
+
+  DateTime get endDateTime =>
+      _formatter.parse(endActivityTime);
 }
 
 

@@ -173,24 +173,42 @@ class _AddDaysState extends State<AddDays> {
                         Expanded(
                             child: Padding(
                           padding: const EdgeInsets.only(bottom: 65),
-                          child: ListView.separated(
-                            padding: EdgeInsets.fromLTRB(20, 24, 20, 0),
-                            scrollDirection: Axis.vertical,
-                            physics: const BouncingScrollPhysics(),
-                            shrinkWrap: true,
-                            itemBuilder: (context, index) {
-                              return buildActivityCard(
-                                  context,
-                                  itineraryProvider.itinerary.days[selectedDayIndex].activities[index]
-                              );
-                            },
-                            separatorBuilder:
-                                (BuildContext context, int index) {
-                              return const SizedBox(
-                                height: 24,
-                              );
-                            },
-                            itemCount: itineraryProvider.itinerary.days[selectedDayIndex].activities.length,
+                          child: FutureBuilder<List<Activity>>(
+                            future : itineraryProvider.getSortedActivity(
+                              itineraryProvider
+                                  .itinerary
+                                  .days[selectedDayIndex]
+                                  .activities
+                            ),
+                            builder : (context , snapshot) {
+                              final data = snapshot.data;
+                              if (data != null) {
+                                return ListView.separated(
+                                  padding: EdgeInsets.fromLTRB(20, 24, 20, 0),
+                                  scrollDirection: Axis.vertical,
+                                  physics: const BouncingScrollPhysics(),
+                                  shrinkWrap: true,
+                                  itemBuilder: (context, index) {
+                                    return buildActivityCard(
+                                      context,
+                                      data[index]
+                                    );
+                                  },
+                                  separatorBuilder:
+                                      (BuildContext context, int index) {
+                                    return const SizedBox(
+                                      height: 24,
+                                    );
+                                  },
+                                  itemCount : data.length,
+                                );
+                              }
+                              else {
+                                return Center(
+                                  child: CircularProgressIndicator(),
+                                );
+                              }
+                            }
                           ),
                         ))
                       ]),

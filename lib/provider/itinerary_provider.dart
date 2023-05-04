@@ -68,4 +68,12 @@ class ItineraryProvider extends ChangeNotifier{
     activities.removeAt(removedIndex);
     notifyListeners();
   }
+
+  Future<List<Activity>> getSortedActivity(List<Activity> activities) async{
+    return activities..sort(
+        (a , b){
+          return a.startDateTime.compareTo(b.startDateTime);
+        }
+    );
+  }
 }
