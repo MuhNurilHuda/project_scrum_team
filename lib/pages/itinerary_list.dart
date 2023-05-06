@@ -203,7 +203,7 @@ class ItineraryList extends StatelessWidget {
                         bottom: 10,
                       ),
                       child: const Text(
-                        "TripPlanner",
+                        "ItineraryTrip",
                         textAlign: TextAlign.center,
                         style: TextStyle(
                             fontFamily: 'poppins_bold',

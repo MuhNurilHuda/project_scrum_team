@@ -40,7 +40,7 @@ class _SplashScreenState extends State<SplashScreen> {
               ),
             ),
             Text(
-              'Trip Planner',
+              'ItineraryTrip',
               style: TextStyle(
                 fontSize: MediaQuery.of(context).size.width * 0.04, // responsive
                 fontFamily: 'Montserrat',

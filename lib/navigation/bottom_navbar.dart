@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:iterasi1/pages/home_page.dart';
-import 'package:iterasi1/pages/paket_wisata.dart';
 import 'package:iterasi1/pages/itinerary_list.dart';
 
 class BottomNavbar extends StatefulWidget {
@@ -32,8 +30,8 @@ class _BottomNavbarState extends State<BottomNavbar> {
   ];
 
   final List<Widget> _tabViews = [
-    const HomePage(),
-    const PaketWisata(),
+    // const HomePage(),
+    // const PaketWisata(),
     ItineraryList(),
   ];
 
