@@ -9,7 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:iterasi1/main.dart';
-import 'package:iterasi1/pages/paket_wisata.dart';
 
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {

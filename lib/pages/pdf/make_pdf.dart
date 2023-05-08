@@ -5,31 +5,54 @@ import 'package:pdf/widgets.dart';
 
 Future<Uint8List> makePdf(Itinerary itinerary) async {
   final pdf = Document();
-  pdf.addPage(Page(
-    build: (context) => Column(
-      children: [
-        Row(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                itinerary.title,
-                style: TextStyle(
+
+  final List<Widget> activitiesTable = _buildActivitiesTable(itinerary);
+
+
+  pdf.addPage(MultiPage(
+    build: (context) => [
+        Align(
+          alignment: Alignment.center,
+          child : Text(
+              itinerary.title,
+              style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 20
-                )
               )
-            ]
+          )
         ),
-        ...itinerary.days
-          .map((day) => Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(day.date,
-              style:
-              TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-          SizedBox(height: 10),
-          Table.fromTextArray(
+
+        ...activitiesTable
+    ],
+  )
+  );
+  return pdf.save();
+}
+
+List<Widget> _buildActivitiesTable(Itinerary itinerary){
+  final List<Widget> widgets = [];
+
+  itinerary.days.forEach((day) {
+    widgets.add(
+      SizedBox(height: 30)
+    );
+
+    widgets.add(
+        Text(
+            day.date,
+            style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold
+            )
+        )
+    );
+
+    widgets.add(
+        SizedBox(height: 10)
+    );
+
+    widgets.add(
+        Table.fromTextArray(
             headerAlignment: Alignment.center,
             cellAlignment: Alignment.centerLeft,
             columnWidths: {0: FixedColumnWidth(30)},
@@ -37,17 +60,18 @@ Future<Uint8List> makePdf(Itinerary itinerary) async {
             cellStyle: TextStyle(height: 1.5),
             data: [
               ['Time', 'Activity'],
-              ...day.activities.map((activity) => [
-                activity.startActivityTime,
-                activity.activityName,
-              ])
-            ],
-          ),
-          SizedBox(height: 20),
-        ],
-      )).toList()
-  ],
-    ),
-  ));
-  return pdf.save();
+              ...day.activities.map(
+                (activity) => [
+                  activity.startActivityTime,
+                  activity.activityName
+                ]
+              )
+            ]
+        )
+    );
+  });
+
+  return widgets;
 }
+
+

@@ -44,7 +44,7 @@ class DatabaseService{
       db = await database;
       dataMap = {
         "id" : itinerary.id,
-        "data" : jsonEncode(itinerary.toJson())
+        "data" : itinerary.toJsonString()
       };
 
       developer.log("Mencoba insert" , name : "qqq");
@@ -100,7 +100,7 @@ class DatabaseService{
 
       return hasilQuery;
     } catch(e){
-      developer.log(e.toString() , name : "qqq");
+      developer.log(e.toString() , name : "qqqDBService");
       rethrow;
     }
   }

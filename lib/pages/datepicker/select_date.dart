@@ -144,7 +144,9 @@ class _SelectDateState extends State<SelectDate> {
                           itineraryProvider.initializeDays(selectedDates);
                           Navigator.push(context,
                               MaterialPageRoute(builder: (context) {
-                                return AddDays();
+                                return AddDays(
+                                  initialItinerary: itineraryProvider.itinerary.copy(),
+                                );
                               }));
                         }
                         else{

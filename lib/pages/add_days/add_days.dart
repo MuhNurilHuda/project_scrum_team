@@ -13,12 +13,16 @@ import 'package:provider/provider.dart';
 import 'dart:developer' as dev;
 
 import '../../model/activity.dart';
+import '../../model/itinerary.dart';
 import '../../provider/itinerary_provider.dart';
-import 'package:collection/collection.dart';
 
 
 class AddDays extends StatefulWidget {
-  AddDays({Key? key}) : super(key: key);
+  Itinerary initialItinerary;
+  AddDays({
+    required this.initialItinerary,
+    Key? key
+  }) : super(key: key);
 
   @override
   State<AddDays> createState() => _AddDaysState();
@@ -194,7 +198,7 @@ class _AddDaysState extends State<AddDays> {
                                       data[index],
                                       (){
                                         itineraryProvider.removeActivity(
-                                            activities: data!,
+                                            activities: data,
                                             removedIndex: index
                                         );
                                       }
@@ -539,21 +543,27 @@ class _AddDaysState extends State<AddDays> {
   }
 
   Future<bool> handleBackBehaviour() async {
-    final resultSaveDialog = await showAlertSaveDialog(context);
+    if (
+      widget.initialItinerary.toJsonString() !=
+      itineraryProvider.itinerary.toJsonString()
+    ) {
+      final resultSaveDialog = await showAlertSaveDialog(context);
 
-    late bool shouldPop;
+      late bool shouldPop;
 
-    if (resultSaveDialog == AlertSaveDialogResult.saveWithoutQuit) {
-      dev.log("save without quit");
-      shouldPop = true;
-    } else if (resultSaveDialog == AlertSaveDialogResult.saveAndQuit) {
-      await saveCurrentItinerary();
-      shouldPop = true;
-    } else {
-      shouldPop = false;
+      if (resultSaveDialog == AlertSaveDialogResult.saveWithoutQuit) {
+        dev.log("save without quit");
+        shouldPop = true;
+      } else if (resultSaveDialog == AlertSaveDialogResult.saveAndQuit) {
+        await saveCurrentItinerary();
+        shouldPop = true;
+      } else {
+        shouldPop = false;
+      }
+      if (shouldPop)
+        Navigator.popUntil(context, ModalRoute.withName(ItineraryList.route));
+      return false;
     }
-    if (shouldPop)
-      Navigator.popUntil(context, ModalRoute.withName(ItineraryList.route));
-    return false;
+    else return true;
   }
 }

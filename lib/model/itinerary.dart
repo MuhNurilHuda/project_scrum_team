@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:uuid/uuid.dart';
 
 import 'day.dart';
@@ -43,4 +45,7 @@ class Itinerary{
         title : title ?? this.title,
         days : days ?? this.days.map((e) => e.copy()).toList()
       );
+
+  String toJsonString() =>
+      jsonEncode(toJson());
 }

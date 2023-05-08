@@ -253,14 +253,19 @@ class ItineraryList extends StatelessWidget {
   }
 
   Widget listItem(
-      Itinerary itinerary, DatabaseProvider dbProvider, BuildContext context) {
+      Itinerary itinerary,
+      DatabaseProvider dbProvider,
+      BuildContext context
+  ) {
     return InkWell(
       onTap: () {
         final itineraryProvider = Provider.of<ItineraryProvider>(context, listen: false);
         itineraryProvider.initItinerary(itinerary);
 
         Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-          return AddDays();
+          return AddDays(
+            initialItinerary: itineraryProvider.itinerary.copy(),
+          );
         }));
       },
       child: Card(
