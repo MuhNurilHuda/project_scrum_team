@@ -514,19 +514,19 @@ class _AddDaysState extends State<AddDays> {
                   onPressed: () {
                     Navigator.of(context).pop(AlertSaveDialogResult.cancel);
                   },
-                  child: const Text("Cancel")),
+                  child: const Text("Batal")),
               TextButton(
                   onPressed: () {
                     Navigator.of(context)
                         .pop(AlertSaveDialogResult.saveAndQuit);
                   },
-                  child: const Text("Save and Quit")),
+                  child: const Text("Keluar dan Simpan")),
               TextButton(
                   onPressed: () {
                     Navigator.of(context)
                         .pop(AlertSaveDialogResult.saveWithoutQuit);
                   },
-                  child: const Text("Quit Without Saving"))
+                  child: const Text("Keluar Tanpa Simpan"))
             ],
           );
         });
