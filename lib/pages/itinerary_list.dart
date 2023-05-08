@@ -263,9 +263,7 @@ class ItineraryList extends StatelessWidget {
         itineraryProvider.initItinerary(itinerary);
 
         Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-          return AddDays(
-            initialItinerary: itineraryProvider.itinerary.copy(),
-          );
+          return AddDays();
         }));
       },
       child: Card(

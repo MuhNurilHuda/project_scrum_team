@@ -8,11 +8,13 @@ import 'dart:developer' as developer;
 
 class ItineraryProvider extends ChangeNotifier{
   late Itinerary _itinerary;
+  late Itinerary initialItinerary;
   Itinerary get itinerary => _itinerary;
 
 
   void initItinerary(Itinerary newItinerary){
     _itinerary = newItinerary.copy();
+    initialItinerary = newItinerary.copy();
     notifyListeners();
   }
 
@@ -34,6 +36,7 @@ class ItineraryProvider extends ChangeNotifier{
         ..sort();
 
     _itinerary.days = sortedDates.map((date) => Day.from(date)).toList();
+    developer.log(_itinerary.days.hashCode.toString() , name : "qqqInitializeDays");
 
     notifyListeners();
   }

@@ -18,11 +18,7 @@ import '../../provider/itinerary_provider.dart';
 
 
 class AddDays extends StatefulWidget {
-  Itinerary initialItinerary;
-  AddDays({
-    required this.initialItinerary,
-    Key? key
-  }) : super(key: key);
+  AddDays({Key? key}) : super(key: key);
 
   @override
   State<AddDays> createState() => _AddDaysState();
@@ -526,7 +522,10 @@ class _AddDaysState extends State<AddDays> {
                     Navigator.of(context)
                         .pop(AlertSaveDialogResult.saveWithoutQuit);
                   },
-                  child: const Text("Keluar Tanpa Simpan"))
+                  child: const Text(
+                      "Keluar Tanpa Simpan",
+                    style: TextStyle(color: Colors.red),
+                  ))
             ],
           );
         });
@@ -543,8 +542,10 @@ class _AddDaysState extends State<AddDays> {
   }
 
   Future<bool> handleBackBehaviour() async {
+    dev.log(itineraryProvider.initialItinerary.toJsonString() + itineraryProvider.initialItinerary.days.hashCode.toString() , name : "qqqCompare");
+    dev.log(itineraryProvider.itinerary.toJsonString() + itineraryProvider.itinerary.days.hashCode.toString() , name : "qqqCompare");
     if (
-      widget.initialItinerary.toJsonString() !=
+      itineraryProvider.initialItinerary.toJsonString() !=
       itineraryProvider.itinerary.toJsonString()
     ) {
       final resultSaveDialog = await showAlertSaveDialog(context);
