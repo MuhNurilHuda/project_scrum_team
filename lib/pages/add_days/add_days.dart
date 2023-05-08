@@ -564,6 +564,9 @@ class _AddDaysState extends State<AddDays> {
         Navigator.popUntil(context, ModalRoute.withName(ItineraryList.route));
       return false;
     }
-    else return true;
+    else {
+      Navigator.popUntil(context, ModalRoute.withName(ItineraryList.route));
+      return true;
+    }
   }
 }
