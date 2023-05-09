@@ -6,15 +6,12 @@
         <img align="center" width="280"  alt="logo-tripplanner" src="https://github.com/Halimp07/b3i-image/blob/main/logo/logo-full.png"/>
     </a>
 </p>
-<h3 align="center">Your Personal Itenerary Assistant</h3>
-<hr>
 
-TRIPPLANNER
->
+<h3 align="center">Your Personal Itenerary Assistant</h3>
+
+
 <p>
-<!--     <a href="https://github.com/HomeLearner116/project_scrum_team"> -->
-        <img align="center" alt="all-layout" src="https://github.com/Halimp07/b3i-image/blob/main/layout/all-layout.png"/>
-<!--     </a> -->
+        <img align="center" alt="all-layout" src="readme_resource/clay_trip_planner.png"/>
 </p>
 
 <!-- ## Getting Started

@@ -542,8 +542,6 @@ class _AddDaysState extends State<AddDays> {
   }
 
   Future<bool> handleBackBehaviour() async {
-    dev.log(itineraryProvider.initialItinerary.toJsonString() + itineraryProvider.initialItinerary.days.hashCode.toString() , name : "qqqCompare");
-    dev.log(itineraryProvider.itinerary.toJsonString() + itineraryProvider.itinerary.days.hashCode.toString() , name : "qqqCompare");
     if (
       itineraryProvider.initialItinerary.toJsonString() !=
       itineraryProvider.itinerary.toJsonString()
