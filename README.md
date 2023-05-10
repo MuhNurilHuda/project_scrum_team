@@ -1,6 +1,4 @@
 
-## Iterasi 1
-
 <p align="center">
     <a href="https://drive.google.com/drive/folders/1xLRF0fxSW7xYhObrOVRvdZ5yKAEiYYDm?usp=share_link">
         <img align="center" width="280"  alt="logo-tripplanner" src="https://github.com/Halimp07/b3i-image/blob/main/logo/logo-full.png"/>
