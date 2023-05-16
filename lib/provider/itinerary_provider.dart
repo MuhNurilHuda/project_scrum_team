@@ -32,11 +32,31 @@ class ItineraryProvider extends ChangeNotifier{
   }
 
   void initializeDays(List<DateTime> dates){
-    List<DateTime> sortedDates = dates
+    List<DateTime> sortedNewDates = dates
         ..sort();
 
-    _itinerary.days = sortedDates.map((date) => Day.from(date)).toList();
-    developer.log(_itinerary.days.hashCode.toString() , name : "qqqInitializeDays");
+    List<DateTime> currentDates = _itinerary.days.map((e) => e.getDatetime()).toList();
+
+    List<Day> finalDays = [];
+
+    var i = 0;
+    var j = 0;
+    // Push semua currentDates yang gak ada di sortedNewDates
+    while (i < sortedNewDates.length && j < currentDates.length){
+      if (currentDates[j].isBefore(sortedNewDates[i]))
+        j++;
+      else if (currentDates[j].isAfter(sortedNewDates[i]))
+        finalDays.add(Day.from(sortedNewDates[i++]));
+      else {
+        finalDays.add(_itinerary.days[j].copy());
+        j++;
+        i++;
+      }
+    }
+    while (i < sortedNewDates.length)
+      finalDays.add(Day.from(sortedNewDates[i++]));
+
+    _itinerary.days = finalDays;
 
     notifyListeners();
   }

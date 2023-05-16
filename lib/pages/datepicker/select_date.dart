@@ -141,7 +141,9 @@ class _SelectDateState extends State<SelectDate> {
                     child: InkWell(
                       onTap: () {
                         if (selectedDates.isNotEmpty) {
+                          // debugPrint("Jumlah hari baru : ${selectedDates.length}");
                           itineraryProvider.initializeDays(selectedDates);
+
                           Navigator.push(context,
                               MaterialPageRoute(builder: (context) {
                                 return AddDays();
