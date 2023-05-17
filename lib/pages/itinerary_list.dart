@@ -7,21 +7,31 @@ import 'package:iterasi1/pages/datepicker/select_date.dart';
 import 'package:provider/provider.dart';
 import 'package:iterasi1/navigation/side_navbar.dart';
 import 'package:flutter/services.dart';
-import 'dart:developer' as dev;
 import '../model/itinerary.dart';
 import '../widget/text_dialog.dart';
-class ItineraryList extends StatelessWidget {
+class ItineraryList extends StatefulWidget {
   static const route = "/ItineraryListRoute";
 
   ItineraryList({Key? key}) : super(key: key);
 
+  @override
+  State<ItineraryList> createState() => _ItineraryListState();
+}
+
+class _ItineraryListState extends State<ItineraryList> {
+
+  late ScaffoldMessengerState snackbarHandler;
+
   TextEditingController searchController = TextEditingController();
-  var time = DateTime.now();
+
+  final time = DateTime.now();
 
   late DatabaseProvider dbProvider;
 
   @override
   Widget build(BuildContext context) {
+    snackbarHandler = ScaffoldMessenger.of(context);
+
     dbProvider = Provider.of(context, listen: true);
 
     final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -232,7 +242,7 @@ class ItineraryList extends StatelessWidget {
                               itemBuilder: (context, index) {
                                 final item = itineraries[index];
                                 //
-                                return listItem(item, dbProvider, context);
+                                return KartuItinerary(item, dbProvider, context);
                               },
                             );
                           } else {
@@ -240,7 +250,7 @@ class ItineraryList extends StatelessWidget {
                               child: CircularProgressIndicator(),
                             );
                           }
-                            
+
                         })
                   ],
                 ),
@@ -252,7 +262,7 @@ class ItineraryList extends StatelessWidget {
     );
   }
 
-  Widget listItem(
+  Widget KartuItinerary(
       Itinerary itinerary,
       DatabaseProvider dbProvider,
       BuildContext context
@@ -262,6 +272,7 @@ class ItineraryList extends StatelessWidget {
         final itineraryProvider = Provider.of<ItineraryProvider>(context, listen: false);
         itineraryProvider.initItinerary(itinerary);
 
+        snackbarHandler.removeCurrentSnackBar();
         Navigator.of(context).push(MaterialPageRoute(builder: (context) {
           return AddDays();
         }));
@@ -279,7 +290,7 @@ class ItineraryList extends StatelessWidget {
           ),
           padding: const EdgeInsets.all(7.0),
           // color: Colors.white,
-          child: GridTile(            
+          child: GridTile(
             footer: Container(
               padding: const EdgeInsets.all(5.0),
               child: Column(
@@ -303,7 +314,27 @@ class ItineraryList extends StatelessWidget {
                   ),
                   InkWell(
                     onTap: () {
-                      dbProvider.deleteItinerary(id: itinerary.id);
+                      snackbarHandler.removeCurrentSnackBar();
+
+                      final itineraryCopy = itinerary.copy();
+                      dbProvider.deleteItinerary(itinerary : itinerary).whenComplete(
+                        (){
+                          snackbarHandler.showSnackBar(
+                              SnackBar(
+                                content: const Text("Item dihapus!"),
+                                action: SnackBarAction(
+                                    label: "Undo",
+                                    onPressed: (){
+                                      dbProvider.insertItinerary(
+                                          itinerary: itineraryCopy
+                                      );
+                                      snackbarHandler.removeCurrentSnackBar();
+                                    }
+                                ),
+                              )
+                          );
+                        }
+                      );
                     }, // Buat method Delete
                     child: const Icon(
                       Icons.delete,
@@ -330,26 +361,21 @@ class ItineraryList extends StatelessWidget {
   }
 
   Future<void> getItineraryTitle(BuildContext context) async {
-    final itineraryTitle = await showTextDialog(context,
-        title: "Ketik Judul Itinerary", value: "");
+    final itineraryTitle = await showTextDialog(
+        context,
+        title: "Ketik Judul Itinerary", value: ""
+    );
 
     if (itineraryTitle != null && context.mounted) {
       if (itineraryTitle.isNotEmpty) {
         Provider.of<ItineraryProvider>(context, listen: false)
             .initItinerary(Itinerary(title: itineraryTitle));
 
+        snackbarHandler.removeCurrentSnackBar();
+
         Navigator.of(context).push(MaterialPageRoute(builder: (context) {
           return SelectDate();
         }));
-      }
-      else{
-        dev.log("Masuk ke else");
-        ScaffoldMessenger.of(context)
-            .showSnackBar(
-            const SnackBar(
-                content: Text("Judul tidak boleh kosong!")
-            )
-        );
       }
     }
   }

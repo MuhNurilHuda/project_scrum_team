@@ -23,8 +23,8 @@ class DatabaseProvider extends ChangeNotifier{
     notifyListeners();
   }
 
-  Future<void> deleteItinerary({required String id}) async{
-    await _dbService.deleteItinerary(id);
+  Future<void> deleteItinerary({required Itinerary itinerary}) async{
+    await _dbService.deleteItinerary(itinerary.id);
     refreshData();
   }
 

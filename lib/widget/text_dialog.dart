@@ -24,11 +24,11 @@ class TextDialogWidget extends StatefulWidget {
 
 class _TextDialogWidgetState extends State<TextDialogWidget> {
   late TextEditingController controller;
+  String? errorText;
 
   @override
   void initState() {
     super.initState();
-
     controller = TextEditingController(text: widget.value);
   }
 
@@ -37,13 +37,21 @@ class _TextDialogWidgetState extends State<TextDialogWidget> {
     content: TextField(
       controller: controller,
       decoration: InputDecoration(
+        errorText: errorText,
         border: OutlineInputBorder()
       ),
     ),
     actions: [
       ElevatedButton(
         child: Text('Done'),
-        onPressed: () => Navigator.of(context).pop(controller.text),
+        onPressed: (){
+          if (controller.text.isNotEmpty)
+            Navigator.of(context).pop(controller.text);
+          else
+            setState(() {
+              errorText = "Judul tidak boleh kosong!";
+            });
+        }
       ),
     ],
   );

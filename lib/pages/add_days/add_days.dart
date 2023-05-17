@@ -13,7 +13,6 @@ import 'package:provider/provider.dart';
 import 'dart:developer' as dev;
 
 import '../../model/activity.dart';
-import '../../model/itinerary.dart';
 import '../../provider/itinerary_provider.dart';
 
 
@@ -35,8 +34,13 @@ class _AddDaysState extends State<AddDays> {
   late Widget appBarTitle;
   late List<Widget> actionIcon;
 
+  late ScaffoldMessengerState snackbarHandler;
+
+
   @override
   Widget build(BuildContext context) {
+    snackbarHandler = ScaffoldMessenger.of(context);
+
     itineraryProvider = Provider.of(context, listen: true);
     databaseProvider = Provider.of(context, listen: true);
 
@@ -83,7 +87,13 @@ class _AddDaysState extends State<AddDays> {
             leading: IconButton(
               icon: const Icon(Icons.arrow_back),
               onPressed: () {
-                handleBackBehaviour();
+                handleBackBehaviour().whenComplete(
+                  () => Navigator
+                          .popUntil(
+                            context,
+                            ModalRoute.withName(ItineraryList.route)
+                          )
+                );
               },
             ),
             backgroundColor: const Color(0xFF1C3131),
@@ -189,13 +199,20 @@ class _AddDaysState extends State<AddDays> {
                                   physics: const BouncingScrollPhysics(),
                                   shrinkWrap: true,
                                   itemBuilder: (context, index) {
+                                    final currentActivity = data[index].copy();
                                     return buildActivityCard(
                                       context,
                                       data[index],
-                                      (){
+                                      onDismiss: (){
                                         itineraryProvider.removeActivity(
                                             activities: data,
-                                            removedIndex: index
+                                            removedHashCode: data[index].hashCode
+                                        );
+                                      },
+                                      onUndo: (){
+                                        itineraryProvider.insertNewActivity(
+                                            activities: data,
+                                            newActivity: currentActivity
                                         );
                                       }
                                     );
@@ -428,11 +445,28 @@ class _AddDaysState extends State<AddDays> {
   Widget buildActivityCard(
       BuildContext context,
       Activity activity,
-      void Function() onDismiss
+      {
+        required void Function() onDismiss,
+        required void Function() onUndo,
+      }
   ) {
     return Dismissible(
       onDismissed: (DismissDirection direction){
+        snackbarHandler.removeCurrentSnackBar();
         onDismiss();
+
+        snackbarHandler.showSnackBar(
+          SnackBar(
+            content: const Text("Item dihapus!"),
+            action: SnackBarAction(
+                label: "Undo",
+                onPressed: (){
+                  onUndo();
+                  snackbarHandler.removeCurrentSnackBar();
+                }
+            ),
+          ),
+        );
       },
       key: Key(activity.hashCode.toString()),
       child: InkWell(
@@ -536,22 +570,21 @@ class _AddDaysState extends State<AddDays> {
     return databaseProvider
         .insertItinerary(itinerary: itineraryProvider.itinerary)
         .whenComplete(() {
-      Navigator.popUntil(context, ModalRoute.withName(ItineraryList.route));
+      Navigator.popUntil(
+          context,
+          ModalRoute.withName(ItineraryList.route)
+      );
       context.loaderOverlay.hide();
     });
   }
 
   Future<bool> handleBackBehaviour() async {
-    if (
-      itineraryProvider.initialItinerary.toJsonString() !=
-      itineraryProvider.itinerary.toJsonString()
-    ) {
+    if (itineraryProvider.isDateChanged) {
       final resultSaveDialog = await showAlertSaveDialog(context);
 
       late bool shouldPop;
 
       if (resultSaveDialog == AlertSaveDialogResult.saveWithoutQuit) {
-        dev.log("save without quit");
         shouldPop = true;
       } else if (resultSaveDialog == AlertSaveDialogResult.saveAndQuit) {
         await saveCurrentItinerary();
@@ -560,11 +593,11 @@ class _AddDaysState extends State<AddDays> {
         shouldPop = false;
       }
       if (shouldPop)
-        Navigator.popUntil(context, ModalRoute.withName(ItineraryList.route));
-      return false;
+        snackbarHandler.removeCurrentSnackBar();
+      return shouldPop;
     }
     else {
-      Navigator.popUntil(context, ModalRoute.withName(ItineraryList.route));
+      snackbarHandler.removeCurrentSnackBar();
       return true;
     }
   }

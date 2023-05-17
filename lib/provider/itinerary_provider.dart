@@ -11,6 +11,7 @@ class ItineraryProvider extends ChangeNotifier{
   late Itinerary initialItinerary;
   Itinerary get itinerary => _itinerary;
 
+  bool get isDateChanged => _itinerary.toJsonString() != initialItinerary.toJsonString();
 
   void initItinerary(Itinerary newItinerary){
     _itinerary = newItinerary.copy();
@@ -86,9 +87,11 @@ class ItineraryProvider extends ChangeNotifier{
 
   void removeActivity({
     required List<Activity> activities,
-    required int removedIndex
+    required int removedHashCode
   }){
-    activities.removeAt(removedIndex);
+    activities.removeWhere(
+      (element) => element.hashCode == removedHashCode
+    );
     notifyListeners();
   }
 
