@@ -7,13 +7,13 @@ class AddActivities extends StatefulWidget {
   final Function(Activity) onSubmit;
 
   AddActivities({
-  this.initialActivity,
-  required this.onSubmit,
-  super.key
-});
+    this.initialActivity,
+    required this.onSubmit,
+    super.key
+  });
 
-@override
-_AddActivitiesState createState() => _AddActivitiesState();
+  @override
+  _AddActivitiesState createState() => _AddActivitiesState();
 }
 
 class _AddActivitiesState extends State<AddActivities> {
@@ -21,6 +21,7 @@ class _AddActivitiesState extends State<AddActivities> {
   TimeOfDay _selectedEndTime = TimeOfDay.now();
 
   final TextEditingController titleController = TextEditingController();
+  final TextEditingController keteranganController = TextEditingController();
 
 
   @override
@@ -28,7 +29,9 @@ class _AddActivitiesState extends State<AddActivities> {
     super.initState();
     if (widget.initialActivity != null){
       titleController.text = widget.initialActivity!.activityName;
-      _selectedStartTime = widget.initialActivity!.getTimeOfDay();
+      keteranganController.text = widget.initialActivity!.keterangan;
+      _selectedStartTime = widget.initialActivity!.startTimeOfDay;
+      _selectedEndTime = widget.initialActivity!.endTimeOfDay;
     }
   }
 
@@ -76,13 +79,13 @@ class _AddActivitiesState extends State<AddActivities> {
                       bottom: 10,
                     ),
                     child: const Text(
-                      "Add Itenerary",
+                      "Tambah Aktivitas",
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontFamily: 'Popins',
                         fontSize: 30,
                         fontWeight: FontWeight.bold,
-                        color: Color(0xFF305A5A),
+                        color: Color(0xFFC58940),
                       ),
                     ),
                   ),
@@ -96,36 +99,34 @@ class _AddActivitiesState extends State<AddActivities> {
                         style: TextStyle(
                           fontFamily: 'poppins_bold',
                           fontSize: 20,
-                          color: Color(0xFF305A5A),
+                          color: Colors.black,
                         ),
                       ),
 
                       SizedBox(height: 10),
                       // text field
-                      Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 10),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: TextField(
-                          controller: titleController,
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(12),
-                            ),
+                     Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: TextField(
+                        controller: titleController,
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
                             focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(12),
                               borderSide: BorderSide(
                                 color: Color(0xFF305A5A),
                                 width: 2,
                               ),
-
                             ),
                           ),
                         ),
                       ),
-
                     ],
                   ),
 
@@ -141,7 +142,7 @@ class _AddActivitiesState extends State<AddActivities> {
                             style: TextStyle(
                               fontFamily: 'poppins_bold',
                               fontSize: 20,
-                              color: Color(0xFF305A5A),
+                              color: Colors.black,
                             ),
                           ),
 
@@ -176,7 +177,7 @@ class _AddActivitiesState extends State<AddActivities> {
                                         style: TextStyle(
                                           fontFamily: 'Poppins',
                                           fontSize: 20,
-                                          color: Color(0xFF305A5A),
+                                          color: Colors.black,
                                         ),
                                       ),
                                     ),
@@ -185,7 +186,7 @@ class _AddActivitiesState extends State<AddActivities> {
                                   Icon(
                                     Icons.access_time,
                                     size: 30,
-                                    color: Color(0xFF305A5A),
+                                    color: Colors.black,
                                   ),
                                 ],
                               ),
@@ -204,7 +205,7 @@ class _AddActivitiesState extends State<AddActivities> {
                             style: TextStyle(
                               fontFamily: 'poppins_bold',
                               fontSize: 20,
-                              color: Color(0xFF305A5A),
+                              color: Colors.black,
                             ),
                           ),
                           SizedBox(height: 10),
@@ -226,8 +227,8 @@ class _AddActivitiesState extends State<AddActivities> {
                                 ],
                               ),
                               child: Row(
-                                // mainAxisAlignment:
-                                //     MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Expanded(
                                     child: Padding(
@@ -237,7 +238,7 @@ class _AddActivitiesState extends State<AddActivities> {
                                         style: TextStyle(
                                           fontFamily: 'Popins',
                                           fontSize: 20,
-                                          color: Color(0xFF305A5A),
+                                          color: Colors.black,
                                         ),
                                       ),
                                     ),
@@ -246,7 +247,7 @@ class _AddActivitiesState extends State<AddActivities> {
                                   Icon(
                                     Icons.access_time,
                                     size: 30,
-                                    color: Color(0xFF305A5A),
+                                    color: Colors.black,
                                   ),
                                 ],
                               ),
@@ -266,68 +267,35 @@ class _AddActivitiesState extends State<AddActivities> {
                           fontFamily: 'Popins',
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
-                          color: Color(0xFF305A5A),
+                          color: Colors.black,
                         ),
                       ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      TextFormField(
+
+                      SizedBox(height: 10),
+
+                      TextField(
+                        controller: keteranganController,
                         keyboardType: TextInputType.multiline,
-                        minLines: 1,
+                        minLines: 4,
                         maxLines: null,
-                        textAlignVertical: TextAlignVertical.top,
+                        textAlignVertical: TextAlignVertical.center,
                         decoration: InputDecoration(
-                          hintStyle: TextStyle(
-                            fontFamily: 'Popins',
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold,
-                            color: Color(0xFF305A5A),
-                          ),
                           border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
+                            borderRadius: BorderRadius.circular(12),
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(12),
                             borderSide: BorderSide(
-                              color: Color(0xFF305A5A),
+                              color: Colors.black,
                               width: 2,
                             ),
-                          ),
-                          contentPadding: EdgeInsets.fromLTRB(10, 15, 15, 100), // Atur padding kiri, atas, kanan, bawah
+                          ), //  agar kotak tidak memiliki margin
+                          contentPadding: EdgeInsets.symmetric(horizontal: 15 , vertical : 20),
                         ),
                       ),
-                      // TextFormField(
-                      //   keyboardType: TextInputType.multiline,
-                      //   maxLines: 4,
-                      //   minLines: 4,
-                      //   decoration: InputDecoration(
-                      //     hintStyle: TextStyle(
-                      //       fontFamily: 'Popins',
-                      //       fontSize: 15,
-                      //       fontWeight: FontWeight.bold,
-                      //       color: Color(0xFF305A5A),
-                      //     ),
-                      //     border: OutlineInputBorder(
-                      //       borderRadius: BorderRadius.circular(12),
-                      //     ),
-                      //     focusedBorder: OutlineInputBorder(
-                      //       borderRadius: BorderRadius.circular(12),
-                      //       borderSide: BorderSide(
-                      //         color: Color(0xFF305A5A),
-                      //         width: 2,
-                      //       ),
-                      //     ),
-                      //     isCollapsed: true, //  agar kotak tidak memiliki margin
-                      //         contentPadding: EdgeInsets.symmetric(
-                      //         vertical: 50, horizontal: 10,
-                      //     ),
-                      //   ),
-                      // ),
                     ],
                   ),
-                  SizedBox(height: 20),
-
+                  SizedBox(height: 50),
                   TextButton(
                     style: TextButton.styleFrom(
                       backgroundColor: Colors.orange,
@@ -340,8 +308,9 @@ class _AddActivitiesState extends State<AddActivities> {
                       widget.onSubmit(
                           Activity(
                               activityName: titleController.text,
-                              activityTime: "${_selectedStartTime.hour}:"
-                                  "${_selectedStartTime.minute}"
+                              startActivityTime: _selectedStartTime.format(context),
+                              endActivityTime: _selectedEndTime.format(context),
+                              keterangan: keteranganController.text
                           )
                       );
                       Navigator.of(context).pop();

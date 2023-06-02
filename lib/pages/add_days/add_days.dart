@@ -79,7 +79,7 @@ class _AddDaysState extends State<AddDays> {
       child: WillPopScope(
         onWillPop: handleBackBehaviour,
         child: Scaffold(
-          backgroundColor: const Color(0xFFE5BA73),
+          backgroundColor: const Color(0xFF1C3131),
           appBar: AppBar(
             title: appBarTitle,
             actions: actionIcon,
@@ -88,15 +88,15 @@ class _AddDaysState extends State<AddDays> {
               icon: const Icon(Icons.arrow_back),
               onPressed: () {
                 handleBackBehaviour().whenComplete(
-                  () => Navigator
-                          .popUntil(
-                            context,
-                            ModalRoute.withName(ItineraryList.route)
-                          )
+                        () => Navigator
+                        .popUntil(
+                        context,
+                        ModalRoute.withName(ItineraryList.route)
+                    )
                 );
               },
             ),
-            backgroundColor: const Color(0xFFE5BA73),
+            backgroundColor: const Color(0xFF1C3131),
             elevation: 0,
           ),
           body: Stack(
@@ -125,7 +125,7 @@ class _AddDaysState extends State<AddDays> {
                                         .itinerary.days[index].date);
                               },
                               itemCount:
-                                  itineraryProvider.itinerary.days.length,
+                              itineraryProvider.itinerary.days.length,
                               separatorBuilder:
                                   (BuildContext context, int index) {
                                 return const SizedBox(
@@ -139,15 +139,15 @@ class _AddDaysState extends State<AddDays> {
                             child: InkWell(
                               onTap: () {
                                 Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    builder: (context){
-                                      return SelectDate(
-                                        initialDates: itineraryProvider.itinerary.days.map(
-                                                (e) => e.getDatetime()
-                                        ).toList(),
-                                      );
-                                    }
-                                  )
+                                    MaterialPageRoute(
+                                        builder: (context){
+                                          return SelectDate(
+                                            initialDates: itineraryProvider.itinerary.days.map(
+                                                    (e) => e.getDatetime()
+                                            ).toList(),
+                                          );
+                                        }
+                                    )
                                 );
                               },
                               child: Container(
@@ -169,71 +169,71 @@ class _AddDaysState extends State<AddDays> {
                         ),
                         // Expanded(
                         //     child: Padding(
-                          //   padding: const EdgeInsets.only(bottom: 65),
-                          //   child: SingleChildScrollView(
-                          //     scrollDirection: Axis.horizontal,
-                          //     physics: const BouncingScrollPhysics(),
-                          //     child: SingleChildScrollView(
-                          //         physics: const BouncingScrollPhysics(),
-                          //         child:
-                          //             buildDataTable(context, selectedDayIndex)),
-                          //   ),
+                        //   padding: const EdgeInsets.only(bottom: 65),
+                        //   child: SingleChildScrollView(
+                        //     scrollDirection: Axis.horizontal,
+                        //     physics: const BouncingScrollPhysics(),
+                        //     child: SingleChildScrollView(
+                        //         physics: const BouncingScrollPhysics(),
+                        //         child:
+                        //             buildDataTable(context, selectedDayIndex)),
+                        //   ),
                         //  )
                         // )
                         Expanded(
                             child: Padding(
-                          padding: const EdgeInsets.only(bottom: 65),
-                          child: FutureBuilder<List<Activity>>(
-                            future : itineraryProvider.getSortedActivity(
-                              itineraryProvider
-                                  .itinerary
-                                  .days[selectedDayIndex]
-                                  .activities
-                            ),
-                            builder : (context , snapshot) {
-                              final data = snapshot.data;
-                              if (data != null) {
-                                return ListView.separated(
-                                  padding: EdgeInsets.fromLTRB(20, 24, 20, 0),
-                                  scrollDirection: Axis.vertical,
-                                  physics: const BouncingScrollPhysics(),
-                                  shrinkWrap: true,
-                                  itemBuilder: (context, index) {
-                                    final currentActivity = data[index].copy();
-                                    return buildActivityCard(
-                                      context,
-                                      data[index],
-                                      onDismiss: (){
-                                        itineraryProvider.removeActivity(
-                                            activities: data,
-                                            removedHashCode: data[index].hashCode
-                                        );
-                                      },
-                                      onUndo: (){
-                                        itineraryProvider.insertNewActivity(
-                                            activities: data,
-                                            newActivity: currentActivity
-                                        );
-                                      }
-                                    );
-                                  },
-                                  separatorBuilder:
-                                      (BuildContext context, int index) {
-                                    return const SizedBox(
-                                      height: 24,
-                                    );
-                                  },
-                                  itemCount : data.length,
-                                );
-                              }
-                              else {
-                                return Center(
-                                  child: CircularProgressIndicator(),
-                                );
-                              }
-                            }
-                          ),
-                        ))
+                              padding: const EdgeInsets.only(bottom: 65),
+                              child: FutureBuilder<List<Activity>>(
+                                  future : itineraryProvider.getSortedActivity(
+                                      itineraryProvider
+                                          .itinerary
+                                          .days[selectedDayIndex]
+                                          .activities
+                                  ),
+                                  builder : (context , snapshot) {
+                                    final data = snapshot.data;
+                                    if (data != null) {
+                                      return ListView.separated(
+                                        padding: EdgeInsets.fromLTRB(20, 24, 20, 0),
+                                        scrollDirection: Axis.vertical,
+                                        physics: const BouncingScrollPhysics(),
+                                        shrinkWrap: true,
+                                        itemBuilder: (context, index) {
+                                          final currentActivity = data[index].copy();
+                                          return buildActivityCard(
+                                              context,
+                                              data[index],
+                                              onDismiss: (){
+                                                itineraryProvider.removeActivity(
+                                                    activities: data,
+                                                    removedHashCode: data[index].hashCode
+                                                );
+                                              },
+                                              onUndo: (){
+                                                itineraryProvider.insertNewActivity(
+                                                    activities: data,
+                                                    newActivity: currentActivity
+                                                );
+                                              }
+                                          );
+                                        },
+                                        separatorBuilder:
+                                            (BuildContext context, int index) {
+                                          return const SizedBox(
+                                            height: 24,
+                                          );
+                                        },
+                                        itemCount : data.length,
+                                      );
+                                    }
+                                    else {
+                                      return Center(
+                                        child: CircularProgressIndicator(),
+                                      );
+                                    }
+                                  }
+                              ),
+                            ))
                       ]),
                 ),
               ),
@@ -251,16 +251,16 @@ class _AddDaysState extends State<AddDays> {
                           onTap: () {
                             Navigator.push(context,
                                 MaterialPageRoute(builder: (context) {
-                              return AddActivities(
-                                onSubmit: (newActivity){
-                                  itineraryProvider.insertNewActivity(
-                                      activities: itineraryProvider.itinerary.days[selectedDayIndex].activities,
-                                      newActivity: newActivity
+                                  return AddActivities(
+                                    onSubmit: (newActivity){
+                                      itineraryProvider.insertNewActivity(
+                                          activities: itineraryProvider.itinerary.days[selectedDayIndex].activities,
+                                          newActivity: newActivity
+                                      );
+                                      dev.log("${itineraryProvider.itinerary.days[selectedDayIndex].activities.length}");
+                                    },
                                   );
-                                  dev.log("${itineraryProvider.itinerary.days[selectedDayIndex].activities.length}");
-                                },
-                              );
-                            }));
+                                }));
                           },
                           child: SizedBox(
                             height: 60,
@@ -294,7 +294,7 @@ class _AddDaysState extends State<AddDays> {
                       child: ElevatedButton(
                         style: ButtonStyle(
                             shape: MaterialStateProperty.all<
-                                    RoundedRectangleBorder>(
+                                RoundedRectangleBorder>(
                                 RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10.0))),
                             backgroundColor: const MaterialStatePropertyAll(
@@ -320,7 +320,7 @@ class _AddDaysState extends State<AddDays> {
                       child: ElevatedButton(
                         style: ButtonStyle(
                             shape: MaterialStateProperty.all<
-                                    RoundedRectangleBorder>(
+                                RoundedRectangleBorder>(
                                 RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10.0))),
                             backgroundColor: const MaterialStatePropertyAll(
@@ -350,10 +350,10 @@ class _AddDaysState extends State<AddDays> {
         decoration: BoxDecoration(
           border: index == selectedDayIndex
               ? const Border(
-                  bottom: BorderSide(
-                  width: 2.0,
-                  color: Color(0xFFF8A700),
-                ))
+              bottom: BorderSide(
+                width: 2.0,
+                color: Color(0xFFF8A700),
+              ))
               : null,
         ),
         child: Card(
@@ -389,42 +389,42 @@ class _AddDaysState extends State<AddDays> {
   }
 
   Widget addNewDayButton(BuildContext context) => InkWell(
-        onTap: () async {
-          final choosenDate = await showDatePicker(
-              context: context,
-              initialDate: DateTime.now(),
-              firstDate: DateTime(2023),
-              lastDate: DateTime(2100));
+    onTap: () async {
+      final choosenDate = await showDatePicker(
+          context: context,
+          initialDate: DateTime.now(),
+          firstDate: DateTime(2023),
+          lastDate: DateTime(2100));
 
-          if (choosenDate != null) {
-            itineraryProvider.addDay(Day(date: formatDate(choosenDate)));
-          }
-        },
-        child: SizedBox(
-          height: 70,
-          child: Container(
-            padding: const EdgeInsets.fromLTRB(75, 5, 75, 5),
-            child: Card(
-              color: const Color(0xFFFFB252),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
-                  Card(
-                    child: Icon(Icons.add),
-                  ),
-                  Text(
-                    "Tambah Aktivitas",
-                    style: TextStyle(
-                      color: Colors.white,
-                    ),
-                  ),
-                ],
+      if (choosenDate != null) {
+        itineraryProvider.addDay(Day(date: formatDate(choosenDate)));
+      }
+    },
+    child: SizedBox(
+      height: 70,
+      child: Container(
+        padding: const EdgeInsets.fromLTRB(75, 5, 75, 5),
+        child: Card(
+          color: const Color(0xFFFFB252),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: const [
+              Card(
+                child: Icon(Icons.add),
               ),
-            ),
+              Text(
+                "Tambah Aktivitas",
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              ),
+            ],
           ),
         ),
-      );
+      ),
+    ),
+  );
 
   String formatDate(DateTime date) {
     return "${date.day}/${date.month}/${date.year}";
@@ -449,7 +449,7 @@ class _AddDaysState extends State<AddDays> {
         required void Function() onDismiss,
         required void Function() onUndo,
       }
-  ) {
+      ) {
     return Dismissible(
       onDismissed: (DismissDirection direction){
         snackbarHandler.removeCurrentSnackBar();
@@ -472,9 +472,9 @@ class _AddDaysState extends State<AddDays> {
       child: InkWell(
         onTap: (){
           Navigator.of(context).push(
-            MaterialPageRoute(
-                builder: (context){
-                  return AddActivities(
+              MaterialPageRoute(
+                  builder: (context){
+                    return AddActivities(
                       initialActivity: activity,
                       onSubmit: (newActivity){
                         itineraryProvider.updateActivity(
@@ -483,8 +483,8 @@ class _AddDaysState extends State<AddDays> {
                         );
                       },
                     );
-                }
-            )
+                  }
+              )
           );
         },
         child: Container(
@@ -534,7 +534,7 @@ class _AddDaysState extends State<AddDays> {
 
   Future<AlertSaveDialogResult?> showAlertSaveDialog(BuildContext context) {
     return showDialog<AlertSaveDialogResult?>(
-        // Nilai yang direturn adalah Future<HasilPop>
+      // Nilai yang direturn adalah Future<HasilPop>
         context: context,
         builder: (context) {
           return AlertDialog(
@@ -557,7 +557,7 @@ class _AddDaysState extends State<AddDays> {
                         .pop(AlertSaveDialogResult.saveWithoutQuit);
                   },
                   child: const Text(
-                      "Keluar Tanpa Simpan",
+                    "Keluar Tanpa Simpan",
                     style: TextStyle(color: Colors.red),
                   ))
             ],
@@ -579,7 +579,7 @@ class _AddDaysState extends State<AddDays> {
   }
 
   Future<bool> handleBackBehaviour() async {
-    if (itineraryProvider.isDateChanged) {
+    if (itineraryProvider.isDataChanged) {
       final resultSaveDialog = await showAlertSaveDialog(context);
 
       late bool shouldPop;

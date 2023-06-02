@@ -11,7 +11,7 @@ class ItineraryProvider extends ChangeNotifier{
   late Itinerary initialItinerary;
   Itinerary get itinerary => _itinerary;
 
-  bool get isDateChanged => _itinerary.toJsonString() != initialItinerary.toJsonString();
+  bool get isDataChanged => _itinerary.toJsonString() != initialItinerary.toJsonString();
 
   void initItinerary(Itinerary newItinerary){
     _itinerary = newItinerary.copy();
