@@ -120,64 +120,60 @@ class _SelectDateState extends State<SelectDate> {
             ),
             Align(
               alignment: Alignment.bottomCenter,
-              child: Row(children: [
-                Expanded(
-                  child: Container(
-                    margin: const EdgeInsets.only(
-                      bottom: 48,
-                      right: 48,
-                      left: 48,
-                    ),
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 20,
-                      vertical: 5,
-                    ),
-                    decoration: BoxDecoration(
-                        color: CustomColor.buttonColor,
-                        borderRadius: BorderRadius.circular(10)),
-                    child: InkWell(
-                      onTap: () {
-                        if (selectedDates.isNotEmpty) {
-                          // debugPrint("Jumlah hari baru : ${selectedDates.length}");
-                          itineraryProvider.initializeDays(selectedDates);
+              child: Container(
+                width: double.infinity,
+                height: 260,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                ),
 
-                          Navigator.push(context,
-                              MaterialPageRoute(builder: (context) {
-                                return AddDays();
-                              }));
-                        }
-                        else{
-                          ScaffoldMessenger.of(context)
-                              .showSnackBar(
-                              const SnackBar(
-                                  content: Text("Tanggal yang dipilih tidak boleh kosong!")
-                              )
-                          );
-                        }
-                      },
-                      child: SizedBox(
-                        height: 45,
-                        width: 200,
-                        child: Card(
-                          color: CustomColor.buttonColor,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
-                          elevation: 0,
-                          child: const Align(
-                            alignment: Alignment.center,
-                            child: Text('Select Date',
-                                style: TextStyle(
-                                    fontFamily: 'poppins_bold',
-                                    fontSize: 16,
-                                    color: Colors.white)),
-                          ),
-                        ),
-                      ),
+              )
+            ),
+
+            Align(
+              alignment: Alignment.bottomCenter,
+              child : Padding(
+                padding: const EdgeInsets.all(48),
+                child: Container(
+                  width: double.infinity,
+                  child: FilledButton(
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStatePropertyAll(CustomColor.buttonColor),
+                      padding: MaterialStatePropertyAll(EdgeInsets.symmetric(vertical: 20)),
+                      shape: MaterialStatePropertyAll(RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(20))
+                      ))
                     ),
+                    child: Text('Pilih',
+                        style: TextStyle(
+                            fontFamily: 'poppins_bold',
+                            fontSize: 16,
+                            color: Colors.white),
+                    ),
+                    onPressed: (){
+                      if (selectedDates.isNotEmpty) {
+                        // debugPrint("Jumlah hari baru : ${selectedDates.length}");
+                        itineraryProvider.initializeDays(selectedDates);
+
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) {
+                              return AddDays();
+                            }));
+                      }
+                      else{
+                        ScaffoldMessenger.of(context)
+                            .showSnackBar(
+                            const SnackBar(
+                                content: const Text(
+                                    "Tanggal yang dipilih tidak boleh kosong!"
+                                )
+                            )
+                        );
+                      }
+                    },
                   ),
                 ),
-              ]),
+              )
             )
           ],
         ),

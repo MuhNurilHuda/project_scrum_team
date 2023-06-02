@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:iterasi1/resource/colors.dart';
 
 import '../../model/activity.dart';
 
@@ -62,6 +63,7 @@ class _AddActivitiesState extends State<AddActivities> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: CustomColor.surface,
       body: Container(
         margin: const EdgeInsets.only(bottom: 20),
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 7),
@@ -82,10 +84,9 @@ class _AddActivitiesState extends State<AddActivities> {
                       "Tambah Aktivitas",
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        fontFamily: 'Popins',
+                        fontFamily: 'poppins_bold',
                         fontSize: 30,
-                        fontWeight: FontWeight.bold,
-                        color: Color(0xFFC58940),
+                        color: CustomColor.buttonColor,
                       ),
                     ),
                   ),
@@ -105,24 +106,17 @@ class _AddActivitiesState extends State<AddActivities> {
 
                       SizedBox(height: 10),
                       // text field
-                     Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: TextField(
+                      TextField(
                         controller: titleController,
                         decoration: InputDecoration(
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(12),
                           ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(12),
-                              borderSide: BorderSide(
-                                color: Color(0xFF305A5A),
-                                width: 2,
-                              ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                            borderSide: BorderSide(
+                              color: Color(0xFF305A5A),
+                              width: 2,
                             ),
                           ),
                         ),
@@ -133,127 +127,128 @@ class _AddActivitiesState extends State<AddActivities> {
                   SizedBox(height: 30),
 
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Start Time',
-                            style: TextStyle(
-                              fontFamily: 'poppins_bold',
-                              fontSize: 20,
-                              color: Colors.black,
-                            ),
-                          ),
-
-                          SizedBox(height: 10),
-
-                          GestureDetector(
-                            onTap: () => _selectStartTime(context),
-                            child: Container(
-                              width: 145,
-                              height: 60,
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(12),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.grey.withOpacity(0.5),
-                                    spreadRadius: 2,
-                                    blurRadius: 5,
-                                    offset: Offset(0, 3),
-                                  ),
-                                ],
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Start Time',
+                              style: TextStyle(
+                                fontFamily: 'poppins_bold',
+                                fontSize: 20,
+                                color: Colors.black,
                               ),
-                              child: Row(
-                                mainAxisAlignment:
-                                MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Expanded(
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(left: 10),
-                                      child: Text(
-                                        "${_selectedStartTime.format(context)}",
-                                        style: TextStyle(
-                                          fontFamily: 'Poppins',
-                                          fontSize: 20,
-                                          color: Colors.black,
+                            ),
+
+                            SizedBox(height: 10),
+
+                            Container(
+                              width: double.infinity,
+                              child: GestureDetector(
+                                onTap: () => _selectStartTime(context),
+                                child: Container(
+                                  width: 145,
+                                  height: 60,
+                                  decoration:BoxDecoration(
+                                    borderRadius: BorderRadius.circular(12),
+                                    border: Border.all(
+                                        color: CustomColor.borderColor,
+                                      width: 1
+                                    )
+                                  ),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Expanded(
+                                        child: Padding(
+                                          padding: const EdgeInsets.only(left: 10),
+                                          child: Text(
+                                            "${_selectedStartTime.format(context)}",
+                                            style: TextStyle(
+                                              fontFamily: 'Poppins',
+                                              fontSize: 20,
+                                              color: Colors.black,
+                                            ),
+                                          ),
                                         ),
                                       ),
-                                    ),
+                                      SizedBox(width: 5),
+                                      Icon(
+                                        Icons.access_time,
+                                        size: 30,
+                                        color: Colors.black,
+                                      ),
+                                    ],
                                   ),
-                                  SizedBox(width: 5),
-                                  Icon(
-                                    Icons.access_time,
-                                    size: 30,
-                                    color: Colors.black,
-                                  ),
-                                ],
+                                ),
                               ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                       SizedBox(
-                        width: 20,
+                        width: 24,
                       ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'End Time',
-                            style: TextStyle(
-                              fontFamily: 'poppins_bold',
-                              fontSize: 20,
-                              color: Colors.black,
-                            ),
-                          ),
-                          SizedBox(height: 10),
-                          GestureDetector(
-                            onTap: () => _selectEndTime(context),
-                            child: Container(
-                              width: 145,
-                              height: 60,
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(12),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.grey.withOpacity(0.5),
-                                    spreadRadius: 2,
-                                    blurRadius: 5,
-                                    offset: Offset(0, 3),
-                                  ),
-                                ],
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'End Time',
+                              style: TextStyle(
+                                fontFamily: 'poppins_bold',
+                                fontSize: 20,
+                                color: Colors.black,
                               ),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Expanded(
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(left: 10),
-                                      child: Text(
-                                        "${_selectedEndTime.format(context)}",
-                                        style: TextStyle(
-                                          fontFamily: 'Popins',
-                                          fontSize: 20,
-                                          color: Colors.black,
+                            ),
+                            SizedBox(height: 10),
+                            Container(
+                              width: double.infinity,
+                              child: GestureDetector(
+                                onTap: () => _selectEndTime(context),
+                                child: Container(
+                                  width: 145,
+                                  height: 60,
+                                  decoration:BoxDecoration(
+                                    borderRadius: BorderRadius.circular(12),
+                                    border: Border.all(
+                                        color: CustomColor.borderColor,
+                                        width: 1
+                                    )
+                                ),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Expanded(
+                                        child: Padding(
+                                          padding: const EdgeInsets.only(left: 10),
+                                          child: Text(
+                                            "${_selectedEndTime.format(context)}",
+                                            style: TextStyle(
+                                              fontFamily: 'Popins',
+                                              fontSize: 20,
+                                              color: Colors.black,
+                                            ),
+                                          ),
                                         ),
                                       ),
-                                    ),
+                                      SizedBox(width: 5),
+                                      Icon(
+                                        Icons.access_time,
+                                        size: 30,
+                                        color: Colors.black,
+                                      ),
+                                    ],
                                   ),
-                                  SizedBox(width: 5),
-                                  Icon(
-                                    Icons.access_time,
-                                    size: 30,
-                                    color: Colors.black,
-                                  ),
-                                ],
+                                ),
                               ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ],
                   ),
@@ -298,7 +293,7 @@ class _AddActivitiesState extends State<AddActivities> {
                   SizedBox(height: 50),
                   TextButton(
                     style: TextButton.styleFrom(
-                      backgroundColor: Colors.orange,
+                      backgroundColor: CustomColor.buttonColor,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
@@ -317,11 +312,10 @@ class _AddActivitiesState extends State<AddActivities> {
                     },
                     child: Container(
                       child: Text(
-                        'Save Activity',
+                        'Simpan Aktivitas',
                         style: TextStyle(
-                          fontFamily: 'Popins',
+                          fontFamily: 'poppins_bold',
                           fontSize: 20,
-                          fontWeight: FontWeight.bold,
                           color: Color(0xFFFFFFFF),
                         ),
                       ),

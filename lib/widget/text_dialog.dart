@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:iterasi1/resource/colors.dart';
 
 Future<T?> showTextDialog<T> (
   BuildContext context, {
@@ -34,25 +35,44 @@ class _TextDialogWidgetState extends State<TextDialogWidget> {
 
   Widget build(BuildContext context) => AlertDialog(
     title: Text(widget.title),
-    content: TextField(
-      controller: controller,
-      decoration: InputDecoration(
-        errorText: errorText,
-        border: OutlineInputBorder()
-      ),
+    content: Column(
+      mainAxisSize: MainAxisSize.min,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        TextField(
+          controller: controller,
+          decoration: InputDecoration(
+            errorText: errorText,
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(20)
+            )
+          ),
+        ),
+
+        Align(
+          alignment: Alignment.bottomRight,
+          child: Padding(
+            padding: const EdgeInsets.only(top : 18),
+            child: ElevatedButton(
+                style: ButtonStyle(
+                    backgroundColor: MaterialStatePropertyAll(CustomColor.buttonColor),
+                  shape: MaterialStatePropertyAll(RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10)
+                  ))
+                ),
+                child: Text('Done'),
+                onPressed: (){
+                  if (controller.text.isNotEmpty)
+                    Navigator.of(context).pop(controller.text);
+                  else
+                    setState(() {
+                      errorText = "Judul tidak boleh kosong!";
+                    });
+                }
+            ),
+          ),
+        ),
+      ],
     ),
-    actions: [
-      ElevatedButton(
-        child: Text('Done'),
-        onPressed: (){
-          if (controller.text.isNotEmpty)
-            Navigator.of(context).pop(controller.text);
-          else
-            setState(() {
-              errorText = "Judul tidak boleh kosong!";
-            });
-        }
-      ),
-    ],
   );
 }

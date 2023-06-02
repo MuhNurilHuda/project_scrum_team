@@ -346,11 +346,13 @@ class _ItineraryListState extends State<ItineraryList> {
             child: Align(
               alignment: Alignment.topCenter,
               child: Text(
-                'Itinerary to ${itinerary.title}',
+                itinerary.title,
                 style: const TextStyle(
                   fontFamily: 'poppins_bold',
                   color: Color(0xFFC58940),
                 ),
+                overflow: TextOverflow.ellipsis,
+                maxLines: 3,
                 textAlign: TextAlign.center,
               ),
             ),
