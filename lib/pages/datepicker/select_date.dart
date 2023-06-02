@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:iterasi1/provider/database_provider.dart';
+import 'package:iterasi1/resource/colors.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
@@ -43,9 +44,10 @@ class _SelectDateState extends State<SelectDate> {
         backgroundColor: const Color(0xFFE5BA73),
         appBar: AppBar(
           title: Text(
-            'Itinerary to ${itineraryProvider.itinerary.title}',
+            'Pilih Tanggal',
             style: const TextStyle(
-              fontWeight: FontWeight.bold,
+              fontSize: 30,
+              fontFamily: 'poppins_bold'
             ),
             // itineraryProvider.itinerary.title,
           ),
@@ -61,43 +63,38 @@ class _SelectDateState extends State<SelectDate> {
         ),
         body: Stack(
           children: [
-            ClipRRect(
-              borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(30), topRight: Radius.circular(30)),
-              child: Container(
-                color: Colors.white,
-                padding: const EdgeInsets.all(15.0),
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      const Text(
-                        "Select Date Range",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            fontSize: 27, fontFamily: 'poppins_regular'),
-                      ),
-                      const Divider(
-                        color: Colors.grey,
-                        thickness: 1,
-                      ),
-                      SfDateRangePicker(
-                        initialSelectedDates: widget.initialDates,
-                        selectionMode: DateRangePickerSelectionMode.multiple,
-                        onSelectionChanged: (DateRangePickerSelectionChangedArgs? args){
-                          if (args?.value is List<DateTime>){
-                            final dates = args?.value as List<DateTime>;
-                            selectedDates = dates;
-                          }
-                        },
-                        headerStyle: const DateRangePickerHeaderStyle(
-                            textAlign: TextAlign.center,
-                            textStyle: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20,
-                              color: Colors.black,
-                            )),
-                      ),
-                    ]),
+            Padding(
+              padding: EdgeInsets.only(top: 24),
+              child: ClipRRect(
+                borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(30), topRight: Radius.circular(30)),
+                child: Container(
+                  color: Colors.white,
+                  padding: const EdgeInsets.all(15.0),
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        SfDateRangePicker(
+                          selectionColor: CustomColor.dateBackground,
+                          initialSelectedDates: widget.initialDates,
+                          selectionMode: DateRangePickerSelectionMode.multiple,
+                          onSelectionChanged: (DateRangePickerSelectionChangedArgs? args){
+                            if (args?.value is List<DateTime>){
+                              final dates = args?.value as List<DateTime>;
+                              selectedDates = dates;
+                            }
+                          },
+                          headerStyle: const DateRangePickerHeaderStyle(
+                              textAlign: TextAlign.center,
+                              textStyle: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20,
+                                fontFamily: 'poppins_bold',
+                                color: Colors.black,
+                              )),
+                        ),
+                      ]),
+                ),
               ),
             ),
             Align(
@@ -136,7 +133,7 @@ class _SelectDateState extends State<SelectDate> {
                       vertical: 5,
                     ),
                     decoration: BoxDecoration(
-                        color: const Color.fromARGB(255, 255, 185, 33),
+                        color: CustomColor.buttonColor,
                         borderRadius: BorderRadius.circular(10)),
                     child: InkWell(
                       onTap: () {
@@ -162,7 +159,7 @@ class _SelectDateState extends State<SelectDate> {
                         height: 45,
                         width: 200,
                         child: Card(
-                          color: const Color.fromARGB(255, 255, 185, 33),
+                          color: CustomColor.buttonColor,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10.0),
                           ),

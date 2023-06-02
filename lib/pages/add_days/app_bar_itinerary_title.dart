@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class AppBarItineraryTitle extends StatelessWidget{
@@ -11,10 +10,11 @@ class AppBarItineraryTitle extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return Text(
-      'Itinerary to $title',
+      title,
       style: const TextStyle(
         fontWeight: FontWeight.bold,
-        color: Colors.white
+        color: Colors.white,
+
       ),
       textAlign: TextAlign.center,
     );

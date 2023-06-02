@@ -8,6 +8,7 @@ import 'package:iterasi1/pages/datepicker/select_date.dart';
 import 'package:iterasi1/pages/itinerary_list.dart';
 import 'package:iterasi1/pages/pdf/preview_pdf_page.dart';
 import 'package:iterasi1/provider/database_provider.dart';
+import 'package:iterasi1/resource/colors.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:provider/provider.dart';
 import 'dart:developer' as dev;
@@ -65,7 +66,7 @@ class _AddDaysState extends State<AddDays> {
 
       actionIcon = [
         IconButton(
-          icon: const Icon(Icons.edit),
+          icon: const Icon(Icons.mode_edit_outlined),
           onPressed: () {
             setState(() {
               isEditing = true;
@@ -79,7 +80,7 @@ class _AddDaysState extends State<AddDays> {
       child: WillPopScope(
         onWillPop: handleBackBehaviour,
         child: Scaffold(
-          backgroundColor: const Color(0xFF1C3131),
+          backgroundColor: CustomColor.primary,
           appBar: AppBar(
             title: appBarTitle,
             actions: actionIcon,
@@ -96,7 +97,7 @@ class _AddDaysState extends State<AddDays> {
                 );
               },
             ),
-            backgroundColor: const Color(0xFF1C3131),
+            backgroundColor: CustomColor.primary,
             elevation: 0,
           ),
           body: Stack(
@@ -106,7 +107,7 @@ class _AddDaysState extends State<AddDays> {
                     topLeft: Radius.circular(30),
                     topRight: Radius.circular(30)),
                 child: Container(
-                  color: Colors.white,
+                  color: CustomColor.surface,
                   padding: const EdgeInsets.all(15.0),
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -150,10 +151,10 @@ class _AddDaysState extends State<AddDays> {
                                     )
                                 );
                               },
-                              child: Container(
-                                decoration: const BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: Color(0xFFF8A700),
+                              child: Card(
+                                elevation: 4,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(80)
                                 ),
                                 child: Padding(
                                   padding: const EdgeInsets.all(1.0),
@@ -245,7 +246,7 @@ class _AddDaysState extends State<AddDays> {
                     Expanded(
                       child: Container(
                         decoration: BoxDecoration(
-                            color: const Color.fromARGB(255, 255, 185, 33),
+                            color: CustomColor.buttonColor,
                             borderRadius: BorderRadius.circular(10)),
                         child: InkWell(
                           onTap: () {
@@ -266,7 +267,7 @@ class _AddDaysState extends State<AddDays> {
                             height: 60,
                             width: 200,
                             child: Card(
-                              color: const Color.fromARGB(255, 255, 185, 33),
+                              color: CustomColor.buttonColor,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10.0),
                               ),
@@ -298,7 +299,7 @@ class _AddDaysState extends State<AddDays> {
                                 RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10.0))),
                             backgroundColor: const MaterialStatePropertyAll(
-                                Color.fromARGB(255, 255, 185, 33))),
+                                CustomColor.buttonColor)),
                         onPressed: () {
                           Navigator.of(context).push(
                             MaterialPageRoute(
@@ -324,7 +325,7 @@ class _AddDaysState extends State<AddDays> {
                                 RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10.0))),
                             backgroundColor: const MaterialStatePropertyAll(
-                                Color.fromARGB(255, 255, 185, 33))),
+                                CustomColor.buttonColor)),
                         onPressed: saveCurrentItinerary,
                         child: const Icon(Icons.save),
                       ),
@@ -352,14 +353,13 @@ class _AddDaysState extends State<AddDays> {
               ? const Border(
               bottom: BorderSide(
                 width: 2.0,
-                color: Color(0xFFF8A700),
+                color: CustomColor.buttonColor,
               ))
               : null,
         ),
-        child: Card(
+        child: Container(
           // color: index == selectedDayIndex ? Color(0xFF00FF46) : Colors.white,
           margin: const EdgeInsets.all(5),
-          elevation: 0,
           child: Column(
             children: [
               Text(
@@ -368,7 +368,7 @@ class _AddDaysState extends State<AddDays> {
                   fontWeight: FontWeight.bold,
                   fontFamily: 'poppins_bold',
                   color: index == selectedDayIndex
-                      ? const Color(0xFFF8A700)
+                      ? CustomColor.buttonColor
                       : Colors.black,
                 ),
               ),
@@ -377,7 +377,7 @@ class _AddDaysState extends State<AddDays> {
                 style: TextStyle(
                   fontFamily: 'poppins_regular',
                   color: index == selectedDayIndex
-                      ? const Color(0xFFF8A700)
+                      ? CustomColor.buttonColor
                       : Colors.black,
                 ),
               )
@@ -489,7 +489,7 @@ class _AddDaysState extends State<AddDays> {
         },
         child: Container(
           decoration: BoxDecoration(
-              color: const Color(0xFFFFB252),
+              color: CustomColor.primary,
               borderRadius: BorderRadius.circular(15)),
           child: Padding(
             padding: const EdgeInsets.all(16.0),
@@ -500,16 +500,26 @@ class _AddDaysState extends State<AddDays> {
                 Text(
                   activity.activityName,
                   textAlign: TextAlign.left,
-                  style: TextStyle(fontFamily: 'poppins_bold', fontSize: 24),
+                  style: TextStyle(
+                      fontFamily: 'poppins_bold',
+                      fontSize: 24,
+                      color : Colors.white
+                  ),
+                  // maxLines: 1,
+                  // overflow: TextOverflow.ellipsis,
                 ),
                 Row(
                   children: [
-                    Icon(Icons.timer),
+                    Icon(Icons.access_time_outlined , color: Colors.white,),
+
+                    SizedBox(width: 9,),
+
                     Text(
                       "${activity.startActivityTime} - ${activity.endActivityTime}",
                       style: TextStyle(
                         fontFamily: 'poppins_bold',
                         fontSize: 15,
+                        color: Colors.white
                       ),
                     )
                   ],
@@ -519,6 +529,7 @@ class _AddDaysState extends State<AddDays> {
                   style: TextStyle(
                     fontFamily: 'poppins_regular',
                     fontSize: 12,
+                    color : Colors.white
                   ),
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
