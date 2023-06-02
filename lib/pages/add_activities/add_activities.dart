@@ -6,11 +6,7 @@ class AddActivities extends StatefulWidget {
   final Activity? initialActivity;
   final Function(Activity) onSubmit;
 
-  AddActivities({
-    this.initialActivity,
-    required this.onSubmit,
-    super.key
-  });
+  AddActivities({this.initialActivity, required this.onSubmit, super.key});
 
   @override
   _AddActivitiesState createState() => _AddActivitiesState();
@@ -23,11 +19,10 @@ class _AddActivitiesState extends State<AddActivities> {
   final TextEditingController titleController = TextEditingController();
   final TextEditingController keteranganController = TextEditingController();
 
-
   @override
   void initState() {
     super.initState();
-    if (widget.initialActivity != null){
+    if (widget.initialActivity != null) {
       titleController.text = widget.initialActivity!.activityName;
       keteranganController.text = widget.initialActivity!.keterangan;
       _selectedStartTime = widget.initialActivity!.startTimeOfDay;
@@ -79,18 +74,17 @@ class _AddActivitiesState extends State<AddActivities> {
                       bottom: 10,
                     ),
                     child: const Text(
-                      "Add Itenerary",
+                      "Add Activity",
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontFamily: 'Popins',
                         fontSize: 30,
                         fontWeight: FontWeight.bold,
-                        color: Color(0xFF305A5A),
+                        color: Color(0xFFC58940),
                       ),
                     ),
                   ),
                   SizedBox(height: 20),
-
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -99,41 +93,37 @@ class _AddActivitiesState extends State<AddActivities> {
                         style: TextStyle(
                           fontFamily: 'poppins_bold',
                           fontSize: 20,
-                          color: Color(0xFF305A5A),
+                          color: Colors.black,
                         ),
                       ),
 
                       SizedBox(height: 10),
                       // text field
-                     Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: TextField(
-                        controller: titleController,
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                            focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
-                            borderSide: BorderSide(
-                              color: Color(0xFF305A5A),
-                              width: 2,
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: TextField(
+                          controller: titleController,
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
                             ),
-
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                              borderSide: BorderSide(
+                                color: Color(0xFF305A5A),
+                                width: 2,
+                              ),
+                            ),
                           ),
                         ),
                       ),
-                    ),
-
                     ],
                   ),
-
                   SizedBox(height: 30),
-
                   Row(
                     children: [
                       Column(
@@ -144,12 +134,10 @@ class _AddActivitiesState extends State<AddActivities> {
                             style: TextStyle(
                               fontFamily: 'poppins_bold',
                               fontSize: 20,
-                              color: Color(0xFF305A5A),
+                              color: Colors.black,
                             ),
                           ),
-
                           SizedBox(height: 10),
-
                           GestureDetector(
                             onTap: () => _selectStartTime(context),
                             child: Container(
@@ -179,7 +167,7 @@ class _AddActivitiesState extends State<AddActivities> {
                                         style: TextStyle(
                                           fontFamily: 'Poppins',
                                           fontSize: 20,
-                                          color: Color(0xFF305A5A),
+                                          color: Colors.black,
                                         ),
                                       ),
                                     ),
@@ -188,7 +176,7 @@ class _AddActivitiesState extends State<AddActivities> {
                                   Icon(
                                     Icons.access_time,
                                     size: 30,
-                                    color: Color(0xFF305A5A),
+                                    color: Colors.black,
                                   ),
                                 ],
                               ),
@@ -207,7 +195,7 @@ class _AddActivitiesState extends State<AddActivities> {
                             style: TextStyle(
                               fontFamily: 'poppins_bold',
                               fontSize: 20,
-                              color: Color(0xFF305A5A),
+                              color: Colors.black,
                             ),
                           ),
                           SizedBox(height: 10),
@@ -240,7 +228,7 @@ class _AddActivitiesState extends State<AddActivities> {
                                         style: TextStyle(
                                           fontFamily: 'Popins',
                                           fontSize: 20,
-                                          color: Color(0xFF305A5A),
+                                          color: Colors.black,
                                         ),
                                       ),
                                     ),
@@ -249,7 +237,7 @@ class _AddActivitiesState extends State<AddActivities> {
                                   Icon(
                                     Icons.access_time,
                                     size: 30,
-                                    color: Color(0xFF305A5A),
+                                    color: Colors.black,
                                   ),
                                 ],
                               ),
@@ -259,9 +247,7 @@ class _AddActivitiesState extends State<AddActivities> {
                       ),
                     ],
                   ),
-
                   SizedBox(height: 30),
-
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -271,11 +257,10 @@ class _AddActivitiesState extends State<AddActivities> {
                           fontFamily: 'Popins',
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
-                          color: Color(0xFF305A5A),
+                          color: Colors.black,
                         ),
                       ),
                       SizedBox(height: 10),
-
                       TextFormField(
                         controller: keteranganController,
                         decoration: InputDecoration(
@@ -283,7 +268,7 @@ class _AddActivitiesState extends State<AddActivities> {
                             fontFamily: 'Popins',
                             fontSize: 15,
                             fontWeight: FontWeight.bold,
-                            color: Color(0xFF305A5A),
+                            color: Colors.black,
                           ),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(12),
@@ -291,7 +276,7 @@ class _AddActivitiesState extends State<AddActivities> {
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(12),
                             borderSide: BorderSide(
-                              color: Color(0xFF305A5A),
+                              color: Colors.black,
                               width: 2,
                             ),
                           ),
@@ -303,10 +288,8 @@ class _AddActivitiesState extends State<AddActivities> {
                       ),
                     ],
                   ),
-
                   SizedBox(height: 50),
-
-                  TextButton(  
+                  TextButton(
                     style: TextButton.styleFrom(
                       backgroundColor: Colors.orange,
                       shape: RoundedRectangleBorder(
@@ -314,15 +297,12 @@ class _AddActivitiesState extends State<AddActivities> {
                       ),
                       minimumSize: Size(100, 60),
                     ),
-                    onPressed: (){
-                      widget.onSubmit(
-                        Activity(
-                            keterangan: keteranganController.text,
-                            activityName: titleController.text,
-                            startActivityTime: _selectedStartTime.format(context),
-                            endActivityTime : _selectedEndTime.format(context)
-                        )
-                      );
+                    onPressed: () {
+                      widget.onSubmit(Activity(
+                          keterangan: keteranganController.text,
+                          activityName: titleController.text,
+                          startActivityTime: _selectedStartTime.format(context),
+                          endActivityTime: _selectedEndTime.format(context)));
                       Navigator.of(context).pop();
                     },
                     child: Container(

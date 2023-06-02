@@ -47,16 +47,16 @@ class _ItineraryListState extends State<ItineraryList> {
         floatingActionButton: FloatingActionButton(
             shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(10.0))),
-            backgroundColor: const Color(0xFFFFB252),
+            backgroundColor: const Color(0xFFC58940),
             onPressed: () {
               getItineraryTitle(context);
             },
             child: const Icon(Icons.add)),
-        backgroundColor: const Color(0xFFF1F2F6),
+        backgroundColor: const Color(0xFFFAF8F1),
         drawer: NavDrawer(),
         appBar: AppBar(
           automaticallyImplyLeading: false,
-          backgroundColor: const Color(0xFFF1F2F6),
+          backgroundColor: const Color(0xFFFAF8F1),
           elevation: 0,
           title: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -70,15 +70,15 @@ class _ItineraryListState extends State<ItineraryList> {
                   color: Colors.white,
                   child: IconButton(
                     icon: const Image(
-                      image: AssetImage('assets/logo/SideNavBar.png'),
+                      image: AssetImage('assets/logo/AppLogo.png'),
                     ),
                     onPressed: () {
-                      _scaffoldKey.currentState?.openDrawer();
+                      // _scaffoldKey.currentState?.openDrawer();
                     },
-                    highlightColor: Colors.transparent,
-                    splashColor: Colors.transparent,
-                    tooltip:
-                        MaterialLocalizations.of(context).openAppDrawerTooltip,
+                    // highlightColor: Colors.transparent,
+                    // splashColor: Colors.transparent,
+                    // tooltip:
+                    //     MaterialLocalizations.of(context).openAppDrawerTooltip,
                   ),
                 ),
               ),
@@ -174,7 +174,7 @@ class _ItineraryListState extends State<ItineraryList> {
                                                     },
                                                     icon: const Image(
                                                       image: AssetImage(
-                                                          'assets/logo/SearchButton.png'),
+                                                          'assets/logo/Search_Button.png'),
                                                     )),
                                               ),
                                             ),
@@ -219,7 +219,7 @@ class _ItineraryListState extends State<ItineraryList> {
                             fontFamily: 'poppins_bold',
                             fontSize: 30,
                             fontWeight: FontWeight.bold,
-                            color: Color(0xFF305A5A)),
+                            color: Color(0xFFC58940)),
                       ),
                     ),
                     FutureBuilder<List<Itinerary>>(
@@ -349,7 +349,7 @@ class _ItineraryListState extends State<ItineraryList> {
                 'Itinerary to ${itinerary.title}',
                 style: const TextStyle(
                   fontFamily: 'poppins_bold',
-                  color: Color(0xFF305A5A),
+                  color: Color(0xFFC58940),
                 ),
                 textAlign: TextAlign.center,
               ),

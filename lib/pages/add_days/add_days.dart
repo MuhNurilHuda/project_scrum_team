@@ -79,7 +79,7 @@ class _AddDaysState extends State<AddDays> {
       child: WillPopScope(
         onWillPop: handleBackBehaviour,
         child: Scaffold(
-          backgroundColor: const Color(0xFF1C3131),
+          backgroundColor: const Color(0xFFE5BA73),
           appBar: AppBar(
             title: appBarTitle,
             actions: actionIcon,
@@ -96,7 +96,7 @@ class _AddDaysState extends State<AddDays> {
                 );
               },
             ),
-            backgroundColor: const Color(0xFF1C3131),
+            backgroundColor: const Color(0xFFE5BA73),
             elevation: 0,
           ),
           body: Stack(

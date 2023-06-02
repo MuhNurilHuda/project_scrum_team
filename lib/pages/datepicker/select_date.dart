@@ -40,7 +40,7 @@ class _SelectDateState extends State<SelectDate> {
 
     return LoaderOverlay(
       child: Scaffold(
-        backgroundColor: const Color(0xFF1C3131),
+        backgroundColor: const Color(0xFFE5BA73),
         appBar: AppBar(
           title: Text(
             'Itinerary to ${itineraryProvider.itinerary.title}',
@@ -56,7 +56,7 @@ class _SelectDateState extends State<SelectDate> {
               Navigator.pop(context);
             },
           ),
-          backgroundColor: const Color(0xFF1C3131),
+          backgroundColor: const Color(0xFFE5BA73),
           elevation: 0,
         ),
         body: Stack(
