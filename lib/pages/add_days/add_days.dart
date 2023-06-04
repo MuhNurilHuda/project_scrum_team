@@ -8,7 +8,7 @@ import 'package:iterasi1/pages/datepicker/select_date.dart';
 import 'package:iterasi1/pages/itinerary_list.dart';
 import 'package:iterasi1/pages/pdf/preview_pdf_page.dart';
 import 'package:iterasi1/provider/database_provider.dart';
-import 'package:iterasi1/resource/colors.dart';
+import 'package:iterasi1/resource/custom_colors.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:provider/provider.dart';
 import 'dart:developer' as dev;

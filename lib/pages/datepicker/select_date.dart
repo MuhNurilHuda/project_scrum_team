@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:iterasi1/provider/database_provider.dart';
-import 'package:iterasi1/resource/colors.dart';
+import 'package:iterasi1/resource/custom_colors.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';

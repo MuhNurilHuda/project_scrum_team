@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:iterasi1/resource/colors.dart';
+import 'package:iterasi1/resource/custom_colors.dart';
 
 import '../../model/activity.dart';
 
@@ -75,8 +75,8 @@ class _AddActivitiesState extends State<AddActivities> {
                 physics: const BouncingScrollPhysics(),
                 scrollDirection: Axis.vertical,
                 children: [
-                  Container(
-                    margin: const EdgeInsets.only(
+                  Padding(
+                    padding : const EdgeInsets.only(
                       top: 5,
                       bottom: 10,
                     ),
@@ -96,7 +96,7 @@ class _AddActivitiesState extends State<AddActivities> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Title",
+                        "Judul",
                         style: TextStyle(
                           fontFamily: 'poppins_bold',
                           fontSize: 20,
@@ -134,7 +134,7 @@ class _AddActivitiesState extends State<AddActivities> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Start Time',
+                              'Mulai',
                               style: TextStyle(
                                 fontFamily: 'poppins_bold',
                                 fontSize: 20,
@@ -197,7 +197,7 @@ class _AddActivitiesState extends State<AddActivities> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'End Time',
+                              'Selesai',
                               style: TextStyle(
                                 fontFamily: 'poppins_bold',
                                 fontSize: 20,
@@ -257,7 +257,7 @@ class _AddActivitiesState extends State<AddActivities> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Note',
+                        'Keterangan',
                         style: TextStyle(
                           fontFamily: 'Popins',
                           fontSize: 20,

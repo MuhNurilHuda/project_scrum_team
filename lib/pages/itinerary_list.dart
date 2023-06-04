@@ -4,6 +4,7 @@ import 'package:iterasi1/pages/add_days/add_days.dart';
 import 'package:iterasi1/provider/database_provider.dart';
 import 'package:iterasi1/provider/itinerary_provider.dart';
 import 'package:iterasi1/pages/datepicker/select_date.dart';
+import 'package:iterasi1/resource/custom_colors.dart';
 import 'package:provider/provider.dart';
 import 'package:iterasi1/navigation/side_navbar.dart';
 import 'package:flutter/services.dart';
@@ -92,7 +93,7 @@ class _ItineraryListState extends State<ItineraryList> {
                   child: IconButton(
                     icon: const Icon(
                       Icons.search,
-                      color: Color(0xFF305A5A),
+                      color: CustomColor.buttonColor,
                     ),
                     // icon: const Image(
                     //   image: AssetImage('assets/logo/AppLogo.png'),
@@ -213,7 +214,7 @@ class _ItineraryListState extends State<ItineraryList> {
                         bottom: 10,
                       ),
                       child: const Text(
-                        "ItineraryTrip",
+                        "Trip Planner",
                         textAlign: TextAlign.center,
                         style: TextStyle(
                             fontFamily: 'poppins_bold',

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:iterasi1/resource/custom_colors.dart';
 
 import 'itinerary_list.dart';
 
@@ -25,7 +26,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF1C3131),
+      backgroundColor: CustomColor.surface,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -33,19 +34,19 @@ class _SplashScreenState extends State<SplashScreen> {
             SizedBox(
               width: MediaQuery.of(context).size.width * 0.8, // responsive
               child: Image.asset(
-                'assets/images/splashscreen_logo.png',
+                'assets/logo/AppLogo.png',
                 fit: BoxFit.contain,
-                width: 250,
-                height: 250,
+                width: 170,
+                height: 170,
               ),
             ),
             Text(
-              'ItineraryTrip',
+              'Trip Planner',
               style: TextStyle(
-                fontSize: MediaQuery.of(context).size.width * 0.04, // responsive
+                fontSize: 40, // responsive
                 fontFamily: 'Montserrat',
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
+                fontWeight: FontWeight.w800,
+                color: CustomColor.buttonColor,
               ),
             ),
 
@@ -54,10 +55,10 @@ class _SplashScreenState extends State<SplashScreen> {
                 TypewriterAnimatedText(
                   'Your Personal Itinerary Assistant',
                   textStyle: TextStyle(
-                    fontSize: MediaQuery.of(context).size.width * 0.03,
+                    fontSize: 18,
                     fontFamily: 'Quicksand',
-                    fontWeight: FontWeight.w100,
-                    color: Colors.white,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.black,
                   ),
                   speed: const Duration(milliseconds: 15),
                 ),

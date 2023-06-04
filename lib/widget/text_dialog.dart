@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:iterasi1/resource/colors.dart';
+import 'package:iterasi1/resource/custom_colors.dart';
 
 Future<T?> showTextDialog<T> (
   BuildContext context, {
