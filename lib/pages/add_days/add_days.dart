@@ -88,12 +88,15 @@ class _AddDaysState extends State<AddDays> {
             leading: IconButton(
               icon: const Icon(Icons.arrow_back),
               onPressed: () {
-                handleBackBehaviour().whenComplete(
-                        () => Navigator
-                        .popUntil(
-                        context,
-                        ModalRoute.withName(ItineraryList.route)
-                    )
+                handleBackBehaviour().then(
+                  (shouldPop) {
+                    if (shouldPop) {
+                      Navigator.popUntil(
+                          context,
+                          ModalRoute.withName(ItineraryList.route)
+                      );
+                    }
+                  }
                 );
               },
             ),
@@ -274,7 +277,7 @@ class _AddDaysState extends State<AddDays> {
                               elevation: 0,
                               child: const Align(
                                 alignment: Alignment.center,
-                                child: Text('Add New Activity',
+                                child: Text('Tambah Aktivitas',
                                     style: TextStyle(
                                         fontFamily: 'poppins_bold',
                                         fontSize: 16,
@@ -363,7 +366,7 @@ class _AddDaysState extends State<AddDays> {
           child: Column(
             children: [
               Text(
-                'Day ${index + 1}',
+                'Hari ${index + 1}',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontFamily: 'poppins_bold',

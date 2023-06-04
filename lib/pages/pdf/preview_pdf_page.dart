@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:iterasi1/model/itinerary.dart';
+import 'package:iterasi1/resource/custom_colors.dart';
 import 'package:printing/printing.dart';
 
 import 'make_pdf.dart';
@@ -12,7 +13,7 @@ class PdfPreviewPage extends StatelessWidget {
   Widget build(BuildContext context) =>
       Scaffold(
         appBar: AppBar(
-          backgroundColor: const Color(0xFFE5BA73),
+          backgroundColor: CustomColor.primary,
           title: const Text('PDF Preview'),
         ),
         body: PdfPreview(

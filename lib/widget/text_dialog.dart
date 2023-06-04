@@ -43,6 +43,10 @@ class _TextDialogWidgetState extends State<TextDialogWidget> {
           controller: controller,
           decoration: InputDecoration(
             errorText: errorText,
+            focusedBorder: OutlineInputBorder(
+              borderSide: const BorderSide(color: CustomColor.primary , width: 2),
+              borderRadius: BorderRadius.circular(20)
+            ),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(20)
             )

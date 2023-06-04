@@ -5,6 +5,7 @@ import 'package:iterasi1/provider/database_provider.dart';
 import 'package:iterasi1/provider/itinerary_provider.dart';
 import 'package:iterasi1/pages/datepicker/select_date.dart';
 import 'package:iterasi1/resource/custom_colors.dart';
+import 'package:iterasi1/utilities/date_time_formatter.dart';
 import 'package:provider/provider.dart';
 import 'package:iterasi1/navigation/side_navbar.dart';
 import 'package:flutter/services.dart';
@@ -298,10 +299,7 @@ class _ItineraryListState extends State<ItineraryList> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
-                    '${DateFormat('EEEE').format(time)}, ${time.day}-${time.month}-${time.year}',
-                    // time.toString(),
-                    // DateTime.now().toString(),
-                    // 'April, 27 2023',
+                    itinerary.dateModified,
                     style: const TextStyle(
                       fontFamily: 'poppins_regular',
                       color: Colors.grey,
@@ -371,8 +369,15 @@ class _ItineraryListState extends State<ItineraryList> {
 
     if (itineraryTitle != null && context.mounted) {
       if (itineraryTitle.isNotEmpty) {
+        final today = DateTime.now();
+
         Provider.of<ItineraryProvider>(context, listen: false)
-            .initItinerary(Itinerary(title: itineraryTitle));
+            .initItinerary(
+              Itinerary(
+                title: itineraryTitle,
+                dateModified: DateTimeFormatter.toDMY(today)
+              )
+        );
 
         snackbarHandler.removeCurrentSnackBar();
 

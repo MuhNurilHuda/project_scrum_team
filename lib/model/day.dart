@@ -1,4 +1,5 @@
 import 'package:iterasi1/model/activity.dart';
+import 'package:iterasi1/utilities/date_time_formatter.dart';
 
 class Day {
   final String date;
@@ -10,9 +11,7 @@ class Day {
   });
 
   Day.from(DateTime initialDate) :
-    date = "${initialDate.day}/"
-        "${initialDate.month}/"
-        "${initialDate.year}",
+    date = DateTimeFormatter.toDMY(initialDate , separator: "/"),
     activities = [];
 
   Map<String , dynamic> toJson(){

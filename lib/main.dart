@@ -4,6 +4,7 @@ import 'package:iterasi1/pages/splash_screen.dart';
 import 'package:flutter/services.dart';
 import 'package:iterasi1/provider/database_provider.dart';
 import 'package:iterasi1/provider/itinerary_provider.dart';
+import 'package:iterasi1/resource/custom_colors.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
@@ -33,6 +34,10 @@ class MyApp extends StatelessWidget {
         routes: {
           ItineraryList.route : (context) => ItineraryList(),
         },
+        theme: ThemeData(
+          primaryColor: CustomColor.primary,
+          progressIndicatorTheme: ProgressIndicatorThemeData(color: CustomColor.primary),
+        ),
       ),
     );
   }

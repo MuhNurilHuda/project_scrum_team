@@ -1,6 +1,7 @@
 
 import 'dart:convert';
 
+import 'package:iterasi1/utilities/date_time_formatter.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'dart:developer' as developer;
@@ -41,6 +42,8 @@ class DatabaseService{
     late Map<String , String> dataMap;
 
     try {
+      itinerary.dateModified = DateTimeFormatter.toDMY(DateTime.now());
+
       db = await database;
       dataMap = {
         "id" : itinerary.id,

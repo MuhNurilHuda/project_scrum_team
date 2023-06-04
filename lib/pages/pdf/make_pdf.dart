@@ -59,11 +59,12 @@ List<Widget> _buildActivitiesTable(Itinerary itinerary){
             headerStyle: TextStyle(fontWeight: FontWeight.bold),
             cellStyle: TextStyle(height: 1.5),
             data: [
-              ['Time', 'Activity'],
+              ['Waktu', 'Aktivitas' , 'Keterangan'],
               ...day.activities.map(
                 (activity) => [
-                  activity.startActivityTime,
-                  activity.activityName
+                  "${activity.startActivityTime} - ${activity.endActivityTime}",
+                  activity.activityName,
+                  activity.keterangan
                 ]
               )
             ]
