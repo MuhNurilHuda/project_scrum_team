@@ -18,7 +18,8 @@ Future<Uint8List> makePdf(Itinerary itinerary) async {
               style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 20
-              )
+              ),
+              textAlign: TextAlign.center
           )
         ),
 
@@ -54,8 +55,16 @@ List<Widget> _buildActivitiesTable(Itinerary itinerary){
     widgets.add(
         Table.fromTextArray(
             headerAlignment: Alignment.center,
-            cellAlignment: Alignment.centerLeft,
-            columnWidths: {0: FixedColumnWidth(30)},
+            cellAlignments: {
+              0 : Alignment.center,
+              1 : Alignment.center,
+              2 : Alignment.topLeft
+            },
+            columnWidths: {
+              0: FlexColumnWidth(2),
+              1: FlexColumnWidth(3),
+              2: FlexColumnWidth(4)
+            },
             headerStyle: TextStyle(fontWeight: FontWeight.bold),
             cellStyle: TextStyle(height: 1.5),
             data: [

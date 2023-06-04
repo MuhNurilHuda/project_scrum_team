@@ -54,4 +54,6 @@ class Itinerary{
 
   String toJsonString() =>
       jsonEncode(toJson());
+
+  String get firstDate => days[0].date;
 }

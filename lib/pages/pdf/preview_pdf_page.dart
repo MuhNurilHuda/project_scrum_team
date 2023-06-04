@@ -14,7 +14,7 @@ class PdfPreviewPage extends StatelessWidget {
       Scaffold(
         appBar: AppBar(
           backgroundColor: CustomColor.primary,
-          title: const Text('PDF Preview'),
+          title: const Text('Tinjau PDF'),
         ),
         body: PdfPreview(
           build: (context) => makePdf(itinerary),

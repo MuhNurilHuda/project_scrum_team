@@ -270,7 +270,7 @@ class _ItineraryListState extends State<ItineraryList> {
       BuildContext context
   ) {
     return InkWell(
-      onTap: () {
+      onTap: (){
         final itineraryProvider = Provider.of<ItineraryProvider>(context, listen: false);
         itineraryProvider.initItinerary(itinerary);
 
@@ -280,81 +280,77 @@ class _ItineraryListState extends State<ItineraryList> {
         }));
       },
       child: Card(
+        elevation: 5,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10.0),
+          borderRadius: BorderRadius.all(Radius.circular(20)),
         ),
-        elevation: 4,
         child: Container(
-          margin: const EdgeInsets.only(top: 12.0, left: 8.0, right: 8.0),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10.0),
-            color: Colors.white,
+          padding: EdgeInsets.only(
+            bottom: 12
           ),
-          padding: const EdgeInsets.all(7.0),
-          // color: Colors.white,
-          child: GridTile(
-            footer: Container(
-              padding: const EdgeInsets.all(5.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(
-                    itinerary.dateModified,
-                    style: const TextStyle(
-                      fontFamily: 'poppins_regular',
-                      color: Colors.grey,
-                      fontSize: 11,
-                      // fontWeight: FontWeight.normal,
-                    ),
-                  ),
-                  const Divider(
-                    color: Colors.grey,
-                    thickness: 1,
-                  ),
-                  InkWell(
-                    onTap: () {
-                      snackbarHandler.removeCurrentSnackBar();
+          height: 180,
+          child: Stack(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: Align(
+                    alignment : Alignment.topRight ,
+                    child: InkWell(
+                      onTap : (){
+                        snackbarHandler.removeCurrentSnackBar();
 
-                      final itineraryCopy = itinerary.copy();
-                      dbProvider.deleteItinerary(itinerary : itinerary).whenComplete(
-                        (){
-                          snackbarHandler.showSnackBar(
-                              SnackBar(
-                                content: const Text("Item dihapus!"),
-                                action: SnackBarAction(
-                                    label: "Undo",
-                                    onPressed: (){
-                                      dbProvider.insertItinerary(
-                                          itinerary: itineraryCopy
-                                      );
-                                      snackbarHandler.removeCurrentSnackBar();
-                                    }
-                                ),
-                              )
-                          );
-                        }
-                      );
-                    }, // Buat method Delete
-                    child: const Icon(
-                      Icons.delete,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            child: Align(
-              alignment: Alignment.topCenter,
-              child: Text(
-                itinerary.title,
-                style: const TextStyle(
-                  fontFamily: 'poppins_bold',
-                  color: Color(0xFFC58940),
+                        final itineraryCopy = itinerary.copy();
+                        dbProvider.deleteItinerary(itinerary : itinerary).whenComplete(
+                                (){
+                              snackbarHandler.showSnackBar(
+                                  SnackBar(
+                                    content: const Text("Item dihapus!"),
+                                    action: SnackBarAction(
+                                        label: "Undo",
+                                        onPressed: (){
+                                          dbProvider.insertItinerary(
+                                              itinerary: itineraryCopy
+                                          );
+                                          snackbarHandler.removeCurrentSnackBar();
+                                        }
+                                    ),
+                                  )
+                              );
+                            }
+                        );
+                      },
+                      child : Icon(Icons.close , size: 18,)
+                    )
                 ),
-                overflow: TextOverflow.ellipsis,
-                maxLines: 3,
-                textAlign: TextAlign.center,
               ),
-            ),
+              Center(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                  child: Text(
+                    itinerary.title,
+                    style: TextStyle(
+                      fontFamily: 'Monsterrat',
+                      fontWeight: FontWeight.w600,
+                      fontSize: 20,
+                      color: CustomColor.buttonColor
+                    ),
+                    textAlign: TextAlign.center,
+                    maxLines: 3,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+              ),
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Text(
+                  "Mulai : ${itinerary.firstDate}",
+                  style: TextStyle(
+                    color: Colors.grey,
+                    fontSize: 12
+                  ),
+                ),
+              )
+            ],
           ),
         ),
       ),
